@@ -1,0 +1,14 @@
+{
+  "tools": {
+    "label": "🛠️ Tools & Efficiency",
+    "children": {}
+  },
+  "soft_skills": {
+    "label": "🤝 Finance Soft Skills",
+    "children": {}
+  },
+  "fpa_craft": {
+    "label": "📐 FP&A Craft",
+    "children": {}
+  }
+}
