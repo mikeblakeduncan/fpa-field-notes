@@ -163,111 +163,6 @@
             line-height: 1.5;
         }
 
-        /* Signup section */
-        .signup-section {
-            background: var(--ink);
-            color: white;
-            border-radius: 16px;
-            padding: 48px 40px;
-            text-align: center;
-            margin: 48px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .signup-section::before {
-            content: '';
-            position: absolute;
-            top: -40px;
-            right: -40px;
-            width: 160px;
-            height: 160px;
-            background: var(--accent);
-            border-radius: 50%;
-            opacity: 0.1;
-        }
-
-        .signup-section::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: -20px;
-            width: 100px;
-            height: 100px;
-            background: var(--sage);
-            border-radius: 50%;
-            opacity: 0.1;
-        }
-
-        .signup-section h2 {
-            font-family: 'Fraunces', serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            position: relative;
-        }
-
-        .signup-section .subtitle {
-            font-size: 0.95rem;
-            opacity: 0.7;
-            margin-bottom: 28px;
-            position: relative;
-        }
-
-        .signup-form {
-            display: flex;
-            gap: 10px;
-            max-width: 420px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        @media (max-width: 500px) {
-            .signup-form {
-                flex-direction: column;
-            }
-        }
-
-        .signup-form input[type="email"] {
-            flex: 1;
-            padding: 14px 18px;
-            border: 2px solid rgba(255,255,255,0.15);
-            border-radius: 10px;
-            background: rgba(255,255,255,0.08);
-            color: white;
-            font-size: 0.95rem;
-            font-family: 'DM Sans', sans-serif;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .signup-form input[type="email"]::placeholder {
-            color: rgba(255,255,255,0.4);
-        }
-
-        .signup-form input[type="email"]:focus {
-            border-color: var(--accent);
-        }
-
-        .signup-form button {
-            padding: 14px 28px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            font-family: 'DM Sans', sans-serif;
-            cursor: pointer;
-            transition: transform 0.15s, background 0.2s;
-            white-space: nowrap;
-        }
-
-        .signup-form button:hover {
-            background: #C96A52;
-            transform: scale(1.03);
-        }
-
         /* Archive section */
         .archive-section {
             margin: 48px 0;
@@ -405,15 +300,6 @@
         </div>
     </div>
 
-    <div class="signup-section">
-        <h2>Stay sharp. Read Tuesday.</h2>
-        <p class="subtitle">Join finance practitioners getting curated insights weekly — no vendor spam, no fluff.</p>
-        <div class="signup-form">
-            <input type="email" placeholder="you@company.com" id="email-input">
-            <button onclick="handleSignup()">Subscribe</button>
-        </div>
-    </div>
-
     <div class="archive-section">
         <h2>Past Issues</h2>
 
@@ -443,18 +329,6 @@
         <p>A <a href="https://seacloudconsulting.com">Sea Cloud Consulting</a> project.</p>
     </div>
 </footer>
-
-<script>
-    function handleSignup() {
-        const email = document.getElementById('email-input').value;
-        if (!email || !email.includes('@')) {
-            alert('Please enter a valid email address.');
-            return;
-        }
-        // TODO: Replace with Buttondown API call when ready
-        alert('Thanks! You\'ll be on the list when we launch the public edition. 🎉');
-    }
-</script>
 
 </body>
 </html>
