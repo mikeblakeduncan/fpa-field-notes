@@ -1,10 +1,60 @@
 {
   "tools": {
     "label": "🛠️ Tools & Efficiency",
-    "children": {}
+    "children": {
+      "ai_and_automation": {
+        "label": "AI & Automation",
+        "entries": [
+          {
+            "title": "Claude for Financial Analysis in 2026",
+            "source_name": "Linas Substack",
+            "source_url": "https://linas.substack.com/p/claudeinfinance",
+            "summary": "Use precisely structured prompts with labeled inputs (context, instructions, data) to reliably generate financial analysis outputs while building verification checkpoints into your workflow.",
+            "date": "2026-02-22"
+          }
+        ]
+      },
+      "spreadsheets_and_data": {
+        "label": "Spreadsheets & Data Management",
+        "entries": [
+          {
+            "title": "Excel Power Query Workflow for Finance Automation",
+            "source_name": "Resourceful Finance Pro",
+            "source_url": "https://www.resourcefulfinancepro.com/articles/excel-power-query/",
+            "summary": "Power Query eliminates manual data entry by automating imports from multiple sources and transformations, enabling one-click refresh cycles for routine reporting.",
+            "date": "2026-02-22"
+          }
+        ]
+      }
+    }
   },
   "fpa_practice": {
     "label": "📐 FP&A Practice",
-    "children": {}
+    "children": {
+      "budgeting_and_forecasting": {
+        "label": "Budgeting & Forecasting",
+        "entries": [
+          {
+            "title": "Running a Rolling Forecast Process in 2026",
+            "source_name": "Focus CFO Blog",
+            "source_url": "https://www.focuscfo.com/blog/budgeting-cash-flow-2026-13-week-rolling-forecast",
+            "summary": "Rolling forecasts replace static annual budgets by continuously dropping the oldest period and adding a new future quarter, keeping your predictions current with market shifts and business performance.",
+            "date": "2026-02-22"
+          }
+        ]
+      },
+      "reporting_and_analysis": {
+        "label": "Reporting & Analysis",
+        "entries": [
+          {
+            "title": "How to Present Budget Variance Analysis to the Board",
+            "source_name": "Beebole Blog",
+            "source_url": "https://beebole.com/blog/how-to-communicate-budget-variance",
+            "summary": "Structure variance presentations with high-level summary first, visual highlights of material gaps, documented root causes, and explicit links to business implications to keep board focus on what matters.",
+            "date": "2026-02-22"
+          }
+        ]
+      }
+    }
   }
 }
