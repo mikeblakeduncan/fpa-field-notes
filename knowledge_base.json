@@ -3,12 +3,8 @@
     "label": "🛠️ Tools & Efficiency",
     "children": {}
   },
-  "soft_skills": {
-    "label": "🤝 Finance Soft Skills",
-    "children": {}
-  },
-  "fpa_craft": {
-    "label": "📐 FP&A Craft",
+  "fpa_practice": {
+    "label": "📐 FP&A Practice",
     "children": {}
   }
 }
