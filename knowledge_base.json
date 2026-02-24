@@ -4,44 +4,73 @@
     "children": {
       "ai_and_automation": {
         "label": "AI & Automation",
-        "entries": [
-          {
-            "title": "Claude for Financial Analysis in 2026",
-            "source_name": "Linas Substack",
-            "source_url": "https://linas.substack.com/p/claudeinfinance",
-            "summary": "Use precisely structured prompts with labeled inputs (context, instructions, data) to reliably generate financial analysis outputs while building verification checkpoints into your workflow.",
-            "date": "2026-02-22"
-          },
-          {
-            "title": "Claude for Financial Analysis: Excel Integration and Forecasting",
-            "source_name": "Nate's Newsletter",
-            "source_url": "https://natesnewsletter.substack.com/p/anthropic-just-put-claude-inside",
-            "summary": "You can build production-ready financial models in Excel using Claude's AI capabilities without switching between applications, saving time on formula writing and assumption management.",
-            "date": "2026-02-24"
+        "children": {
+          "ai_for_modeling": {
+            "label": "AI for Financial Modeling",
+            "entries": [
+              {
+                "title": "Claude for Financial Analysis in 2026",
+                "source_name": "Linas Substack",
+                "source_url": "https://linas.substack.com/p/claudeinfinance",
+                "summary": "Use precisely structured prompts with labeled inputs (context, instructions, data) to reliably generate financial analysis outputs while building verification checkpoints into your workflow.",
+                "date": "2026-02-22"
+              },
+              {
+                "title": "Claude for Financial Analysis: Excel Integration and Forecasting",
+                "source_name": "Nate's Newsletter",
+                "source_url": "https://natesnewsletter.substack.com/p/anthropic-just-put-claude-inside",
+                "summary": "You can build production-ready financial models in Excel using Claude's AI capabilities without switching between applications, saving time on formula writing and assumption management.",
+                "date": "2026-02-24"
+              },
+              {
+                "title": "Claude for Financial Services: Building Models with Code",
+                "source_name": "Anthropic",
+                "source_url": "https://www.anthropic.com/news/claude-for-financial-services",
+                "summary": "Use Claude to generate production-ready financial models as Python-in-Excel code with full linkages and built-in source verification for faster modeling cycles.",
+                "date": "2026-02-24"
+              }
+            ]
           }
-        ]
+        }
       },
       "spreadsheets_and_data": {
         "label": "Spreadsheets & Data Management",
         "children": {
           "excel": {
             "label": "Excel",
-            "entries": [
-              {
-                "title": "Excel Power Query Workflow for Finance Automation",
-                "source_name": "Resourceful Finance Pro",
-                "source_url": "https://www.resourcefulfinancepro.com/articles/excel-power-query/",
-                "summary": "Power Query eliminates manual data entry by automating imports from multiple sources and transformations, enabling one-click refresh cycles for routine reporting.",
-                "date": "2026-02-22"
+            "children": {
+              "excel_core": {
+                "label": "Excel Core",
+                "entries": [
+                  {
+                    "title": "Excel Power Query Workflow for Finance Automation",
+                    "source_name": "Resourceful Finance Pro",
+                    "source_url": "https://www.resourcefulfinancepro.com/articles/excel-power-query/",
+                    "summary": "Power Query eliminates manual data entry by automating imports from multiple sources and transformations, enabling one-click refresh cycles for routine reporting.",
+                    "date": "2026-02-22"
+                  },
+                  {
+                    "title": "Excel Power Query: Automating FP&A Data Workflows",
+                    "source_name": "Sarah Schlott",
+                    "source_url": "https://sarahgschlott.com/5-ways-excel-power-query-can-automate-your-financial-data-prep/",
+                    "summary": "You can replace hours of monthly data prep by using Power Query to automate imports, transformations, and cross-system merges in a single repeatable workflow.",
+                    "date": "2026-02-24"
+                  }
+                ]
               },
-              {
-                "title": "Excel Power Query: Automating FP&A Data Workflows",
-                "source_name": "Sarah Schlott",
-                "source_url": "https://sarahgschlott.com/5-ways-excel-power-query-can-automate-your-financial-data-prep/",
-                "summary": "You can replace hours of monthly data prep by using Power Query to automate imports, transformations, and cross-system merges in a single repeatable workflow.",
-                "date": "2026-02-24"
+              "python_in_excel": {
+                "label": "Python in Excel",
+                "entries": [
+                  {
+                    "title": "Python in Excel for FP&A: Automating Data Cleaning, Forecasting, and Month-End Closing",
+                    "source_name": "Vena Solutions",
+                    "source_url": "https://www.venasolutions.com/blog/python-in-excel-for-fpa",
+                    "summary": "Use =PY() in Excel to embed Python for data prep and variance analysis without leaving the spreadsheet, eliminating manual month-end steps.",
+                    "date": "2026-02-24"
+                  }
+                ]
               }
-            ]
+            }
           },
           "programming_languages": {
             "label": "Programming Languages",
@@ -64,22 +93,39 @@
     "children": {
       "budgeting_and_forecasting": {
         "label": "Budgeting & Forecasting",
-        "entries": [
-          {
-            "title": "Running a Rolling Forecast Process in 2026",
-            "source_name": "Focus CFO Blog",
-            "source_url": "https://www.focuscfo.com/blog/budgeting-cash-flow-2026-13-week-rolling-forecast",
-            "summary": "Rolling forecasts replace static annual budgets by continuously dropping the oldest period and adding a new future quarter, keeping your predictions current with market shifts and business performance.",
-            "date": "2026-02-22"
+        "children": {
+          "budget_process": {
+            "label": "Budget Process",
+            "entries": [
+              {
+                "title": "Running a Rolling Forecast Process in 2026",
+                "source_name": "Focus CFO Blog",
+                "source_url": "https://www.focuscfo.com/blog/budgeting-cash-flow-2026-13-week-rolling-forecast",
+                "summary": "Rolling forecasts replace static annual budgets by continuously dropping the oldest period and adding a new future quarter, keeping your predictions current with market shifts and business performance.",
+                "date": "2026-02-22"
+              },
+              {
+                "title": "Annual Budget Process: Lessons Learned for 2026",
+                "source_name": "QX Accounting",
+                "source_url": "https://qxaccounting.com/usa/blog/surviving-budget-season-2026-10-practical-lessons-from-a-cfo/",
+                "summary": "Begin your 2026 budget process with a documented post-mortem of 2025 actuals and variance, then use a defined Q4 checklist to cascade goals and build cross-functional buy-in.",
+                "date": "2026-02-24"
+              }
+            ]
           },
-          {
-            "title": "Annual Budget Process: Lessons Learned for 2026",
-            "source_name": "QX Accounting",
-            "source_url": "https://qxaccounting.com/usa/blog/surviving-budget-season-2026-10-practical-lessons-from-a-cfo/",
-            "summary": "Begin your 2026 budget process with a documented post-mortem of 2025 actuals and variance, then use a defined Q4 checklist to cascade goals and build cross-functional buy-in.",
-            "date": "2026-02-24"
+          "driver_based_planning": {
+            "label": "Driver-Based Planning",
+            "entries": [
+              {
+                "title": "Pushing Back on Unrealistic Budgets: Driver-Based Planning and Rolling Forecasts",
+                "source_name": "FinSmart Accounting",
+                "source_url": "https://finsmartaccounting.com/blogs/budgeting-2026-fpa-seats-data-driven-forecasts/",
+                "summary": "Establish a driver-based planning framework upfront and use scenario models to make unrealistic assumptions objectively visible—shift the conversation from 'your number is wrong' to 'here's what your assumptions mean operationally.'",
+                "date": "2026-02-24"
+              }
+            ]
           }
-        ]
+        }
       },
       "reporting_and_analysis": {
         "label": "Reporting & Analysis",
@@ -98,15 +144,27 @@
           },
           "board_and_stakeholder_communication": {
             "label": "Board & Stakeholder Communication",
-            "entries": [
-              {
-                "title": "Presenting Forecasts to the Board: Handling Pushback and Building Trust",
-                "source_name": "Harvard Law School Forum on Corporate Governance",
-                "source_url": "https://corpgov.law.harvard.edu/2026/01/14/on-the-2026-board-agenda/",
-                "summary": "Structure your forecast presentation around 3–4 scenarios with explicit assumptions and trade-offs, and frame board skepticism as a resource rather than an obstacle.",
-                "date": "2026-02-24"
+            "children": {
+              "forecast_presentation": {
+                "label": "Forecast Presentation",
+                "entries": [
+                  {
+                    "title": "Presenting Forecasts to the Board: Handling Pushback and Building Trust",
+                    "source_name": "Harvard Law School Forum on Corporate Governance",
+                    "source_url": "https://corpgov.law.harvard.edu/2026/01/14/on-the-2026-board-agenda/",
+                    "summary": "Structure your forecast presentation around 3–4 scenarios with explicit assumptions and trade-offs, and frame board skepticism as a resource rather than an obstacle.",
+                    "date": "2026-02-24"
+                  },
+                  {
+                    "title": "Presenting the 2026 Forecast to the Board: Scenarios, Transparency, and Data-Driven Narratives",
+                    "source_name": "Preferred CFO",
+                    "source_url": "https://preferredcfo.com/insights/how-to-create-a-12-month-forecast-without-a-2026-budget",
+                    "summary": "Build board-ready forecasts on rolling 12-month models with three scenarios, evidence-based assumptions, and specific contingency plans rather than static annual budgets.",
+                    "date": "2026-02-24"
+                  }
+                ]
               }
-            ]
+            }
           }
         }
       }
