@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "title": "Claude 4 for Financial Modeling: Benchmarks and Excel Integration",
+    "source_name": "Wall Street Prep",
+    "source_url": "https://www.wallstreetprep.com/knowledge/ranking-the-best-ai-tools-for-financial-modeling-2026/",
+    "date_published": "2026-02-25"
+  },
+  {
+    "title": "5 Steps to Build Rolling Forecast Models",
+    "source_name": "Phoenix Strategy Group",
+    "source_url": "https://www.phoenixstrategy.group/blog/5-steps-to-build-rolling-forecast-models",
+    "date_published": "2026-02-25"
+  },
+  {
+    "title": "Storytelling Tips for CFOs: Presenting Financial Forecasts to the Board",
+    "source_name": "OneStream",
+    "source_url": "https://www.onestream.com/blog/storytelling-tips-for-cfos/",
+    "date_published": "2026-02-25"
+  }
+]
