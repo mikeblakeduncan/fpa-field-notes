@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What McKinsey's Agentic AI Research Actually Means for FP&A — FP&A Field Notes</title>
-    <meta name="description" content="McKinsey's six lessons from a year of agentic AI builds have real implications for FP&A teams. The most important one isn't about AI at all.">
+    <title>Six Things McKinsey Learned from a Year of Agentic AI (That Matter for FP&A) — FP&A Field Notes</title>
+    <meta name="description" content="McKinsey analyzed 50+ agentic AI builds and distilled six lessons. Here's the FP&A-specific read on each one.">
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-DTR4KSL0LS"></script>
     <script>
@@ -47,14 +47,17 @@
         .post-tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: #FEF3C7; color: #92400E; margin-right: 6px; }
         .post-body p { font-size: 0.95rem; margin-bottom: 16px; color: #374151; }
         .post-body h2 { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 700; margin: 32px 0 12px; color: var(--ink); }
-        .post-body h3 { font-size: 1.05rem; font-weight: 700; margin: 24px 0 8px; color: var(--ink); }
         .post-body a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); }
-        .post-body ul, .post-body ol { margin: 0 0 16px 24px; font-size: 0.95rem; color: #374151; }
-        .post-body li { margin-bottom: 6px; }
-        .post-body blockquote { border-left: 3px solid var(--accent); padding: 12px 18px; margin: 16px 0; background: white; border-radius: 0 8px 8px 0; font-style: italic; color: #4B5563; }
         .source-box { padding: 16px 20px; background: white; border: 1px solid var(--border); border-radius: 10px; margin: 24px 0; }
         .source-box-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin-bottom: 6px; }
         .source-box a { font-size: 0.9rem; font-weight: 600; color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--accent); }
+
+        .tip-list { margin: 24px 0 32px; }
+        .tip { display: flex; gap: 16px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+        .tip:last-child { border-bottom: none; margin-bottom: 0; }
+        .tip-number { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 800; color: var(--accent); flex-shrink: 0; line-height: 1.3; width: 28px; }
+        .tip-content strong { display: block; font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+        .tip-content p { font-size: 0.92rem; color: #374151; margin-bottom: 0; line-height: 1.6; }
 
         .post-footer { padding: 20px 0; border-top: 1px solid var(--border); margin-top: 32px; font-size: 0.8rem; color: var(--warm-gray); line-height: 1.6; }
         footer { text-align: center; padding: 28px 0; border-top: 1px solid var(--border); }
@@ -79,8 +82,8 @@
     </header>
 
     <article>
-        <div class="post-meta"><strong>Mike Duncan</strong> · February 27, 2026 · 3 min read</div>
-        <h1 class="post-title">What McKinsey's Agentic AI Research Actually Means for FP&amp;A</h1>
+        <div class="post-meta"><strong>Mike Duncan</strong> · February 27, 2026 · 2 min read</div>
+        <h1 class="post-title">Six Things McKinsey Learned from a Year of Agentic AI (That Matter for FP&amp;A)</h1>
         <div class="post-tags">
             <span class="post-tag">AI &amp; Automation</span>
             <span class="post-tag">FP&amp;A Strategy</span>
@@ -92,33 +95,52 @@
         </div>
 
         <div class="post-body">
-            <p>You've probably seen the demos. An AI agent pulls actuals, compares to budget, writes the variance commentary, and formats everything for the CFO deck. Looks impressive. Takes 45 seconds.</p>
+            <p>McKinsey published <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/one-year-of-agentic-ai-six-lessons-from-the-people-doing-the-work">One Year of Agentic AI: Six Lessons from the People Doing the Work</a> by Lareina Yee and colleagues — based on 50+ agentic AI builds. The full piece is worth reading. Here's the FP&amp;A-specific read on each lesson.</p>
 
-            <p>What the demos don't show is everything that goes wrong when you try to run that in a real FP&amp;A environment — with messy source data, mid-month reforecasts, three versions of the same headcount file, and a finance team that's never agreed on how to define attrition.</p>
-
-            <p>McKinsey published a useful piece recently — <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/one-year-of-agentic-ai-six-lessons-from-the-people-doing-the-work">One Year of Agentic AI: Six Lessons from the People Doing the Work</a> by Lareina Yee and colleagues — that does a better job than most of capturing why agentic AI is harder than it looks. They analyzed more than 50 agentic AI builds and distilled six lessons. Worth reading. A few land particularly hard for FP&amp;A.</p>
-
-            <h2>🔑 The most important one: it's about the workflow, not the agent</h2>
-
-            <p>This is the lesson most FP&amp;A teams are going to learn the hard way. The McKinsey team found that organizations focused too much on the agent itself — the tool, the model, the demo, and not enough on the underlying workflow. The result: great-looking agents that don't actually improve anything meaningful.</p>
-
-            <p>FP&amp;A is especially vulnerable to this trap. Our workflows are complex, often informal, and frequently built around the limitations of whatever tools we happened to have five years ago. If your close process requires three analysts manually reconciling data across four systems, adding an AI agent to that process doesn't fix anything. It automates the chaos.</p>
-
-            <p>The real opportunity isn't "AI does the variance report." It's "we redesign the close process so the data is clean enough that meaningful analysis can happen without a week of reconciliation first." That's harder, less demo-friendly, and takes longer. It's also where the actual value is.</p>
-
-            <h2>🛠️ Two other lessons that translate directly</h2>
-
-            <p>McKinsey makes the point that agents aren't always the answer — that leaders need to evaluate whether an agent is actually the right tool for a given task, the same way you'd evaluate whether a job requires a new hire or a different process entirely.</p>
-
-            <p>This resonates in FP&amp;A. Not everything should be automated. The monthly business review conversation with a business leader, the read on whether a budget ask makes strategic sense, the judgment call on how to present a tough number to the board — those aren't tasks for an agent. The risk is that pressure to show AI adoption leads teams to automate the wrong things and erode the judgment-based work that finance partners are actually there to do.</p>
-
-            <p>The third point worth highlighting: the research emphasizes investing in evaluations to build user trust, and warns against "AI slop" — outputs that seem fine in demos but frustrate real users. In FP&amp;A, this matters more than in most functions. Bad AI output that makes it into a board deck or an earnings model doesn't fail quietly. It damages credibility, and finance credibility is hard to rebuild.</p>
-
-            <h2>📉 What this adds up to</h2>
-
-            <p>The FP&amp;A teams that get real value from agentic AI aren't the ones moving fastest to deploy agents. They're the ones that do the harder work first: cleaning up data, documenting workflows, agreeing on definitions, and building the infrastructure that makes reliable outputs possible.</p>
-
-            <p>That's unglamorous work. It's also the prerequisite for anything else to matter.</p>
+            <div class="tip-list">
+                <div class="tip">
+                    <div class="tip-number">1</div>
+                    <div class="tip-content">
+                        <strong>It's about the workflow, not the agent.</strong>
+                        <p>FP&amp;A teams are deploying agents on top of broken processes and wondering why results are underwhelming. If your close requires three analysts reconciling data across four systems, an agent automates the chaos. Fix the process first.</p>
+                    </div>
+                </div>
+                <div class="tip">
+                    <div class="tip-number">2</div>
+                    <div class="tip-content">
+                        <strong>Agents aren't always the answer.</strong>
+                        <p>Not every FP&amp;A task should be automated. Budget conversation with a business leader. Read on whether a headcount ask makes sense. Judgment call on how to frame a tough number for the board. Those belong to a person.</p>
+                    </div>
+                </div>
+                <div class="tip">
+                    <div class="tip-number">3</div>
+                    <div class="tip-content">
+                        <strong>"AI slop" is a bigger risk in finance than most places.</strong>
+                        <p>Bad output that makes it into a model or a board deck doesn't fail quietly. Finance credibility is hard to rebuild. Invest in output quality and evaluation before you scale anything.</p>
+                    </div>
+                </div>
+                <div class="tip">
+                    <div class="tip-number">4</div>
+                    <div class="tip-content">
+                        <strong>You need to track and verify every step.</strong>
+                        <p>This is table stakes in finance anyway — every number needs to be auditable. Build monitoring into the workflow from the start, not as an afterthought.</p>
+                    </div>
+                </div>
+                <div class="tip">
+                    <div class="tip-number">5</div>
+                    <div class="tip-content">
+                        <strong>People are still central.</strong>
+                        <p>Agents handle tasks. Finance business partners handle relationships, judgment, and context. The risk is automating the wrong half.</p>
+                    </div>
+                </div>
+                <div class="tip">
+                    <div class="tip-number">6</div>
+                    <div class="tip-content">
+                        <strong>Build feedback loops.</strong>
+                        <p>The systems that improve over time are the ones where output quality is being measured and fed back. In FP&amp;A, that means comparing agent outputs to actuals, to human-reviewed versions, to what the business actually found useful.</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="post-footer">
