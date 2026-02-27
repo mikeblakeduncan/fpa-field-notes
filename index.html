@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FP&A Field Notes — Weekly practitioner insights for finance teams</title>
-    <meta name="description" content="A weekly curated digest of tools and practice for FP&A professionals. Fresh practitioner insights delivered every Tuesday.">
+    <meta name="description" content="A weekly curated digest of tools and practice for FP&A professionals. Fresh practitioner insights delivered every week.">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-DTR4KSL0LS"></script>
     <script>
@@ -63,6 +63,28 @@
         .entry-takeaway span { color: #0C4A6E; }
         .empty-col { color: var(--warm-gray); font-style: italic; font-size: 0.85rem; padding: 20px 0; }
 
+        /* Featured Blog Post */
+        .featured-post { margin-bottom: 28px; display: none; }
+        .featured-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 10px; }
+        .featured-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 28px 32px; position: relative; overflow: hidden; transition: border-color 0.2s; }
+        .featured-card:hover { border-color: var(--accent); }
+        .featured-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--accent), var(--sage)); }
+        .featured-meta { font-size: 0.76rem; color: var(--warm-gray); margin-bottom: 8px; }
+        .featured-meta strong { color: var(--navy); font-weight: 600; }
+        .featured-title { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 800; line-height: 1.25; margin-bottom: 12px; color: var(--ink); }
+        .featured-title a { color: inherit; text-decoration: none; }
+        .featured-title a:hover { color: var(--accent); }
+        .featured-excerpt { font-size: 0.92rem; color: #4B5563; line-height: 1.7; margin-bottom: 16px; }
+        .featured-cta { display: inline-block; font-size: 0.85rem; font-weight: 600; color: var(--accent); text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 1px; transition: color 0.15s; }
+        .featured-cta:hover { color: var(--navy); border-color: var(--navy); }
+        .featured-tag { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: #FEF3C7; color: #92400E; margin-right: 6px; }
+        @media (max-width: 640px) { .featured-card { padding: 20px; } .featured-title { font-size: 1.25rem; } }
+
+        /* Digest section divider */
+        .section-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+        .section-divider-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--warm-gray); white-space: nowrap; }
+        .section-divider-line { flex: 1; height: 1px; background: var(--border); }
+
         .bottom-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 28px 0; }
         @media (max-width: 640px) { .bottom-nav { grid-template-columns: 1fr; } }
         .nav-card { display: block; padding: 18px; border-radius: 10px; text-decoration: none; transition: transform 0.15s; }
@@ -95,91 +117,38 @@
     <header>
         <div class="logo-mark"></div>
         <div class="header-text">
-            <h1>FP&A <span>Field Notes</span></h1>
-            <p>Fresh practitioner insights every Tuesday.</p>
+            <h1>FP<span>&</span>A <span>Field Notes</span></h1>
+            <p>Fresh practitioner insights every week.</p>
         </div>
         <div class="header-links">
+            <a href="#" id="blog-link" style="display:none;">📝 Blog</a>
             <a href="knowledge.html">📚 Knowledge Base</a>
         </div>
     </header>
 
-    <div class="latest-date" id="latest-date">Week of February 25, 2026</div>
+    <!-- Featured Blog Post (loaded dynamically from posts.json) -->
+    <div class="featured-post" id="featured-post"></div>
+
+    <!-- Digest section -->
+    <div class="section-divider" id="digest-divider" style="display: none;">
+        <span class="section-divider-label">This week's digest</span>
+        <span class="section-divider-line"></span>
+        <span class="latest-date" id="latest-date">This week</span>
+    </div>
+
+    <div id="digest-date-fallback" class="latest-date">This week</div>
 
     <div class="columns">
         <div class="col-tools">
             <div class="column-header">🛠️ Tools & Efficiency</div>
             <div id="tools-entries">
-<div class="entry">
-              <div class="entry-badges">
-                <span class="entry-badge" style="background: #F3F4F6; color: #6B7280;">📅 Recent</span>
-                <span class="entry-badge" style="background: #DCFCE7; color: #166534;">👤 Practitioner</span>
-              </div>
-              <div class="entry-title"><a href="https://natesnewsletter.substack.com/p/anthropic-just-put-claude-inside">Claude AI for Financial Modeling: Building 11-Tab Models in 10 Minutes</a></div>
-              <div class="entry-source">by Nate's Newsletter</div>
-              <div class="entry-summary">Claude's native Excel integration pulls live market data (from LSEG, Moody's, S&P Capital IQ) and executes pre-built financial skills—DCF models, comps analysis, sensitivity tables—updating in real-time. Practitioner built a full 11-tab model with multiple scenarios in under 10 minutes.</div>
-              <div class="entry-takeaway"><strong>WHAT YOU'LL LEARN →</strong> <span>You can now leverage AI-native Excel tools with live data feeds to compress financial modeling timelines from hours to minutes, freeing FP&A time for analysis and storytelling.</span></div>
-              <div style="margin-top: 8px;"><a href="https://natesnewsletter.substack.com/p/anthropic-just-put-claude-inside" style="font-size: 0.78rem; font-weight: 600; color: #E07A5F; text-decoration: none;">Read the original →</a></div>
-            </div>
-<div class="entry">
-              <div class="entry-badges">
-                <span class="entry-badge" style="background: #F3F4F6; color: #6B7280;">📅 Recent</span>
-                <span class="entry-badge" style="background: #DCFCE7; color: #166534;">👤 Practitioner</span>
-              </div>
-              <div class="entry-title"><a href="https://www.thefpandaguy.com/guests/episode-47-glenn-hopper-using-chatgpt-to-build-an-fpampa-tool-and-what-happened-next">ChatGPT for FP&A Workflows: Automating Variance Analysis, Forecasting, and Reports</a></div>
-              <div class="entry-source">by The FP&A Guy (Episode 47) · Glenn Hopper, FP&A practitioner</div>
-              <div class="entry-summary">Finance professionals are using targeted ChatGPT prompts to automate high-volume repetitive tasks: variance summaries, forecasting narratives, cost-reduction analysis, and executive reporting. Start with routine activities to build confidence before scaling to complex workflows.</div>
-              <div class="entry-takeaway"><strong>WHAT YOU'LL LEARN →</strong> <span>Prompt ChatGPT with specific FP&A tasks ("draft variance analysis for 15% revenue shortfall") to generate first drafts for refinement, reducing manual report writing by 50%+ on routine summaries.</span></div>
-              <div style="margin-top: 8px;"><a href="https://www.thefpandaguy.com/guests/episode-47-glenn-hopper-using-chatgpt-to-build-an-fpampa-tool-and-what-happened-next" style="font-size: 0.78rem; font-weight: 600; color: #E07A5F; text-decoration: none;">Read the original →</a></div>
-            </div>
-<div class="entry">
-              <div class="entry-badges">
-                <span class="entry-badge" style="background: #F3F4F6; color: #6B7280;">📅 Recent</span>
-                <span class="entry-badge" style="background: #DCFCE7; color: #166534;">👤 Practitioner</span>
-              </div>
-              <div class="entry-title"><a href="https://www.resourcefulfinancepro.com/articles/excel-power-query/">Power Query for Finance Automation: One-Click Dashboard Refresh</a></div>
-              <div class="entry-source">by Resourceful Finance Pro · Finance practitioner</div>
-              <div class="entry-summary">Power Query eliminates copy-paste workflows by automating data import from multiple sources (bank statements, transaction files, SQL databases), cleaning and transforming data through non-code steps, then refreshing dashboards with a single click. Finance teams consolidate month-end reports in minutes instead of hours.</div>
-              <div class="entry-takeaway"><strong>WHAT YOU'LL LEARN →</strong> <span>Use Power Query's Get Data → Transform → Load workflow to build self-refreshing KPI dashboards that update automatically, removing the largest time drain from FP&A month-end closes.</span></div>
-              <div style="margin-top: 8px;"><a href="https://www.resourcefulfinancepro.com/articles/excel-power-query/" style="font-size: 0.78rem; font-weight: 600; color: #E07A5F; text-decoration: none;">Read the original →</a></div>
-            </div>
+                <div class="empty-col">First issue drops Tuesday. ☕</div>
             <!--/tools-entries--></div>
         </div>
         <div class="col-practice">
             <div class="column-header">📐 FP&A Practice</div>
             <div id="practice-entries">
-<div class="entry">
-              <div class="entry-badges">
-                <span class="entry-badge" style="background: #F3F4F6; color: #6B7280;">📅 Recent</span>
-                <span class="entry-badge" style="background: #DBEAFE; color: #1E40AF;">🎓 Expert</span>
-              </div>
-              <div class="entry-title"><a href="https://preferredcfo.com/insights/what-is-5-year-forecast">Presenting Five-Year Forecasts to the Board: Clarity Over Detail</a></div>
-              <div class="entry-source">by Preferred CFO · Finance consultant/CFO advisor</div>
-              <div class="entry-summary">Board presentations must prioritize high-level annual summaries (Year 1–5 columns only) with detailed assumptions kept separate. Ground all projections in 12–36 months of historical performance and industry benchmarks to defend against board scrutiny of unrealistic targets.</div>
-              <div class="entry-takeaway"><strong>WHAT YOU'LL LEARN →</strong> <span>Strip your forecast deck to summary-level numbers, reserve granular detail for backup tabs, and anchor every assumption to historical data—this prevents the 'wishful thinking' objection that derails board approval.</span></div>
-              <div style="margin-top: 8px;"><a href="https://preferredcfo.com/insights/what-is-5-year-forecast" style="font-size: 0.78rem; font-weight: 600; color: #E07A5F; text-decoration: none;">Read the original →</a></div>
-            </div>
-<div class="entry">
-              <div class="entry-badges">
-                <span class="entry-badge" style="background: #F3F4F6; color: #6B7280;">📅 Recent</span>
-                <span class="entry-badge" style="background: #DBEAFE; color: #1E40AF;">🎓 Expert</span>
-              </div>
-              <div class="entry-title"><a href="https://www.financealliance.io/how-fp-a-teams-build-budgets-and-how-you-can-nail-this-in-interviews/">The Annual Budget Process: From Planning Through Monitoring</a></div>
-              <div class="entry-source">by Finance Alliance · FP&A professional development platform</div>
-              <div class="entry-summary">FP&A owns a structured annual budget cycle: planning phase (guidelines + top-down targets), execution phase (bottom-up department inputs with standardized templates), review phase (consolidation and variance analysis), and approval/monitoring. Process typically starts 2–3 months before board sign-off.</div>
-              <div class="entry-takeaway"><strong>WHAT YOU'LL LEARN →</strong> <span>Structure your budget timeline working backward from board approval, use locked templates to prevent custom Excels, and hold weekly check-ins to catch issues early—this repeatable process scales across teams.</span></div>
-              <div style="margin-top: 8px;"><a href="https://www.financealliance.io/how-fp-a-teams-build-budgets-and-how-you-can-nail-this-in-interviews/" style="font-size: 0.78rem; font-weight: 600; color: #E07A5F; text-decoration: none;">Read the original →</a></div>
-            </div>
-<div class="entry">
-              <div class="entry-badges">
-                <span class="entry-badge" style="background: #FEF3C7; color: #92400E;">🟡 4d ago</span>
-                <span class="entry-badge" style="background: #DBEAFE; color: #1E40AF;">🎓 Expert</span>
-              </div>
-              <div class="entry-title"><a href="https://www.sequoia.com/2025/02/headcount-planning/">Headcount Planning as a Finance Leader: Data-Driven Conversations</a></div>
-              <div class="entry-source">by Sequoia Capital · Venture capital investor/finance strategist</div>
-              <div class="entry-summary">Finance leaders handle headcount planning conflicts by gathering early stakeholder input, defining KPIs (turnover, revenue per employee, hiring velocity), and framing discussions around strategic business goals rather than pure headcount cuts. Dynamic forecasting with HR alignment reduces planning surprises.</div>
-              <div class="entry-takeaway"><strong>WHAT YOU'LL LEARN →</strong> <span>Reframe headcount conversations from "we need to cut" to "what roles drive the most revenue per dollar?"—this data-driven approach builds executive alignment and reduces pushback on difficult staffing decisions.</span></div>
-              <div style="margin-top: 8px;"><a href="https://www.sequoia.com/2025/02/headcount-planning/" style="font-size: 0.78rem; font-weight: 600; color: #E07A5F; text-decoration: none;">Read the original →</a></div>
-            </div>
+                <div class="empty-col">First issue drops Tuesday. ☕</div>
             <!--/practice-entries--></div>
         </div>
     </div>
@@ -198,33 +167,9 @@
     <div class="archive-section" id="past-issues" style="display: none;">
         <h2>Past Issues</h2>
         <div id="issues-list">
-        <a href="issues/2026-02-25.html" class="issue-card">
-            <div>
-                <div class="issue-date">February 25, 2026</div>
-                <div class="issue-title">FP&A Field Notes — February 25, 2026</div>
-                <div class="issue-meta">1 tools · 2 FP&amp;A practice</div>
+            <div class="empty-state" style="text-align: center; padding: 20px; color: #8D8D8D; font-style: italic;">
+                <p>First issue drops Tuesday. ☕</p>
             </div>
-            <span class="issue-arrow">→</span>
-        </a>
-        
-        <a href="issues/2026-02-24.html" class="issue-card">
-            <div>
-                <div class="issue-date">February 24, 2026</div>
-                <div class="issue-title">FP&A Field Notes — February 24, 2026</div>
-                <div class="issue-meta">No items</div>
-            </div>
-            <span class="issue-arrow">→</span>
-        </a>
-        
-            <a href="issues/2026-02-22.html" class="issue-card">
-            <div>
-                <div class="issue-date">February 22, 2026</div>
-                <div class="issue-title">FP&A Field Notes — February 22, 2026</div>
-                <div class="issue-meta">No items</div>
-            </div>
-            <span class="issue-arrow">→</span>
-        </a>
-        
         </div>
     </div>
 </div>
@@ -235,6 +180,56 @@
         <p>A <a href="https://seacloudconsulting.com">Sea Cloud Consulting</a> project.</p>
     </div>
 </footer>
+
+<script>
+(function() {
+    fetch('posts.json')
+        .then(r => r.json())
+        .then(posts => {
+            if (!posts || posts.length === 0) return;
+
+            // Sort by date descending, show most recent
+            posts.sort((a, b) => b.date.localeCompare(a.date));
+            var post = posts[0];
+
+            // Format date
+            var d = new Date(post.date + 'T12:00:00');
+            var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            var dateStr = months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+
+            // Build tags HTML
+            var tagsHtml = '';
+            if (post.tags) {
+                post.tags.forEach(function(tag) {
+                    tagsHtml += '<span class="featured-tag">' + tag + '</span>';
+                });
+            }
+
+            var container = document.getElementById('featured-post');
+            container.innerHTML = '<div class="featured-label">Latest from the editor</div>' +
+                '<div class="featured-card">' +
+                '  <div class="featured-meta"><strong>Mike Duncan</strong> · ' + dateStr + '</div>' +
+                '  <h2 class="featured-title"><a href="blog/' + post.slug + '.html">' + post.title + '</a></h2>' +
+                '  <div style="margin-bottom: 12px;">' + tagsHtml + '</div>' +
+                '  <p class="featured-excerpt">' + post.excerpt + '</p>' +
+                '  <a href="blog/' + post.slug + '.html" class="featured-cta">Read the full post →</a>' +
+                '</div>';
+            container.style.display = 'block';
+
+            // Show the digest divider and hide the fallback date
+            document.getElementById('digest-divider').style.display = 'flex';
+            document.getElementById('digest-date-fallback').style.display = 'none';
+
+            // Show blog link in header
+            var blogLink = document.getElementById('blog-link');
+            blogLink.href = 'blog/' + post.slug + '.html';
+            blogLink.style.display = 'inline';
+        })
+        .catch(function() {
+            // No posts.json or empty — just show the digest as normal
+        });
+})();
+</script>
 
 </body>
 </html>
