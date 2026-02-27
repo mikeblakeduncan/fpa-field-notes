@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What McKinsey's Agentic AI Research Actually Means for FP&A — FP&A Field Notes</title>
+    <meta name="description" content="McKinsey's six lessons from a year of agentic AI builds have real implications for FP&A teams. The most important one isn't about AI at all.">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DTR4KSL0LS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-DTR4KSL0LS');
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,800;1,9..144,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a2e;
+            --paper: #FDFBF7;
+            --accent: #E07A5F;
+            --sage: #81B29A;
+            --navy: #3D405B;
+            --warm-gray: #8D8D8D;
+            --border: #E8E4DE;
+            --card: #FFFFFF;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+        body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 100; }
+        .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+        header { padding: 20px 0 16px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
+        .logo-mark { width: 36px; height: 36px; background: var(--accent); border-radius: 8px; transform: rotate(-3deg); position: relative; box-shadow: 2px 2px 0 var(--navy); flex-shrink: 0; }
+        .logo-mark::after { content: '📐'; font-size: 18px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .header-text h1 { font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 800; color: var(--ink); line-height: 1.1; }
+        .header-text h1 span { color: var(--accent); }
+        .header-text p { font-size: 0.78rem; color: var(--warm-gray); margin-top: 1px; }
+        .header-links { margin-left: auto; display: flex; gap: 16px; flex-shrink: 0; }
+        .header-links a { font-size: 0.8rem; font-weight: 600; color: var(--navy); text-decoration: none; }
+
+        article { margin-bottom: 48px; }
+        .post-meta { font-size: 0.82rem; color: var(--warm-gray); margin-bottom: 12px; }
+        .post-meta strong { color: var(--navy); }
+        .post-title { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; color: var(--ink); }
+        .post-tags { margin-bottom: 24px; }
+        .post-tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: #FEF3C7; color: #92400E; margin-right: 6px; }
+        .post-body p { font-size: 0.95rem; margin-bottom: 16px; color: #374151; }
+        .post-body h2 { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 700; margin: 32px 0 12px; color: var(--ink); }
+        .post-body h3 { font-size: 1.05rem; font-weight: 700; margin: 24px 0 8px; color: var(--ink); }
+        .post-body a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); }
+        .post-body ul, .post-body ol { margin: 0 0 16px 24px; font-size: 0.95rem; color: #374151; }
+        .post-body li { margin-bottom: 6px; }
+        .post-body blockquote { border-left: 3px solid var(--accent); padding: 12px 18px; margin: 16px 0; background: white; border-radius: 0 8px 8px 0; font-style: italic; color: #4B5563; }
+        .source-box { padding: 16px 20px; background: white; border: 1px solid var(--border); border-radius: 10px; margin: 24px 0; }
+        .source-box-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin-bottom: 6px; }
+        .source-box a { font-size: 0.9rem; font-weight: 600; color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--accent); }
+
+        .post-footer { padding: 20px 0; border-top: 1px solid var(--border); margin-top: 32px; font-size: 0.8rem; color: var(--warm-gray); line-height: 1.6; }
+        footer { text-align: center; padding: 28px 0; border-top: 1px solid var(--border); }
+        footer p { font-size: 0.76rem; color: var(--warm-gray); line-height: 1.8; }
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <a href="../index.html" style="text-decoration: none; display: flex; align-items: center; gap: 14px;">
+            <div class="logo-mark"></div>
+            <div class="header-text">
+                <h1>FP&amp;A <span>Field Notes</span></h1>
+                <p>Fresh practitioner insights every Tuesday.</p>
+            </div>
+        </a>
+        <div class="header-links">
+            <a href="../index.html">Home</a>
+            <a href="../knowledge.html">📚 Knowledge Base</a>
+        </div>
+    </header>
+
+    <article>
+        <div class="post-meta"><strong>Mike Duncan</strong> · February 27, 2026 · 3 min read</div>
+        <h1 class="post-title">What McKinsey's Agentic AI Research Actually Means for FP&amp;A</h1>
+        <div class="post-tags">
+            <span class="post-tag">AI &amp; Automation</span>
+            <span class="post-tag">FP&amp;A Strategy</span>
+        </div>
+
+        <div class="source-box">
+            <div class="source-box-label">Reacting to</div>
+            <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/one-year-of-agentic-ai-six-lessons-from-the-people-doing-the-work">One Year of Agentic AI: Six Lessons from the People Doing the Work by Lareina Yee, McKinsey &amp; Company</a>
+        </div>
+
+        <div class="post-body">
+            <p>You've probably seen the demos. An AI agent pulls actuals, compares to budget, writes the variance commentary, and formats everything for the CFO deck. Looks impressive. Takes 45 seconds.</p>
+
+            <p>What the demos don't show is everything that goes wrong when you try to run that in a real FP&amp;A environment — with messy source data, mid-month reforecasts, three versions of the same headcount file, and a finance team that's never agreed on how to define attrition.</p>
+
+            <p>McKinsey published a useful piece recently — <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/one-year-of-agentic-ai-six-lessons-from-the-people-doing-the-work">One Year of Agentic AI: Six Lessons from the People Doing the Work</a> by Lareina Yee and colleagues — that does a better job than most of capturing why agentic AI is harder than it looks. They analyzed more than 50 agentic AI builds and distilled six lessons. Worth reading. A few land particularly hard for FP&amp;A.</p>
+
+            <h2>🔑 The most important one: it's about the workflow, not the agent</h2>
+
+            <p>This is the lesson most FP&amp;A teams are going to learn the hard way. The McKinsey team found that organizations focused too much on the agent itself — the tool, the model, the demo, and not enough on the underlying workflow. The result: great-looking agents that don't actually improve anything meaningful.</p>
+
+            <p>FP&amp;A is especially vulnerable to this trap. Our workflows are complex, often informal, and frequently built around the limitations of whatever tools we happened to have five years ago. If your close process requires three analysts manually reconciling data across four systems, adding an AI agent to that process doesn't fix anything. It automates the chaos.</p>
+
+            <p>The real opportunity isn't "AI does the variance report." It's "we redesign the close process so the data is clean enough that meaningful analysis can happen without a week of reconciliation first." That's harder, less demo-friendly, and takes longer. It's also where the actual value is.</p>
+
+            <h2>🛠️ Two other lessons that translate directly</h2>
+
+            <p>McKinsey makes the point that agents aren't always the answer — that leaders need to evaluate whether an agent is actually the right tool for a given task, the same way you'd evaluate whether a job requires a new hire or a different process entirely.</p>
+
+            <p>This resonates in FP&amp;A. Not everything should be automated. The monthly business review conversation with a business leader, the read on whether a budget ask makes strategic sense, the judgment call on how to present a tough number to the board — those aren't tasks for an agent. The risk is that pressure to show AI adoption leads teams to automate the wrong things and erode the judgment-based work that finance partners are actually there to do.</p>
+
+            <p>The third point worth highlighting: the research emphasizes investing in evaluations to build user trust, and warns against "AI slop" — outputs that seem fine in demos but frustrate real users. In FP&amp;A, this matters more than in most functions. Bad AI output that makes it into a board deck or an earnings model doesn't fail quietly. It damages credibility, and finance credibility is hard to rebuild.</p>
+
+            <h2>📉 What this adds up to</h2>
+
+            <p>The FP&amp;A teams that get real value from agentic AI aren't the ones moving fastest to deploy agents. They're the ones that do the harder work first: cleaning up data, documenting workflows, agreeing on definitions, and building the infrastructure that makes reliable outputs possible.</p>
+
+            <p>That's unglamorous work. It's also the prerequisite for anything else to matter.</p>
+        </div>
+
+        <div class="post-footer">
+            FP&amp;A Field Notes posts are drafted with Claude based on the editor's notes and perspective, then reviewed and edited before publishing.
+        </div>
+    </article>
+</div>
+
+<footer>
+    <div class="container">
+        <p>FP&amp;A Field Notes — curated by AI, reviewed by humans.</p>
+        <p>A <a href="https://seacloudconsulting.com">Sea Cloud Consulting</a> project.</p>
+    </div>
+</footer>
+</body>
+</html>
