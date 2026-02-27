@@ -42,6 +42,13 @@
                 "source_url": "https://natesnewsletter.substack.com/p/anthropic-just-put-claude-inside",
                 "summary": "You can now leverage AI-native Excel tools with live data feeds to compress financial modeling timelines from hours to minutes, freeing FP&A time for analysis and storytelling.",
                 "date": "2026-02-25"
+              },
+              {
+                "title": "Claude in Excel: Building Financial Models in Real-Time",
+                "source_name": "Nate's Newsletter",
+                "source_url": "https://natesnewsletter.substack.com/p/anthropic-just-put-claude-inside",
+                "summary": "You can now build linked Excel models with Claude directly inside the spreadsheet, updating assumptions and seeing results instantly—saving hours on manual formula entry.",
+                "date": "2026-02-27"
               }
             ]
           },
@@ -54,6 +61,18 @@
                 "source_url": "https://www.thefpandaguy.com/guests/episode-47-glenn-hopper-using-chatgpt-to-build-an-fpampa-tool-and-what-happened-next",
                 "summary": "Prompt ChatGPT with specific FP&A tasks (\"draft variance analysis for 15% revenue shortfall\") to generate first drafts for refinement, reducing manual report writing by 50%+ on routine summaries.",
                 "date": "2026-02-25"
+              }
+            ]
+          },
+          "ai_for_document_analysis": {
+            "label": "AI for Document Analysis",
+            "entries": [
+              {
+                "title": "Claude vs. ChatGPT for Financial Document Analysis and Bank Statement Review",
+                "source_name": "Counsel Pro AI",
+                "source_url": "https://www.counselpro.ai/blog/chatgpt-vs-claude-vs-gemini-for-lawyers-financial-review",
+                "summary": "If you work with large financial datasets, bank statements, or multi-document analysis, Claude's larger context window and better numerical handling will save you time and reduce errors compared to ChatGPT.",
+                "date": "2026-02-27"
               }
             ]
           }
@@ -239,6 +258,13 @@
                     "source_url": "https://preferredcfo.com/insights/what-is-5-year-forecast",
                     "summary": "Strip your forecast deck to summary-level numbers, reserve granular detail for backup tabs, and anchor every assumption to historical data—this prevents the 'wishful thinking' objection that derails board approval.",
                     "date": "2026-02-25"
+                  },
+                  {
+                    "title": "Board Forecast Presentation: Visual Storytelling and Multi-Scenario Planning",
+                    "source_name": "Common Thread Co",
+                    "source_url": "https://commonthreadco.com/blogs/ecommerce-playbook/2026-forecast-planning-board-vs-budget-vs-bonus-explained",
+                    "summary": "Present three forecast scenarios with clear visuals and a narrative arc—executives need context, resilience evidence, and actionable levers, not spreadsheets.",
+                    "date": "2026-02-27"
                   }
                 ]
               }
