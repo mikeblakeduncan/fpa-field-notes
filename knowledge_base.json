@@ -16,13 +16,6 @@
                 "date": "2026-02-22"
               },
               {
-                "title": "Claude for Financial Analysis: Excel Integration and Forecasting",
-                "source_name": "Nate's Newsletter",
-                "source_url": "https://natesnewsletter.substack.com/p/anthropic-just-put-claude-inside",
-                "summary": "You can build production-ready financial models in Excel using Claude's AI capabilities without switching between applications, saving time on formula writing and assumption management.",
-                "date": "2026-02-24"
-              },
-              {
                 "title": "Claude for Financial Services: Building Models with Code",
                 "source_name": "Anthropic",
                 "source_url": "https://www.anthropic.com/news/claude-for-financial-services",
@@ -34,13 +27,6 @@
                 "source_name": "Wall Street Prep",
                 "source_url": "https://www.wallstreetprep.com/knowledge/ranking-the-best-ai-tools-for-financial-modeling-2026/",
                 "summary": "Claude is production-ready for multi-tab financial models and can handle Monte Carlo simulations and risk modeling; evaluate it as a junior analyst replacement for specific modeling tasks.",
-                "date": "2026-02-25"
-              },
-              {
-                "title": "Claude AI for Financial Modeling: Building 11-Tab Models in 10 Minutes",
-                "source_name": "Nate's Newsletter",
-                "source_url": "https://natesnewsletter.substack.com/p/anthropic-just-put-claude-inside",
-                "summary": "You can now leverage AI-native Excel tools with live data feeds to compress financial modeling timelines from hours to minutes, freeing FP&A time for analysis and storytelling.",
                 "date": "2026-02-25"
               },
               {
@@ -101,13 +87,6 @@
                     "summary": "You can replace hours of monthly data prep by using Power Query to automate imports, transformations, and cross-system merges in a single repeatable workflow.",
                     "date": "2026-02-24"
                   },
-                  {
-                    "title": "Power Query for Finance Automation: One-Click Dashboard Refresh",
-                    "source_name": "Resourceful Finance Pro",
-                    "source_url": "https://www.resourcefulfinancepro.com/articles/excel-power-query/",
-                    "summary": "Use Power Query's Get Data → Transform → Load workflow to build self-refreshing KPI dashboards that update automatically, removing the largest time drain from FP&A month-end closes.",
-                    "date": "2026-02-25"
-                  }
                 ]
               },
               "python_in_excel": {
