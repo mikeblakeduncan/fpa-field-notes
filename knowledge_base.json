@@ -2,254 +2,60 @@
   "tools": {
     "label": "🛠️ Tools & Efficiency",
     "children": {
+      "spreadsheet_and_modeling": {
+        "label": "Spreadsheet & Modeling Tools",
+        "entries": [
+          {
+            "title": "Claude in Excel: Building Financial Models Directly in Spreadsheets",
+            "source_name": "Nate's Newsletter",
+            "source_url": "https://natesnewsletter.substack.com/p/anthropic-just-put-claude-inside",
+            "summary": "You can now prototype and iterate financial models faster by using Claude natively in Excel rather than copying formulas back and forth between an AI chat interface and your spreadsheet.",
+            "date": "2026-03-03"
+          },
+          {
+            "title": "Power Query for Finance Automation: One-Click Dashboard Refresh",
+            "source_name": "Resourceful Finance Pro",
+            "source_url": "https://www.resourcefulfinancepro.com/articles/excel-power-query/",
+            "summary": "Switch to Power Query for financial consolidation to turn a 3-hour manual monthly task into a 10-second refresh, reducing errors and freeing time for actual analysis.",
+            "date": "2026-03-03"
+          }
+        ]
+      },
       "ai_and_automation": {
         "label": "AI & Automation",
-        "children": {
-          "ai_for_modeling": {
-            "label": "AI for Financial Modeling",
-            "entries": [
-              {
-                "title": "Claude for Financial Analysis in 2026",
-                "source_name": "Linas Substack",
-                "source_url": "https://linas.substack.com/p/claudeinfinance",
-                "summary": "Use precisely structured prompts with labeled inputs (context, instructions, data) to reliably generate financial analysis outputs while building verification checkpoints into your workflow.",
-                "date": "2026-02-22"
-              },
-              {
-                "title": "Claude for Financial Services: Building Models with Code",
-                "source_name": "Anthropic",
-                "source_url": "https://www.anthropic.com/news/claude-for-financial-services",
-                "summary": "Use Claude to generate production-ready financial models as Python-in-Excel code with full linkages and built-in source verification for faster modeling cycles.",
-                "date": "2026-02-24"
-              },
-              {
-                "title": "Claude 4 for Financial Modeling: Benchmarks and Excel Integration",
-                "source_name": "Wall Street Prep",
-                "source_url": "https://www.wallstreetprep.com/knowledge/ranking-the-best-ai-tools-for-financial-modeling-2026/",
-                "summary": "Claude is production-ready for multi-tab financial models and can handle Monte Carlo simulations and risk modeling; evaluate it as a junior analyst replacement for specific modeling tasks.",
-                "date": "2026-02-25"
-              },
-              {
-                "title": "Claude in Excel: Building Financial Models in Real-Time",
-                "source_name": "Nate's Newsletter",
-                "source_url": "https://natesnewsletter.substack.com/p/anthropic-just-put-claude-inside",
-                "summary": "You can now build linked Excel models with Claude directly inside the spreadsheet, updating assumptions and seeing results instantly—saving hours on manual formula entry.",
-                "date": "2026-02-27"
-              }
-            ]
-          },
-          "ai_for_fpa_workflows": {
-            "label": "AI for FP&A Workflows",
-            "entries": [
-              {
-                "title": "ChatGPT for FP&A Workflows: Automating Variance Analysis, Forecasting, and Reports",
-                "source_name": "The FP&A Guy (Episode 47)",
-                "source_url": "https://www.thefpandaguy.com/guests/episode-47-glenn-hopper-using-chatgpt-to-build-an-fpampa-tool-and-what-happened-next",
-                "summary": "Prompt ChatGPT with specific FP&A tasks (\"draft variance analysis for 15% revenue shortfall\") to generate first drafts for refinement, reducing manual report writing by 50%+ on routine summaries.",
-                "date": "2026-02-25"
-              }
-            ]
-          },
-          "ai_for_document_analysis": {
-            "label": "AI for Document Analysis",
-            "entries": [
-              {
-                "title": "Claude vs. ChatGPT for Financial Document Analysis and Bank Statement Review",
-                "source_name": "Counsel Pro AI",
-                "source_url": "https://www.counselpro.ai/blog/chatgpt-vs-claude-vs-gemini-for-lawyers-financial-review",
-                "summary": "If you work with large financial datasets, bank statements, or multi-document analysis, Claude's larger context window and better numerical handling will save you time and reduce errors compared to ChatGPT.",
-                "date": "2026-02-27"
-              }
-            ]
+        "entries": [
+          {
+            "title": "ChatGPT for FP&A Workflows: Automating Variance Analysis, Forecasting, and Reports",
+            "source_name": "The FP&A Guy",
+            "source_url": "https://www.thefpandaguy.com/guests/episode-47-glenn-hopper-using-chatgpt-to-build-an-fpampa-tool-and-what-happened-next",
+            "summary": "Structure ChatGPT requests as an FP&A analyst taking on specific jobs (variance analysis, consolidation, narrative), and feed it your actual Excel data to automate repetitive reporting in minutes rather than hours.",
+            "date": "2026-03-03"
           }
-        }
-      },
-      "spreadsheets_and_data": {
-        "label": "Spreadsheets & Data Management",
-        "children": {
-          "excel": {
-            "label": "Excel",
-            "children": {
-              "excel_core": {
-                "label": "Excel Core",
-                "entries": [
-                  {
-                    "title": "Excel Power Query Workflow for Finance Automation",
-                    "source_name": "Resourceful Finance Pro",
-                    "source_url": "https://www.resourcefulfinancepro.com/articles/excel-power-query/",
-                    "summary": "Power Query eliminates manual data entry by automating imports from multiple sources and transformations, enabling one-click refresh cycles for routine reporting.",
-                    "date": "2026-02-22"
-                  },
-                  {
-                    "title": "Excel Power Query: Automating FP&A Data Workflows",
-                    "source_name": "Sarah Schlott",
-                    "source_url": "https://sarahgschlott.com/5-ways-excel-power-query-can-automate-your-financial-data-prep/",
-                    "summary": "You can replace hours of monthly data prep by using Power Query to automate imports, transformations, and cross-system merges in a single repeatable workflow.",
-                    "date": "2026-02-24"
-                  },
-                ]
-              },
-              "python_in_excel": {
-                "label": "Python in Excel",
-                "entries": [
-                  {
-                    "title": "Python in Excel for FP&A: Automating Data Cleaning, Forecasting, and Month-End Closing",
-                    "source_name": "Vena Solutions",
-                    "source_url": "https://www.venasolutions.com/blog/python-in-excel-for-fpa",
-                    "summary": "Use =PY() in Excel to embed Python for data prep and variance analysis without leaving the spreadsheet, eliminating manual month-end steps.",
-                    "date": "2026-02-24"
-                  }
-                ]
-              }
-            }
-          },
-          "programming_languages": {
-            "label": "Programming Languages",
-            "entries": [
-              {
-                "title": "Python for Financial Forecasting: Time Series Models and Monte Carlo Simulation",
-                "source_name": "Mito Blog",
-                "source_url": "https://www.trymito.io/blog/automating-financial-forecasting-in-python-a-complete-guide",
-                "summary": "You can build automated 12-month forecasts in Python with uncertainty quantification and seasonality handling, then export results to Excel for stakeholder review.",
-                "date": "2026-02-24"
-              }
-            ]
-          }
-        }
+        ]
       }
     }
   },
   "fpa_practice": {
     "label": "📐 FP&A Practice",
     "children": {
-      "budgeting_and_forecasting": {
-        "label": "Budgeting & Forecasting",
-        "children": {
-          "budget_process": {
-            "label": "Budget Process",
-            "entries": [
-              {
-                "title": "Running a Rolling Forecast Process in 2026",
-                "source_name": "Focus CFO Blog",
-                "source_url": "https://www.focuscfo.com/blog/budgeting-cash-flow-2026-13-week-rolling-forecast",
-                "summary": "Rolling forecasts replace static annual budgets by continuously dropping the oldest period and adding a new future quarter, keeping your predictions current with market shifts and business performance.",
-                "date": "2026-02-22"
-              },
-              {
-                "title": "Annual Budget Process: Lessons Learned for 2026",
-                "source_name": "QX Accounting",
-                "source_url": "https://qxaccounting.com/usa/blog/surviving-budget-season-2026-10-practical-lessons-from-a-cfo/",
-                "summary": "Begin your 2026 budget process with a documented post-mortem of 2025 actuals and variance, then use a defined Q4 checklist to cascade goals and build cross-functional buy-in.",
-                "date": "2026-02-24"
-              },
-              {
-                "title": "The Annual Budget Process: From Planning Through Monitoring",
-                "source_name": "Finance Alliance",
-                "source_url": "https://www.financealliance.io/how-fp-a-teams-build-budgets-and-how-you-can-nail-this-in-interviews/",
-                "summary": "Structure your budget timeline working backward from board approval, use locked templates to prevent custom Excels, and hold weekly check-ins to catch issues early—this repeatable process scales across teams.",
-                "date": "2026-02-25"
-              }
-            ]
+      "stakeholder_management": {
+        "label": "Stakeholder Management & Communication",
+        "entries": [
+          {
+            "title": "Board Forecast Presentation: Visual Storytelling and Multi-Scenario Planning",
+            "source_name": "Datasite",
+            "source_url": "https://www.datasite.com/en/resources/insights/6-ways-to-deliver-decisive-board-meeting-outcomes-in-2026",
+            "summary": "Structure board forecast presentations around a clear decision or outcome rather than information dump, and pre-wire key stakeholders to surface objections before the meeting.",
+            "date": "2026-03-03"
           },
-          "driver_based_planning": {
-            "label": "Driver-Based Planning",
-            "entries": [
-              {
-                "title": "Pushing Back on Unrealistic Budgets: Driver-Based Planning and Rolling Forecasts",
-                "source_name": "FinSmart Accounting",
-                "source_url": "https://finsmartaccounting.com/blogs/budgeting-2026-fpa-seats-data-driven-forecasts/",
-                "summary": "Establish a driver-based planning framework upfront and use scenario models to make unrealistic assumptions objectively visible—shift the conversation from 'your number is wrong' to 'here's what your assumptions mean operationally.'",
-                "date": "2026-02-24"
-              }
-            ]
-          },
-          "rolling_forecast_implementation": {
-            "label": "Rolling Forecast Implementation",
-            "entries": [
-              {
-                "title": "5 Steps to Build Rolling Forecast Models",
-                "source_name": "Phoenix Strategy Group",
-                "source_url": "https://www.phoenixstrategy.group/blog/5-steps-to-build-rolling-forecast-models",
-                "summary": "Rolling forecasts require explicit stakeholder alignment and a defined time horizon (e.g., 12 months rolling); implement monthly/quarterly updates with variance tracking to improve forecast accuracy over time.",
-                "date": "2026-02-25"
-              }
-            ]
-          },
-          "headcount_planning": {
-            "label": "Headcount Planning",
-            "entries": [
-              {
-                "title": "Headcount Planning as a Finance Leader: Data-Driven Conversations",
-                "source_name": "Sequoia Capital",
-                "source_url": "https://www.sequoia.com/2025/02/headcount-planning/",
-                "summary": "Reframe headcount conversations from \"we need to cut\" to \"what roles drive the most revenue per dollar?\"—this data-driven approach builds executive alignment and reduces pushback on difficult staffing decisions.",
-                "date": "2026-02-25"
-              }
-            ]
+          {
+            "title": "Managing Difficult Conversations with Business Partners: Preparation and Collaborative Framing",
+            "source_name": "ContentStack",
+            "source_url": "https://www.contentstack.com/blog/strategy/how-to-have-difficult-conversations-with-your-cfo",
+            "summary": "Before a tough conversation with a business partner about budget or spending, identify the root financial problem, define what 'win' looks like for both sides, and hold it live to read tone and build collaborative momentum.",
+            "date": "2026-03-03"
           }
-        }
-      },
-      "reporting_and_analysis": {
-        "label": "Reporting & Analysis",
-        "children": {
-          "variance_and_variance_analysis": {
-            "label": "Variance Analysis",
-            "entries": [
-              {
-                "title": "How to Present Budget Variance Analysis to the Board",
-                "source_name": "Beebole Blog",
-                "source_url": "https://beebole.com/blog/how-to-communicate-budget-variance",
-                "summary": "Structure variance presentations with high-level summary first, visual highlights of material gaps, documented root causes, and explicit links to business implications to keep board focus on what matters.",
-                "date": "2026-02-22"
-              }
-            ]
-          },
-          "board_and_stakeholder_communication": {
-            "label": "Board & Stakeholder Communication",
-            "children": {
-              "forecast_presentation": {
-                "label": "Forecast Presentation",
-                "entries": [
-                  {
-                    "title": "Presenting Forecasts to the Board: Handling Pushback and Building Trust",
-                    "source_name": "Harvard Law School Forum on Corporate Governance",
-                    "source_url": "https://corpgov.law.harvard.edu/2026/01/14/on-the-2026-board-agenda/",
-                    "summary": "Structure your forecast presentation around 3–4 scenarios with explicit assumptions and trade-offs, and frame board skepticism as a resource rather than an obstacle.",
-                    "date": "2026-02-24"
-                  },
-                  {
-                    "title": "Presenting the 2026 Forecast to the Board: Scenarios, Transparency, and Data-Driven Narratives",
-                    "source_name": "Preferred CFO",
-                    "source_url": "https://preferredcfo.com/insights/how-to-create-a-12-month-forecast-without-a-2026-budget",
-                    "summary": "Build board-ready forecasts on rolling 12-month models with three scenarios, evidence-based assumptions, and specific contingency plans rather than static annual budgets.",
-                    "date": "2026-02-24"
-                  },
-                  {
-                    "title": "Storytelling Tips for CFOs: Presenting Financial Forecasts to the Board",
-                    "source_name": "OneStream",
-                    "source_url": "https://www.onestream.com/blog/storytelling-tips-for-cfos/",
-                    "summary": "Prepare forecast presentations with multiple scenarios, pre-share slides, and lead with business context and storytelling—not raw numbers.",
-                    "date": "2026-02-25"
-                  },
-                  {
-                    "title": "Presenting Five-Year Forecasts to the Board: Clarity Over Detail",
-                    "source_name": "Preferred CFO",
-                    "source_url": "https://preferredcfo.com/insights/what-is-5-year-forecast",
-                    "summary": "Strip your forecast deck to summary-level numbers, reserve granular detail for backup tabs, and anchor every assumption to historical data—this prevents the 'wishful thinking' objection that derails board approval.",
-                    "date": "2026-02-25"
-                  },
-                  {
-                    "title": "Board Forecast Presentation: Visual Storytelling and Multi-Scenario Planning",
-                    "source_name": "Common Thread Co",
-                    "source_url": "https://commonthreadco.com/blogs/ecommerce-playbook/2026-forecast-planning-board-vs-budget-vs-bonus-explained",
-                    "summary": "Present three forecast scenarios with clear visuals and a narrative arc—executives need context, resilience evidence, and actionable levers, not spreadsheets.",
-                    "date": "2026-02-27"
-                  }
-                ]
-              }
-            }
-          }
-        }
+        ]
       }
     }
   }
