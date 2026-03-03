@@ -32,6 +32,13 @@
             "source_url": "https://zerotomastery.io/blog/chatgpt-excel-formula-examples/",
             "summary": "You can automate complex data cleaning and transformation tasks in Excel by prompting ChatGPT to generate Power Query M code, eliminating manual transformation work.",
             "date": "2026-03-03"
+          },
+          {
+            "title": "Automating FP&A Variance Analysis with Excel Power Query",
+            "source_name": "Sarah Schlott",
+            "source_url": "https://sarahgschlott.com/how-to-build-an-audit-friendly-financial-data-pipeline-with-excel-power-query/",
+            "summary": "Learn how to structure Power Query workflows with a raw data layer and documented M code comments so your budgets-vs-actuals can scale without breaking audit controls.",
+            "date": "2026-03-03"
           }
         ]
       },
@@ -71,6 +78,13 @@
                 "source_url": "https://www.onestream.com/blog/storytelling-tips-for-cfos/",
                 "summary": "Start your board forecast presentation with the financial implications and ask, then support with assumptions, scenarios, and risks—respecting the board's time and preference for impact-driven storytelling.",
                 "date": "2026-03-03"
+              },
+              {
+                "title": "How to Prepare for Your Next Board Meeting: A CFO's Guide",
+                "source_name": "McCracken Alliance",
+                "source_url": "https://www.mccrackenalliance.com/blog/how-to-prepare-for-your-next-board-meeting-a-cfos-guide",
+                "summary": "Structure board forecasts around forward-looking KPIs, variance drivers, and specific decisions needed—not raw statements—to keep executive attention on what matters.",
+                "date": "2026-03-03"
               }
             ]
           },
@@ -97,15 +111,27 @@
       },
       "planning_and_budgeting": {
         "label": "Planning & Budgeting",
-        "entries": [
-          {
-            "title": "Headcount Planning for the 2026 Budget Cycle: A Structured Four-Step Approach",
-            "source_name": "Leapsome",
-            "source_url": "https://www.leapsome.com/blog/headcount-planning",
-            "summary": "Structure your headcount planning in four steps: assess current state, forecast demand by business goal, analyze gaps, and build scenarios—allowing you to align staffing with strategic objectives and present options to leadership.",
-            "date": "2026-03-03"
+        "children": {
+          "headcount_planning": {
+            "label": "Headcount Planning",
+            "entries": [
+              {
+                "title": "Headcount Planning for the 2026 Budget Cycle: A Structured Four-Step Approach",
+                "source_name": "Leapsome",
+                "source_url": "https://www.leapsome.com/blog/headcount-planning",
+                "summary": "Structure your headcount planning in four steps: assess current state, forecast demand by business goal, analyze gaps, and build scenarios—allowing you to align staffing with strategic objectives and present options to leadership.",
+                "date": "2026-03-03"
+              },
+              {
+                "title": "Headcount Planning: A Strategic Approach to Workforce Management",
+                "source_name": "OrgVue",
+                "source_url": "https://www.orgvue.com/resources/articles/headcount-planning-a-strategic-approach-to-workforce-management/",
+                "summary": "Frame headcount planning as a productivity lever tied to specific business outcomes, and use scenario-based org charts to give executives visibility into talent gaps and succession risks.",
+                "date": "2026-03-03"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   }
