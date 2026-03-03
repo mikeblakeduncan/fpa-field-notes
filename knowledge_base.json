@@ -18,6 +18,20 @@
             "source_url": "https://www.resourcefulfinancepro.com/articles/excel-power-query/",
             "summary": "Switch to Power Query for financial consolidation to turn a 3-hour manual monthly task into a 10-second refresh, reducing errors and freeing time for actual analysis.",
             "date": "2026-03-03"
+          },
+          {
+            "title": "Efficiency Gains from Claude in Excel: Reducing 3-Statement Model Time to 90 Minutes",
+            "source_name": "Albus Research",
+            "source_url": "https://albusi.com/research/ai-financial-modeling-how-claude-projects-cut-our-3-statement-model-time-in-half/",
+            "summary": "Claude's ability to trace cell references and generate forecasts with formulas intact can cut your financial modeling time roughly in half, freeing you for higher-level analysis.",
+            "date": "2026-03-03"
+          },
+          {
+            "title": "ChatGPT Power Query Automation for FP&A: Generating M Code Without Manual Editing",
+            "source_name": "Zero to Mastery",
+            "source_url": "https://zerotomastery.io/blog/chatgpt-excel-formula-examples/",
+            "summary": "You can automate complex data cleaning and transformation tasks in Excel by prompting ChatGPT to generate Power Query M code, eliminating manual transformation work.",
+            "date": "2026-03-03"
           }
         ]
       },
@@ -40,19 +54,55 @@
     "children": {
       "stakeholder_management": {
         "label": "Stakeholder Management & Communication",
+        "children": {
+          "board_and_executive_presentations": {
+            "label": "Board & Executive Presentations",
+            "entries": [
+              {
+                "title": "Board Forecast Presentation: Visual Storytelling and Multi-Scenario Planning",
+                "source_name": "Datasite",
+                "source_url": "https://www.datasite.com/en/resources/insights/6-ways-to-deliver-decisive-board-meeting-outcomes-in-2026",
+                "summary": "Structure board forecast presentations around a clear decision or outcome rather than information dump, and pre-wire key stakeholders to surface objections before the meeting.",
+                "date": "2026-03-03"
+              },
+              {
+                "title": "CFO Lessons: Presenting Forecasts to the Board—Lead with Impact, Not Context",
+                "source_name": "OneStream",
+                "source_url": "https://www.onestream.com/blog/storytelling-tips-for-cfos/",
+                "summary": "Start your board forecast presentation with the financial implications and ask, then support with assumptions, scenarios, and risks—respecting the board's time and preference for impact-driven storytelling.",
+                "date": "2026-03-03"
+              }
+            ]
+          },
+          "difficult_conversations": {
+            "label": "Difficult Conversations & Negotiations",
+            "entries": [
+              {
+                "title": "Managing Difficult Conversations with Business Partners: Preparation and Collaborative Framing",
+                "source_name": "ContentStack",
+                "source_url": "https://www.contentstack.com/blog/strategy/how-to-have-difficult-conversations-with-your-cfo",
+                "summary": "Before a tough conversation with a business partner about budget or spending, identify the root financial problem, define what 'win' looks like for both sides, and hold it live to read tone and build collaborative momentum.",
+                "date": "2026-03-03"
+              },
+              {
+                "title": "Pushing Back on Unrealistic Budget Requests: Ground Your Objection in Data and Propose Win-Win Alternatives",
+                "source_name": "Alliance Resource Group",
+                "source_url": "https://www.allianceresourcegroup.com/2025/06/12/negotiation-strategies-for-financial-professionals/",
+                "summary": "Ground your budget pushback in specific data and benchmarks, ask clarifying questions to understand your partner's real objective, and propose a win-win alternative rather than simply rejecting their request.",
+                "date": "2026-03-03"
+              }
+            ]
+          }
+        }
+      },
+      "planning_and_budgeting": {
+        "label": "Planning & Budgeting",
         "entries": [
           {
-            "title": "Board Forecast Presentation: Visual Storytelling and Multi-Scenario Planning",
-            "source_name": "Datasite",
-            "source_url": "https://www.datasite.com/en/resources/insights/6-ways-to-deliver-decisive-board-meeting-outcomes-in-2026",
-            "summary": "Structure board forecast presentations around a clear decision or outcome rather than information dump, and pre-wire key stakeholders to surface objections before the meeting.",
-            "date": "2026-03-03"
-          },
-          {
-            "title": "Managing Difficult Conversations with Business Partners: Preparation and Collaborative Framing",
-            "source_name": "ContentStack",
-            "source_url": "https://www.contentstack.com/blog/strategy/how-to-have-difficult-conversations-with-your-cfo",
-            "summary": "Before a tough conversation with a business partner about budget or spending, identify the root financial problem, define what 'win' looks like for both sides, and hold it live to read tone and build collaborative momentum.",
+            "title": "Headcount Planning for the 2026 Budget Cycle: A Structured Four-Step Approach",
+            "source_name": "Leapsome",
+            "source_url": "https://www.leapsome.com/blog/headcount-planning",
+            "summary": "Structure your headcount planning in four steps: assess current state, forecast demand by business goal, analyze gaps, and build scenarios—allowing you to align staffing with strategic objectives and present options to leadership.",
             "date": "2026-03-03"
           }
         ]
