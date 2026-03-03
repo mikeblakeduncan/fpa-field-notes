@@ -100,5 +100,41 @@
     "source_name": "ContentStack",
     "source_url": "https://www.contentstack.com/blog/strategy/how-to-have-difficult-conversations-with-your-cfo",
     "date_published": "2026-03-03"
+  },
+  {
+    "title": "Claude in Excel: Building Financial Models Directly in Spreadsheets",
+    "source_name": "Nate's Newsletter",
+    "source_url": "https://natesnewsletter.substack.com/p/anthropic-just-put-claude-inside",
+    "date_published": "2026-03-03"
+  },
+  {
+    "title": "Efficiency Gains from Claude in Excel: Reducing 3-Statement Model Time to 90 Minutes",
+    "source_name": "Albus Research",
+    "source_url": "https://albusi.com/research/ai-financial-modeling-how-claude-projects-cut-our-3-statement-model-time-in-half/",
+    "date_published": "2026-03-03"
+  },
+  {
+    "title": "ChatGPT Power Query Automation for FP&A: Generating M Code Without Manual Editing",
+    "source_name": "Zero to Mastery",
+    "source_url": "https://zerotomastery.io/blog/chatgpt-excel-formula-examples/",
+    "date_published": "2026-03-03"
+  },
+  {
+    "title": "CFO Lessons: Presenting Forecasts to the Board—Lead with Impact, Not Context",
+    "source_name": "OneStream",
+    "source_url": "https://www.onestream.com/blog/storytelling-tips-for-cfos/",
+    "date_published": "2026-03-03"
+  },
+  {
+    "title": "Headcount Planning for the 2026 Budget Cycle: A Structured Four-Step Approach",
+    "source_name": "Leapsome",
+    "source_url": "https://www.leapsome.com/blog/headcount-planning",
+    "date_published": "2026-03-03"
+  },
+  {
+    "title": "Pushing Back on Unrealistic Budget Requests: Ground Your Objection in Data and Propose Win-Win Alternatives",
+    "source_name": "Alliance Resource Group",
+    "source_url": "https://www.allianceresourcegroup.com/2025/06/12/negotiation-strategies-for-financial-professionals/",
+    "date_published": "2026-03-03"
   }
 ]
