@@ -172,5 +172,23 @@
     "source_name": "Corporate Finance Institute",
     "source_url": "https://corporatefinanceinstitute.com/resources/fpa/budgeting-process-guide-fpa/",
     "date_published": "2026-03-03"
+  },
+  {
+    "title": "Building Financial Models with Claude in Excel: 11-Tab Models in 10 Minutes",
+    "source_name": "Neurons Lab",
+    "source_url": "https://neurons-lab.com/article/claude-perplexity-for-finance/",
+    "date_published": "2026-03-04"
+  },
+  {
+    "title": "ChatGPT and Power Query Integration for Bulk Data Transformation",
+    "source_name": "SMU Academy",
+    "source_url": "https://academy.smu.edu.sg/courses/data-querying-and-wrangling-power-query-and-chatgpt-integration",
+    "date_published": "2026-03-04"
+  },
+  {
+    "title": "Rolling Forecast Variance Analysis: Comparing Forecasts to Actuals and Refining Drivers",
+    "source_name": "CPEFlow",
+    "source_url": "https://www.cpeflow.com/blog/mastering-rolling-forecasts-benefits-limitations-and-best-practices",
+    "date_published": "2026-03-04"
   }
 ]
