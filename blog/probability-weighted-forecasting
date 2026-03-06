@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probability-Weighted > Defensible > Reasonable — FP&A Field Notes</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DTR4KSL0LS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-DTR4KSL0LS');
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body style="font-family: DM Sans, sans-serif; max-width: 720px; margin: 0 auto; padding: 24px; background: #FDFBF7; color: #1a1a2e;">
+    <div style="margin-bottom: 32px;">
+        <a href="../" style="font-size: 0.85rem; color: #E07A5F; text-decoration: none;">← Back to FP&A Field Notes</a>
+    </div>
+    <article>
+        <div style="margin-bottom: 40px;">
+            <div style="font-size: 0.8rem; font-weight: 600; color: #E07A5F; text-transform: uppercase; letter-spacing: 0.05em;">FP&A Field Notes</div>
+            <h1 style="font-family: Fraunces, serif; font-size: 2rem; margin: 8px 0 12px; line-height: 1.3;">Probability-Weighted > Defensible > Reasonable</h1>
+            <div style="font-size: 0.85rem; color: #8D8D8D;">March 6, 2026 · Mike Duncan</div>
+        </div>
+
+        <div style="font-size: 1.05rem; line-height: 1.8; color: #2c2c2c;">
+
+            <p>I have heard some version of this many times in FP&A.</p>
+
+            <p>"This forecast seems reasonable."</p>
+
+            <p>But is that actually enough?</p>
+
+            <p>Reasonable usually means the number passes the sniff test. Nothing obviously broken. If revenue grew about 10 percent the past few years, forecasting 10 percent again next year feels reasonable.</p>
+
+            <p>The problem is that reasonable is a low bar.</p>
+
+            <p>AI models can now produce forecasts that look perfectly reasonable. Clean charts. Logical sounding assumptions. Numbers that fall in a believable range.</p>
+
+            <p>That does not make them correct.</p>
+
+            <p style="margin-top: 32px;"><strong>The next step up is defensible.</strong></p>
+
+            <p>A defensible forecast changes the conversation from opinion to methodology. Instead of saying "this seems right," you can show why the assumption holds up.</p>
+
+            <h2 style="font-family: Fraunces, serif; font-size: 1.3rem; margin: 36px 0 16px; color: #3D405B;">🛠️ What makes an assumption defensible</h2>
+
+            <p><strong>1. Evidence-based.</strong> Start with a baseline grounded in reality. Historical trends, internal benchmarks, or external market data.</p>
+
+            <p><strong>2. Correlated to the business.</strong> Assumptions should connect to operating drivers. If revenue grows, something else must move with it. Sales capacity, marketing spend, implementation teams, COGS. Growth rarely appears in isolation.</p>
+
+            <p><strong>3. Tested under pressure.</strong> A defensible model survives basic stress tests. Change the driver. Break the assumption. Run sensitivities. If the model collapses under small changes, it was never defensible.</p>
+
+            <p style="margin-top: 32px;">But even defensible assumptions are not the end goal.</p>
+
+            <p style="margin-top: 32px;"><strong>The real goal is probability-weighted scenarios.</strong></p>
+
+            <p>Instead of asking "Is this forecast reasonable?" the better question is:</p>
+
+            <p><em>"What are the realistic outcomes, and how likely is each one?"</em></p>
+
+            <h2 style="font-family: Fraunces, serif; font-size: 1.3rem; margin: 36px 0 16px; color: #3D405B;">📉 What that looks like in practice</h2>
+
+            <p>Base case built on defensible assumptions. Upside case tied to specific operational wins. Downside case tied to identifiable risks. Probabilities assigned to each scenario.</p>
+
+            <p>Now the model becomes a decision tool.</p>
+
+            <p>Leadership can see the distribution of outcomes, not just a single point estimate. Capital allocation, hiring plans, and risk management all get clearer when the forecast reflects uncertainty instead of hiding it.</p>
+
+            <p style="margin-top: 32px;">AI will make it easier to produce numbers that look reasonable.</p>
+
+            <p>That raises the bar for FP&A.</p>
+
+            <p>The job is not just to generate forecasts. It is to build models that hold up to scrutiny and reflect the range of outcomes the business might actually face.</p>
+
+            <p style="margin-top: 32px; font-weight: 600;">Reasonable is the starting point.<br>Defensible is better.<br>Probability-weighted is the standard.</p>
+
+        </div>
+    </article>
+
+    <footer style="margin-top: 48px; padding-top: 24px; border-top: 1px solid #E8E4DE; font-size: 0.82rem; color: #8D8D8D;">
+        <p>Directed by Mike Duncan, drafted by Claude.</p>
+        <p style="margin-top: 8px;">Mike Duncan is the founder of <a href="https://seacloudconsulting.com" style="color: #E07A5F;">Sea Cloud Consulting</a>, providing fractional FP&A leadership for Series A-C companies.</p>
+        <p style="margin-top: 16px; text-align: center;"><a href="../" style="color: #E07A5F; text-decoration: none;">← Back to FP&A Field Notes</a></p>
+    </footer>
+</body>
+</html>
