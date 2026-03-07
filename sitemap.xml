@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Core pages -->
+  <url>
+    <loc>https://fpafieldnotes.seacloudconsulting.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://fpafieldnotes.seacloudconsulting.com/blog.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://fpafieldnotes.seacloudconsulting.com/knowledge.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Blog posts -->
+  <url>
+    <loc>https://fpafieldnotes.seacloudconsulting.com/blog/probability-weighted-forecasting.html</loc>
+    <lastmod>2026-03-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://fpafieldnotes.seacloudconsulting.com/blog/mckinsey-agentic-ai-fpa.html</loc>
+    <lastmod>2026-02-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Weekly issues -->
+  <url>
+    <loc>https://fpafieldnotes.seacloudconsulting.com/issues/2026-03-03.html</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://fpafieldnotes.seacloudconsulting.com/issues/2026-02-27.html</loc>
+    <lastmod>2026-02-27</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://fpafieldnotes.seacloudconsulting.com/issues/2026-02-25.html</loc>
+    <lastmod>2026-02-25</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://fpafieldnotes.seacloudconsulting.com/issues/2026-02-24.html</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://fpafieldnotes.seacloudconsulting.com/issues/2026-02-22.html</loc>
+    <lastmod>2026-02-22</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+</urlset>
