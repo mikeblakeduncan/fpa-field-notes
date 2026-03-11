@@ -184,12 +184,13 @@ def search_twitter(query: str, max_pages: int = 5) -> list[dict]:
         if next_cursor:
             params["cursor"] = next_cursor
 
-        url = "https://api.socialdata.tools/twitter/search?" + urllib.parse.urlencode(params)
+        url = "https://api.socialdata.tools/twitter/search?" + urllib.parse.urlencode(params, quote_via=urllib.parse.quote)
         req = urllib.request.Request(
             url,
             headers={
                 "Authorization": f"Bearer {SOCIALDATA_API_KEY}",
                 "Accept": "application/json",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
             },
         )
 
@@ -337,7 +338,7 @@ def build_enriched_items(filtered_tweets: list[dict]) -> list[dict]:
         for url_obj in tweet.get("entities", {}).get("urls", []):
             expanded = url_obj.get("expanded_url", "") or url_obj.get("url", "")
             # Skip Twitter own links (profile pages, tweet links, etc.)
-            if not expanded or "twitter.com" in expanded or "t.co" == expanded[:4]:
+            if not expanded or "twitter.com" in expanded or "x.com" in expanded or "t.co" == expanded[:4]:
                 continue
             if expanded not in url_to_tweet:
                 url_to_tweet[expanded] = tweet
