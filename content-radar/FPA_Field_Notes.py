@@ -296,7 +296,9 @@ def fetch_article_metadata(url: str) -> dict | None:
     try:
         req = urllib.request.Request(
             url,
-            headers={"User-Agent": "Mozilla/5.0 (compatible; FPAFieldNotes/1.0)"},
+            headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                                   "AppleWebKit/537.36 (KHTML, like Gecko) "
+                                   "Chrome/120.0.0.0 Safari/537.36"},
         )
         ctx = ssl.create_default_context()
         with urllib.request.urlopen(req, context=ctx, timeout=15) as response:
@@ -312,11 +314,45 @@ def fetch_article_metadata(url: str) -> dict | None:
     title_match = re.search(r'<title[^>]*>([^<]+)</title>', raw, re.IGNORECASE)
     title = title_match.group(1).strip() if title_match else url
 
-    # Strip scripts, styles, and tags → plain text snippet
-    text = re.sub(r'<script[^>]*>.*?</script>', '', raw, flags=re.DOTALL | re.IGNORECASE)
-    text = re.sub(r'<style[^>]*>.*?</style>',  '', text, flags=re.DOTALL | re.IGNORECASE)
-    text = re.sub(r'<[^>]+>', ' ', text)
+    # ── Content extraction ───────────────────────────────────────────────────
+    # 1. Drop scripts, styles, and HTML comments wholesale
+    clean = re.sub(r'<script[^>]*>.*?</script>', '', raw,   flags=re.DOTALL | re.IGNORECASE)
+    clean = re.sub(r'<style[^>]*>.*?</style>',   '', clean, flags=re.DOTALL | re.IGNORECASE)
+    clean = re.sub(r'<!--.*?-->',                 '', clean, flags=re.DOTALL)
+
+    # 2. Remove navigation chrome before any further processing
+    for tag in ('nav', 'header', 'footer', 'aside', 'menu'):
+        clean = re.sub(rf'<{tag}[^>]*>.*?</{tag}>', '', clean,
+                       flags=re.DOTALL | re.IGNORECASE)
+
+    # 3. Try to isolate the main article body using semantic signals
+    article_body = ""
+    content_patterns = [
+        r'<article[^>]*>(.*?)</article>',
+        r'<main[^>]*>(.*?)</main>',
+        r'<div[^>]*\brole=["\']main["\'][^>]*>(.*?)</div>',
+        # Common CMS / blog class names for the post body
+        (r'<div[^>]*\bclass=["\'][^"\']*\b(?:post-content|entry-content|article-body|'
+         r'article-content|article__body|post__body|single-content|'
+         r'blog-post|story-body|content-body)[^"\']*["\'][^>]*>(.*?)</div>'),
+    ]
+    for pattern in content_patterns:
+        m = re.search(pattern, clean, flags=re.DOTALL | re.IGNORECASE)
+        if m:
+            article_body = m.group(1)
+            break
+
+    # 4. Fall back to the full chrome-stripped page if no semantic container found
+    text_source = article_body if len(article_body) > 300 else clean
+
+    # 5. Strip remaining tags and collapse whitespace
+    text = re.sub(r'<[^>]+>', ' ', text_source)
     text = re.sub(r'\s+', ' ', text).strip()
+
+    # 6. Last-resort fallback — if we still have almost nothing, use full raw page
+    if len(text) < 200:
+        text = re.sub(r'<[^>]+>', ' ', clean)
+        text = re.sub(r'\s+', ' ', text).strip()
 
     return {
         "url":     url,
