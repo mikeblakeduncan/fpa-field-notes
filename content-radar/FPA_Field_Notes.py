@@ -663,6 +663,32 @@ def evaluate_results(enriched_items: list[dict]) -> dict:
         if final_tools != tools_count or final_practice != practice_count:
             print(f"   Final count: {final_tools} tools, {final_practice} FP&A practice")
 
+    # HARD POST-FILTER: drop any item with a missing or placeholder summary
+    _bad_summary_phrases = (
+        "unable to provide",
+        "no summary available",
+        "could not summarize",
+        "navigation elements",
+        "no content available",
+        "page content",
+    )
+    for section in ["tools", "fpa_practice"]:
+        before = digest.get(section, [])
+        after  = []
+        for item in before:
+            summary = (item.get("summary") or "").strip()
+            if not summary:
+                print(f"   ⚠ Dropped (empty summary): {item.get('title', 'untitled')}")
+                continue
+            if len(summary) < 30:
+                print(f"   ⚠ Dropped (summary too short): {item.get('title', 'untitled')}")
+                continue
+            if any(phrase in summary.lower() for phrase in _bad_summary_phrases):
+                print(f"   ⚠ Dropped (bad summary): {item.get('title', 'untitled')}")
+                continue
+            after.append(item)
+        digest[section] = after
+
     return digest
 
 
