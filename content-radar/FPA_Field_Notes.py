@@ -381,28 +381,40 @@ def build_enriched_items(filtered_tweets: list[dict]) -> list[dict]:
 
     print(f"   {len(url_to_tweet)} unique article URLs to fetch")
 
-    enriched = []
-    fetched  = 0
+    enriched     = []
+    fetched      = 0
+    tweet_only   = 0
     for url, tweet in url_to_tweet.items():
         meta = fetch_article_metadata(url)
-        if not meta:
-            continue
-
         user = tweet.get("user", {})
+        tweet_text = tweet.get("full_text", tweet.get("text", ""))
+
+        if meta:
+            article_title   = meta["title"]
+            article_snippet = meta["snippet"]
+            fetched += 1
+        else:
+            # Article unreachable (Cloudflare, paywall, JS-rendered, etc.).
+            # Fall back to the tweet text — the sharer often captures the key
+            # insight in the tweet itself, which is enough for Claude to evaluate.
+            article_title   = url  # Claude can still see the domain
+            article_snippet = f"[Article could not be fetched. Tweet text:] {tweet_text}"
+            tweet_only += 1
+
         enriched.append({
             "section":          tweet.get("_section", "tools"),
-            "tweet_text":       tweet.get("full_text", tweet.get("text", "")),
+            "tweet_text":       tweet_text,
             "tweet_author":     f"@{user.get('screen_name', '')}",
             "tweet_likes":      tweet.get("favorite_count", 0),
             "tweet_retweets":   tweet.get("retweet_count", 0),
             "tweet_followers":  user.get("followers_count", 0),
             "article_url":      url,
-            "article_title":    meta["title"],
-            "article_snippet":  meta["snippet"],
+            "article_title":    article_title,
+            "article_snippet":  article_snippet,
         })
-        fetched += 1
 
-    print(f"   ✓ {fetched} articles successfully fetched")
+    print(f"   ✓ {fetched} articles fetched, {tweet_only} tweet-only fallbacks, "
+          f"{len(url_to_tweet) - fetched - tweet_only} skipped")
     return enriched
 
 
@@ -455,35 +467,37 @@ def push_github_file(repo: str, path: str, content: str, token: str, message: st
 
 # ─── Evaluate Results ─────────────────────────────────────────────────────────
 
-EVAL_SYSTEM_PROMPT = """Evaluate a set of articles discovered via Twitter and build a practitioner digest for an FP&A professional. Be highly selective — only include genuinely useful, practitioner-written content.
+EVAL_SYSTEM_PROMPT = """Evaluate a set of articles discovered via Twitter and build a practitioner digest for an FP&A professional. Aim for 2–3 items per section — the Twitter search has already done heavy filtering, so if content cleared that bar it deserves a close look before you reject it.
 
 Each item you receive includes:
 - The tweet that linked to the article (for context on who shared it and why)
-- The article URL, title, and a text snippet from the actual article
+- The article URL, title, and a text snippet (may say "[Article could not be fetched]" — in that case evaluate based on the tweet text and URL domain)
 
-Your job is to evaluate the ARTICLE content, not the tweet. The tweet is just discovery context.
+Your job is to evaluate the ARTICLE content. The tweet is discovery context.
 
 The results come from two sections:
 - "tools": AI tools, Excel, automation — practitioners describing what they actually use
 - "fpa_practice": the craft and human side of FP&A — budgeting, forecasting, variance analysis, strategic planning, stakeholder management, presenting to boards, leadership
 
-HARD FILTERS — reject ANY content that:
-- Is authored by a COMPANY rather than a NAMED INDIVIDUAL. If the byline is a company name (e.g. "Vena Solutions", "FinSmart", "Anthropic") rather than a person's name, reject it. Real practitioners have names.
+REJECT content that:
+- Is pure vendor marketing — written by a SaaS company to promote their own product
 - Is from any of these blocked vendors: {vendor_blocklist}
-- Is from any software vendor, SaaS company, AI provider, or outsourced services company website — even if not on the blocklist above
-- Is a "best tools" or "top 10" listicle
-- Is generic advice with no specific examples or personal experience
-- Is purely theoretical with no actionable takeaway
+- Is a shallow "top 10 tools" listicle with no practitioner experience behind it
+- Is purely theoretical with no actionable takeaway whatsoever
 
-PREVIOUSLY FEATURED — skip any content that is the SAME ARTICLE by the SAME AUTHOR that appears in the list below. Be specific: two different authors writing about the same topic are NOT duplicates. Only skip if it's clearly the same piece (same author + same article).
+ACCEPT content even if:
+- The article fetch failed and you're working from tweet text only — a tweet from a practitioner describing their workflow IS useful content
+- The author role is unclear — "Unknown" is fine, don't reject on that basis alone
+- The publication date is unclear — use days_old: -1
+
+PREVIOUSLY FEATURED — skip any content that is the SAME ARTICLE by the SAME AUTHOR:
 {previously_featured}
 
 PRIORITIZE:
 - First-person practitioner accounts ("I did this," "here's what worked")
-- Specific techniques, workflows, or frameworks described in detail
+- Specific techniques, workflows, or frameworks with real detail
 - Podcast episodes or blog posts from named finance practitioners
-- Content with a clear "you can try this" takeaway
-- The most recently published content available
+- Content shared by practitioners with domain credibility (even if their follower count is small)
 
 Return valid JSON only, no markdown fences:
 {
@@ -514,17 +528,15 @@ Return valid JSON only, no markdown fences:
 }
 
 RULES:
-- Maximum 3 items per section. Fewer is fine if quality is low.
+- Aim for 2–3 items per section. Return fewer only if truly nothing is relevant.
 - ONE source per item. Use the article_url as source_url. Do not invent URLs.
-- "days_old" is a number: how many days ago the content was published. Estimate from any date clues in the article snippet. If only "this week," use 4. If "this month," use 14. If completely unclear but content seems recent, use -1 (displayed as "Recent").
-- Prefer content from the last 7 days. Content up to 14 days old is acceptable. Do NOT include anything with days_old greater than 14 (except -1 for unclear dates).
-- "author_role" is a brief description of who wrote it (e.g. "VP of FP&A at healthcare company"). If unknown, write "Unknown".
-- "credibility" rates the source:
-  - "practitioner" — written by a CFO, VP Finance, FP&A Director, Controller, or finance team member sharing their own experience. HIGHEST credibility.
-  - "expert" — written by a known consultant, analyst, researcher, or educator with finance domain expertise.
-  - "journalist" — written by a reporter or publication covering finance.
-  - "marketing" — written by or for a software vendor. REJECT these — do not include.
-- If a section truly has nothing worth sharing, return an empty array."""
+- "days_old": estimate from any date clues. If unclear, use -1 (displayed as "Recent"). All content came from tweets in the last 7 days so don't penalise unclear dates.
+- "author_role": brief description of who wrote it (e.g. "VP of FP&A at healthcare company"). Use "Unknown" if unclear — do not reject for this.
+- "credibility":
+  - "practitioner" — CFO, VP Finance, FP&A Director, Controller, or finance team member sharing their own experience.
+  - "expert" — consultant, analyst, researcher, or educator with finance domain expertise.
+  - "journalist" — reporter or publication covering finance.
+  - "marketing" — vendor promotional content. REJECT these only."""
 
 
 def evaluate_results(enriched_items: list[dict]) -> dict:
