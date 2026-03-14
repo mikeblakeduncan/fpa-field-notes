@@ -37,6 +37,7 @@ GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 PAGES_TOKEN        = os.environ.get("PAGES_TOKEN", "")
 GITHUB_USERNAME    = os.environ.get("GITHUB_USERNAME", "")
 PUBLISH_TO_WEB     = os.environ.get("PUBLISH_TO_WEB", "false").lower() == "true"
+PREVIEW_MODE       = os.environ.get("PREVIEW_MODE",   "false").lower() == "true"
 
 CLAUDE_MODEL = "claude-haiku-4-5-20251001"
 VENDOR_BLOCKLIST_FILE = os.environ.get("VENDOR_BLOCKLIST_FILE", "vendor_blocklist.txt")
@@ -1609,6 +1610,166 @@ def save_published_entries(digest: dict):
         print(f"   ⚠ Failed to save published entries: {e}")
 
 
+# ─── Preview Mode ─────────────────────────────────────────────────────────────
+
+def send_preview_email(filtered_tweets: list[dict], enriched_items: list[dict]):
+    """
+    Send a pre-evaluation preview email showing exactly what the pipeline
+    found before Claude gets involved.  Set PREVIEW_MODE=true to use.
+    """
+    print("🔍 PREVIEW MODE: Sending raw pipeline output email...")
+
+    today_str = date.today().strftime("%B %d, %Y")
+    subject   = f"[PREVIEW] FP&A Field Notes pipeline — {today_str}"
+
+    # ── Section A: Filtered tweets ────────────────────────────────────────────
+    section_labels = {"tools": "🛠️ Tools & Efficiency", "fpa_practice": "📐 FP&A Practice"}
+    tweets_by_section = {}
+    for t in filtered_tweets:
+        s = t.get("_section", "tools")
+        tweets_by_section.setdefault(s, []).append(t)
+
+    tweets_html = ""
+    for section_key in ["tools", "fpa_practice"]:
+        items = tweets_by_section.get(section_key, [])
+        tweets_html += f"""
+<h3 style="font-size:14px;font-weight:700;color:#111;margin:20px 0 8px;
+           border-bottom:2px solid #e5e7eb;padding-bottom:4px;">
+  {section_labels.get(section_key, section_key)} — {len(items)} tweets
+</h3>"""
+        for t in items:
+            user      = t.get("user", {})
+            handle    = user.get("screen_name", "?")
+            followers = user.get("followers_count", 0)
+            likes     = t.get("favorite_count", 0)
+            rts       = t.get("retweet_count", 0)
+            ratio     = t.get("_engagement_ratio", 0)
+            text      = t.get("full_text", t.get("text", ""))[:280]
+            urls      = [
+                u.get("expanded_url", "")
+                for u in t.get("entities", {}).get("urls", [])
+                if u.get("expanded_url") and "twitter.com" not in u.get("expanded_url", "")
+                   and "x.com" not in u.get("expanded_url", "")
+            ]
+            url_html = "".join(
+                f'<div style="font-size:11px;margin-top:3px;">'
+                f'<a href="{u}" style="color:#1A477A;">{u[:80]}</a></div>'
+                for u in urls
+            )
+            tweets_html += f"""
+<div style="padding:10px 12px;margin-bottom:8px;border:1px solid #e5e7eb;
+            border-radius:6px;background:#fafafa;">
+  <div style="font-size:11px;color:#6b7280;margin-bottom:4px;">
+    <strong>@{handle}</strong> · {followers:,} followers ·
+    ❤ {likes} · 🔁 {rts} · ratio {ratio:.4f}
+  </div>
+  <div style="font-size:13px;color:#111;line-height:1.5;">{text}</div>
+  {url_html}
+</div>"""
+
+    # ── Section B: Enriched items (what Claude will see) ──────────────────────
+    enriched_by_section = {}
+    for item in enriched_items:
+        s = item.get("section", "tools")
+        enriched_by_section.setdefault(s, []).append(item)
+
+    enriched_html = ""
+    for section_key in ["tools", "fpa_practice"]:
+        items = enriched_by_section.get(section_key, [])
+        enriched_html += f"""
+<h3 style="font-size:14px;font-weight:700;color:#111;margin:20px 0 8px;
+           border-bottom:2px solid #e5e7eb;padding-bottom:4px;">
+  {section_labels.get(section_key, section_key)} — {len(items)} articles
+</h3>"""
+        for item in items:
+            is_fallback = item["article_snippet"].startswith("[Article could not be fetched")
+            snippet_preview = item["article_snippet"][:400]
+            fetch_badge = (
+                '<span style="font-size:10px;background:#FEF3C7;color:#92400E;'
+                'padding:2px 6px;border-radius:4px;margin-left:6px;">⚠ tweet fallback</span>'
+                if is_fallback else
+                '<span style="font-size:10px;background:#DCFCE7;color:#166534;'
+                'padding:2px 6px;border-radius:4px;margin-left:6px;">✓ article fetched</span>'
+            )
+            enriched_html += f"""
+<div style="padding:12px 14px;margin-bottom:10px;border:1px solid #e5e7eb;
+            border-radius:6px;background:white;">
+  <div style="font-size:12px;font-weight:700;color:#111;margin-bottom:4px;">
+    {item['article_title'][:120]}{fetch_badge}
+  </div>
+  <div style="font-size:11px;color:#1A477A;margin-bottom:6px;">
+    <a href="{item['article_url']}" style="color:#1A477A;">{item['article_url'][:100]}</a>
+  </div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">
+    Shared by {item['tweet_author']} ({item['tweet_followers']:,} followers) ·
+    ❤ {item['tweet_likes']} · 🔁 {item['tweet_retweets']}
+  </div>
+  <div style="font-size:11px;color:#374151;font-style:italic;
+              background:#f8fafc;padding:8px;border-radius:4px;line-height:1.5;">
+    {snippet_preview}…
+  </div>
+</div>"""
+
+    html = f"""<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+             max-width:700px;margin:0 auto;padding:20px;color:#1a1a1a;background:#f8f9fa;">
+
+<div style="background:#7C3AED;color:white;padding:20px;border-radius:10px 10px 0 0;">
+  <div style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;opacity:.7;">
+    FP&A Field Notes — PREVIEW MODE
+  </div>
+  <h1 style="margin:4px 0 0;font-size:20px;font-weight:700;">{today_str}</h1>
+  <p style="margin:8px 0 0;font-size:13px;opacity:.8;">
+    Pipeline output BEFORE Claude evaluation.
+    {len(filtered_tweets)} tweets → {len(enriched_items)} enriched items.
+  </p>
+</div>
+
+<div style="background:white;padding:24px;border-radius:0 0 10px 10px;
+            border:1px solid #e2e8f0;border-top:none;">
+
+  <h2 style="font-size:16px;font-weight:700;color:#111;margin:0 0 4px;">
+    Stage A — Filtered Tweets ({len(filtered_tweets)} total, sorted by engagement ratio)
+  </h2>
+  <p style="font-size:12px;color:#6b7280;margin:0 0 12px;">
+    These passed: has URL · ≤100K followers · not a vendor handle · ≥2 likes.
+    Sorted by (likes + retweets×2) ÷ followers.
+  </p>
+  {tweets_html}
+
+  <hr style="border:none;border-top:2px solid #e5e7eb;margin:28px 0;">
+
+  <h2 style="font-size:16px;font-weight:700;color:#111;margin:0 0 4px;">
+    Stage B — Enriched Items ({len(enriched_items)} total) — what Claude will evaluate
+  </h2>
+  <p style="font-size:12px;color:#6b7280;margin:0 0 12px;">
+    Each unique article URL fetched. ⚠ tweet fallback = article unreachable
+    (Cloudflare / paywall / JS-rendered).
+  </p>
+  {enriched_html}
+
+</div>
+<div style="text-align:center;padding:14px;font-size:11px;color:#94a3b8;">
+  FP&A Field Notes — PREVIEW MODE · Pipeline stopped before Claude evaluation.
+</div>
+</body></html>"""
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"]    = GMAIL_ADDRESS
+    msg["To"]      = GMAIL_ADDRESS
+    msg.attach(MIMEText(html, "html"))
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        server.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
+        server.sendmail(GMAIL_ADDRESS, GMAIL_ADDRESS, msg.as_string())
+
+    print(f"   ✓ Preview email sent to {GMAIL_ADDRESS}")
+    print(f"   Pipeline stopped. Re-run without PREVIEW_MODE=true to produce the digest.")
+
+
 # ─── Main ─────────────────────────────────────────────────────────────────────
 
 def main():
@@ -1618,14 +1779,19 @@ def main():
     print()
 
     missing = []
-    if not ANTHROPIC_API_KEY:  missing.append("ANTHROPIC_API_KEY")
     if not SOCIALDATA_API_KEY: missing.append("SOCIALDATA_API_KEY")
     if not GMAIL_ADDRESS:      missing.append("GMAIL_ADDRESS")
     if not GMAIL_APP_PASSWORD: missing.append("GMAIL_APP_PASSWORD")
+    # ANTHROPIC_API_KEY only required when not in preview mode
+    if not PREVIEW_MODE and not ANTHROPIC_API_KEY:
+        missing.append("ANTHROPIC_API_KEY")
 
     if missing:
         print(f"❌ Missing environment variables: {', '.join(missing)}")
         return
+
+    if PREVIEW_MODE:
+        print("🔍 PREVIEW MODE — pipeline will stop before Claude evaluation.\n")
 
     try:
         # Step 1: Generate Twitter search queries
@@ -1637,6 +1803,11 @@ def main():
         # Step 3: Filter tweets and fetch linked articles
         filtered = filter_tweets(raw_tweets)
         enriched = build_enriched_items(filtered)
+
+        # ── Preview mode: email raw pipeline output and stop ──────────────────
+        if PREVIEW_MODE:
+            send_preview_email(filtered, enriched)
+            return
 
         # Step 4: Evaluate articles with Claude
         digest = evaluate_results(enriched)
