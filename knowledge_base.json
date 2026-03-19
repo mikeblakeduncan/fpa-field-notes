@@ -44,15 +44,32 @@
       },
       "ai_and_automation": {
         "label": "AI & Automation",
-        "entries": [
-          {
-            "title": "ChatGPT for FP&A Workflows: Automating Variance Analysis, Forecasting, and Reports",
-            "source_name": "The FP&A Guy",
-            "source_url": "https://www.thefpandaguy.com/guests/episode-47-glenn-hopper-using-chatgpt-to-build-an-fpampa-tool-and-what-happened-next",
-            "summary": "Structure ChatGPT requests as an FP&A analyst taking on specific jobs (variance analysis, consolidation, narrative), and feed it your actual Excel data to automate repetitive reporting in minutes rather than hours.",
-            "date": "2026-03-03"
+        "children": {
+          "ai_agents_and_workflows": {
+            "label": "AI Agents & Advanced Workflows",
+            "entries": [
+              {
+                "title": "AI Agents Now Build McKinsey-Level Financial Models in 10 Minutes",
+                "source_name": "Dr. Ryan Ahmed, Ph.D., MBA",
+                "source_url": "https://www.linkedin.com/posts/dr-ryan-ahmed_watch-claude-build-a-mckinsey-level-financial-activity-7432093493206024192-LmoX/",
+                "summary": "Learn to use AI agents like Claude Artifacts to automate financial modeling end-to-end, from research and assumptions to sensitivity analysis and executive dashboards, rather than treating AI as a basic chat tool.",
+                "date": "2026-03-19"
+              }
+            ]
+          },
+          "chatgpt_and_llm_automation": {
+            "label": "ChatGPT & LLM Automation",
+            "entries": [
+              {
+                "title": "ChatGPT for FP&A Workflows: Automating Variance Analysis, Forecasting, and Reports",
+                "source_name": "The FP&A Guy",
+                "source_url": "https://www.thefpandaguy.com/guests/episode-47-glenn-hopper-using-chatgpt-to-build-an-fpampa-tool-and-what-happened-next",
+                "summary": "Structure ChatGPT requests as an FP&A analyst taking on specific jobs (variance analysis, consolidation, narrative), and feed it your actual Excel data to automate repetitive reporting in minutes rather than hours.",
+                "date": "2026-03-03"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   },
