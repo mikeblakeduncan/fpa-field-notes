@@ -2,8 +2,8 @@ name: FPA Field Notes
 
 on:
   schedule:
-    - cron: '0 14 * * 2'   # Tuesday 2 PM UTC — full pipeline
-    - cron: '0 14 * * 5'   # Friday 2 PM UTC — queue reminder check
+    # Runs Tuesday at 10:41 AM UTC (5:41 AM ET)
+    - cron: '41 10 * * 2'
   workflow_dispatch:
     inputs:
       publish:
@@ -21,12 +21,10 @@ jobs:
           python-version: '3.11'
       - name: Run FPA Field Notes
         env:
-          ANTHROPIC_API_KEY:        ${{ secrets.ANTHROPIC_API_KEY }}
-          INBOX_GMAIL_ADDRESS:      ${{ secrets.INBOX_GMAIL_ADDRESS }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          INBOX_GMAIL_ADDRESS: ${{ secrets.INBOX_GMAIL_ADDRESS }}
           INBOX_GMAIL_APP_PASSWORD: ${{ secrets.INBOX_GMAIL_APP_PASSWORD }}
-          GMAIL_ADDRESS:            ${{ secrets.GMAIL_ADDRESS }}
-          GMAIL_APP_PASSWORD:       ${{ secrets.GMAIL_APP_PASSWORD }}
-          PAGES_TOKEN:              ${{ secrets.PAGES_TOKEN }}
-          GITHUB_USERNAME:          ${{ github.repository_owner }}
-          PUBLISH_TO_WEB:           ${{ github.event_name == 'schedule' && 'true' || inputs.publish }}
+          PAGES_TOKEN: ${{ secrets.PAGES_TOKEN }}
+          GITHUB_USERNAME: ${{ github.repository_owner }}
+          PUBLISH_TO_WEB: ${{ github.event_name == 'schedule' && 'true' || inputs.publish }}
         run: python content-radar/FPA_Field_Notes.py

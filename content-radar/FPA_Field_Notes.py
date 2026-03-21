@@ -2,27 +2,19 @@
 """
 FP&A Field Notes — Weekly FP&A Practitioner Digest
 =====================================================
-Mike emails article URLs to a dedicated Gmail inbox during the week.
-The script runs on two schedules:
-  - Friday:  checks if ≥3 articles are queued. Sends a reminder if not.
-  - Tuesday: processes queued articles, generates digest + synthesis draft,
-             sends email, publishes to website.
+Mike emails article URLs to a dedicated Gmail inbox (subject: FN) whenever
+he finds something worth featuring. On Tuesday the script checks that inbox,
+fetches each article, has Claude generate the digest entry, and publishes
+to the site. If no articles are queued, a notification email is sent instead.
 
-Schedule (GitHub Actions cron):
-  - cron: '0 14 * * 2'   # Tuesday 2 PM UTC
-  - cron: '0 14 * * 5'   # Friday 2 PM UTC
-
-Curated articles for FP&A practitioners — tools, automation, forecasting, and craft.
+Content sections:
+  1. Tools & Efficiency — AI tools, Excel tricks, automation workflows
+  2. FP&A Practice — budgeting, forecasting, strategic planning, leadership
 
 Environment variables:
   ANTHROPIC_API_KEY        - From console.anthropic.com
-  INBOX_GMAIL_ADDRESS      - Dedicated Gmail inbox for article submissions
-  INBOX_GMAIL_APP_PASSWORD - App password for the inbox account (IMAP + SMTP)
-  GMAIL_ADDRESS            - Mike's main Gmail address (receives digest)
-  GMAIL_APP_PASSWORD       - App password for outgoing email
-  PAGES_TOKEN              - GitHub personal access token
-  GITHUB_USERNAME          - GitHub username
-  PUBLISH_TO_WEB           - Set to 'true' to push to GitHub Pages
+  INBOX_GMAIL_ADDRESS      - Gmail account used for both inbox (IMAP) and sending (SMTP)
+  INBOX_GMAIL_APP_PASSWORD - App password for that account
 """
 
 import os
@@ -39,16 +31,18 @@ from datetime import date, datetime
 
 # ─── Configuration ────────────────────────────────────────────────────────────
 
-ANTHROPIC_API_KEY        = os.environ.get("ANTHROPIC_API_KEY", "")
-SOCIALDATA_API_KEY       = os.environ.get("SOCIALDATA_API_KEY", "")  # unused — kept for reference
+ANTHROPIC_API_KEY  = os.environ.get("ANTHROPIC_API_KEY", "")
+SOCIALDATA_API_KEY = os.environ.get("SOCIALDATA_API_KEY", "")
 INBOX_GMAIL_ADDRESS      = os.environ.get("INBOX_GMAIL_ADDRESS", "")
 INBOX_GMAIL_APP_PASSWORD = os.environ.get("INBOX_GMAIL_APP_PASSWORD", "")
-GMAIL_ADDRESS            = os.environ.get("GMAIL_ADDRESS", "")
-GMAIL_APP_PASSWORD       = os.environ.get("GMAIL_APP_PASSWORD", "")
-PAGES_TOKEN              = os.environ.get("PAGES_TOKEN", "")
-GITHUB_USERNAME          = os.environ.get("GITHUB_USERNAME", "")
-PUBLISH_TO_WEB           = os.environ.get("PUBLISH_TO_WEB", "false").lower() == "true"
-PREVIEW_MODE             = os.environ.get("PREVIEW_MODE",   "false").lower() == "true"
+
+# Aliases so the rest of the code (send_email, etc.) works unchanged
+GMAIL_ADDRESS      = INBOX_GMAIL_ADDRESS
+GMAIL_APP_PASSWORD = INBOX_GMAIL_APP_PASSWORD
+PAGES_TOKEN           = os.environ.get("PAGES_TOKEN", "")
+GITHUB_USERNAME       = os.environ.get("GITHUB_USERNAME", "")
+PUBLISH_TO_WEB        = os.environ.get("PUBLISH_TO_WEB", "false").lower() == "true"
+PREVIEW_MODE          = os.environ.get("PREVIEW_MODE",   "false").lower() == "true"
 
 CLAUDE_MODEL = "claude-haiku-4-5-20251001"
 VENDOR_BLOCKLIST_FILE = os.environ.get("VENDOR_BLOCKLIST_FILE", "vendor_blocklist.txt")
@@ -108,6 +102,71 @@ def call_claude(system: str, user_message: str, max_tokens: int = 4000) -> str:
 
 
 # ─── Inbox: Fetch Queued URLs ─────────────────────────────────────────────────
+
+def fetch_queued_urls() -> list[str]:
+    """
+    Connect to the dedicated inbox via IMAP, find unread emails with subject
+    containing 'FN', extract all URLs from the body, mark as read, and return
+    a deduplicated list of URLs.
+    """
+    import imaplib
+    import email as email_lib
+
+    if not INBOX_GMAIL_ADDRESS or not INBOX_GMAIL_APP_PASSWORD:
+        print("   ⚠ INBOX_GMAIL_ADDRESS or INBOX_GMAIL_APP_PASSWORD not set — skipping inbox check")
+        return []
+
+    try:
+        mail = imaplib.IMAP4_SSL("imap.gmail.com")
+        mail.login(INBOX_GMAIL_ADDRESS, INBOX_GMAIL_APP_PASSWORD)
+        mail.select("INBOX")
+    except Exception as e:
+        print(f"   ⚠ IMAP connection failed: {e}")
+        return []
+
+    try:
+        _, data = mail.search(None, 'UNSEEN SUBJECT "FN"')
+        email_ids = data[0].split()
+    except Exception as e:
+        print(f"   ⚠ IMAP search failed: {e}")
+        mail.logout()
+        return []
+
+    if not email_ids:
+        mail.logout()
+        return []
+
+    url_pattern = re.compile(r'https?://[^\s<>"\')\]]+')
+    all_urls: set[str] = set()
+
+    for email_id in email_ids:
+        try:
+            _, msg_data = mail.fetch(email_id, "(RFC822)")
+            raw_email = msg_data[0][1]
+            msg = email_lib.message_from_bytes(raw_email)
+
+            parts = msg.walk() if msg.is_multipart() else [msg]
+            for part in parts:
+                if part.get_content_type() not in ("text/plain", "text/html"):
+                    continue
+                try:
+                    body = part.get_payload(decode=True).decode("utf-8", errors="replace")
+                    for url in url_pattern.findall(body):
+                        url = url.rstrip(".,;:)>\"'")
+                        all_urls.add(url)
+                except Exception:
+                    pass
+
+            # Mark as read
+            mail.store(email_id, "+FLAGS", "\\Seen")
+        except Exception as e:
+            print(f"   ⚠ Failed to process email {email_id}: {e}")
+
+    mail.logout()
+    return list(all_urls)
+
+
+# ─── Search Queries (hardcoded, rotating weekly) ──────────────────────────────
 
 def fetch_queued_urls() -> list[str]:
     """
@@ -605,6 +664,108 @@ def fetch_article_metadata(url: str) -> dict | None:
 #
 # def ground_summaries(...):
 #     ...
+
+
+# ─── Inbox: Process Queued Articles ──────────────────────────────────────────
+
+INBOX_EVAL_PROMPT = """You are generating a digest entry for FP&A Field Notes, a weekly curated digest for FP&A practitioners.
+
+Given an article's title and text, produce a single JSON object. Return valid JSON only, no markdown fences, no explanation:
+{
+  "title": "A clear, descriptive headline (can improve on the original title)",
+  "source_name": "The author's name if identifiable, otherwise the publication name",
+  "author_role": "Brief description, e.g. 'VP of FP&A at healthcare company'. Use 'Unknown' if unclear.",
+  "summary": "2 sentences max. What the article covers and what the author did or learned.",
+  "takeaway": "1 sentence. The single most actionable thing the reader will get from this.",
+  "section": "tools if about AI, automation, Excel, Python, or efficiency. fpa_practice if about budgeting, forecasting, leadership, stakeholder management, board reporting, or FP&A craft.",
+  "credibility": "practitioner if written by a CFO/VP/director sharing their own experience. expert if by a consultant/researcher. journalist if by a reporter. marketing if vendor promotional content.",
+  "days_old": 0
+}
+
+Set days_old to an integer based on any visible publication date, or -1 if unclear.
+If this is vendor marketing content, return: null"""
+
+
+def process_queued_articles(urls: list[str], previously_featured_urls: set = None) -> dict:
+    """
+    For each URL: fetch the article, send to Claude to generate a digest entry.
+    Returns a digest dict {"tools": [...], "fpa_practice": [...]} in the same
+    format as evaluate_results().
+    """
+    if previously_featured_urls is None:
+        previously_featured_urls = set()
+
+    # Filter out already-published URLs before fetching
+    new_urls = [u for u in urls if u.rstrip("/").lower() not in previously_featured_urls]
+    skipped = len(urls) - len(new_urls)
+    if skipped:
+        print(f"   Skipped {skipped} already-published URL(s)")
+
+    digest: dict = {"tools": [], "fpa_practice": []}
+
+    for url in new_urls:
+        print(f"   Fetching: {url[:80]}...")
+        meta = fetch_article_metadata(url)
+        if not meta:
+            print(f"   ⚠ Could not fetch — skipping")
+            continue
+
+        article_input = json.dumps({
+            "url":     url,
+            "title":   meta["title"],
+            "snippet": meta["snippet"],
+        }, ensure_ascii=False)
+
+        try:
+            text = call_claude(
+                INBOX_EVAL_PROMPT,
+                f"Generate a digest entry for this article:\n\n{article_input}",
+                max_tokens=1000,
+            )
+        except Exception as e:
+            print(f"   ⚠ Claude error: {e} — skipping")
+            continue
+
+        # Handle explicit null (marketing rejection)
+        stripped = text.strip()
+        if stripped.lower() in ("null", "null;", "null."):
+            print(f"   ⚠ Dropped (marketing): {url[:70]}")
+            continue
+
+        first_brace = text.find('{')
+        last_brace  = text.rfind('}')
+        if first_brace == -1 or last_brace == -1:
+            print(f"   ⚠ No JSON in response — skipping")
+            continue
+
+        try:
+            entry = json.loads(text[first_brace:last_brace + 1])
+        except json.JSONDecodeError:
+            print(f"   ⚠ JSON parse failed — skipping")
+            continue
+
+        if entry.get("credibility") == "marketing":
+            print(f"   ⚠ Dropped (marketing): {entry.get('title', url[:60])}")
+            continue
+
+        summary = (entry.get("summary") or "").strip()
+        if not summary or len(summary) < 30:
+            print(f"   ⚠ Dropped (bad summary): {entry.get('title', url[:60])}")
+            continue
+
+        section = entry.get("section", "fpa_practice")
+        if section not in ("tools", "fpa_practice"):
+            section = "fpa_practice"
+
+        entry["source_url"] = url
+        entry["section"]    = section
+        digest[section].append(entry)
+        print(f"   ✓ [{section}] {entry.get('title', url[:60])}")
+
+    tools_count    = len(digest["tools"])
+    practice_count = len(digest["fpa_practice"])
+    print(f"   ✓ Digest built: {tools_count} tools, {practice_count} FP&A practice")
+    return digest
 
 
 # ─── GitHub Helpers ──────────────────────────────────────────────────────────
@@ -1597,6 +1758,201 @@ def save_published_entries(digest: dict):
         print(f"   ⚠ Failed to save published entries: {e}")
 
 
+# ─── No-Articles Notification ────────────────────────────────────────────────
+
+def send_no_articles_email():
+    """Send a brief notification when the inbox has no queued articles."""
+    print("📧 Sending no-articles notification...")
+    today_str = date.today().strftime("%B %d, %Y")
+    subject   = f"FP&A Field Notes — No articles queued ({today_str})"
+
+    html = f"""<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1a1a1a; background: #f8f9fa;">
+<div style="background: #7C3AED; color: white; padding: 20px; border-radius: 10px 10px 0 0;">
+  <div style="font-size: 11px; text-transform: uppercase; letter-spacing: .1em; opacity: .7;">FP&A Field Notes</div>
+  <h1 style="margin: 4px 0 0; font-size: 20px; font-weight: 700;">{today_str}</h1>
+</div>
+<div style="background: white; padding: 24px; border-radius: 0 0 10px 10px; border: 1px solid #e2e8f0; border-top: none;">
+  <p style="font-size: 15px; color: #374151;">No articles queued this week — nothing to publish.</p>
+  <p style="font-size: 13px; color: #6b7280;">Email article URLs to the inbox with subject <strong>FN</strong> to queue them for next week's digest.</p>
+</div>
+</body></html>"""
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"]    = GMAIL_ADDRESS
+    msg["To"]      = GMAIL_ADDRESS
+    msg.attach(MIMEText(html, "html"))
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        server.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
+        server.sendmail(GMAIL_ADDRESS, GMAIL_ADDRESS, msg.as_string())
+
+    print(f"   ✓ Sent no-articles notification to {GMAIL_ADDRESS}")
+
+
+# ─── Preview Mode ─────────────────────────────────────────────────────────────
+
+def send_preview_email(filtered_tweets: list[dict], enriched_items: list[dict]):
+    """
+    Send a pre-evaluation preview email showing exactly what the pipeline
+    found before Claude gets involved.  Set PREVIEW_MODE=true to use.
+    """
+    print("🔍 PREVIEW MODE: Sending raw pipeline output email...")
+
+    today_str = date.today().strftime("%B %d, %Y")
+    subject   = f"[PREVIEW] FP&A Field Notes pipeline — {today_str}"
+
+    # ── Section A: Filtered tweets ────────────────────────────────────────────
+    section_labels = {"tools": "🛠️ Tools & Efficiency", "fpa_practice": "📐 FP&A Practice"}
+    tweets_by_section = {}
+    for t in filtered_tweets:
+        s = t.get("_section", "tools")
+        tweets_by_section.setdefault(s, []).append(t)
+
+    tweets_html = ""
+    for section_key in ["tools", "fpa_practice"]:
+        items = tweets_by_section.get(section_key, [])
+        tweets_html += f"""
+<h3 style="font-size:14px;font-weight:700;color:#111;margin:20px 0 8px;
+           border-bottom:2px solid #e5e7eb;padding-bottom:4px;">
+  {section_labels.get(section_key, section_key)} — {len(items)} tweets
+</h3>"""
+        for t in items:
+            user      = t.get("user", {})
+            handle    = user.get("screen_name", "?")
+            followers = user.get("followers_count", 0)
+            likes     = t.get("favorite_count", 0)
+            rts       = t.get("retweet_count", 0)
+            ratio     = t.get("_engagement_ratio", 0)
+            text      = t.get("full_text", t.get("text", ""))[:280]
+            urls      = [
+                u.get("expanded_url", "")
+                for u in t.get("entities", {}).get("urls", [])
+                if u.get("expanded_url") and "twitter.com" not in u.get("expanded_url", "")
+                   and "x.com" not in u.get("expanded_url", "")
+            ]
+            url_html = "".join(
+                f'<div style="font-size:11px;margin-top:3px;">'
+                f'<a href="{u}" style="color:#1A477A;">{u[:80]}</a></div>'
+                for u in urls
+            )
+            tweets_html += f"""
+<div style="padding:10px 12px;margin-bottom:8px;border:1px solid #e5e7eb;
+            border-radius:6px;background:#fafafa;">
+  <div style="font-size:11px;color:#6b7280;margin-bottom:4px;">
+    <strong>@{handle}</strong> · {followers:,} followers ·
+    ❤ {likes} · 🔁 {rts} · ratio {ratio:.4f}
+  </div>
+  <div style="font-size:13px;color:#111;line-height:1.5;">{text}</div>
+  {url_html}
+</div>"""
+
+    # ── Section B: Enriched items (what Claude will see) ──────────────────────
+    enriched_by_section = {}
+    for item in enriched_items:
+        s = item.get("section", "tools")
+        enriched_by_section.setdefault(s, []).append(item)
+
+    enriched_html = ""
+    for section_key in ["tools", "fpa_practice"]:
+        items = enriched_by_section.get(section_key, [])
+        enriched_html += f"""
+<h3 style="font-size:14px;font-weight:700;color:#111;margin:20px 0 8px;
+           border-bottom:2px solid #e5e7eb;padding-bottom:4px;">
+  {section_labels.get(section_key, section_key)} — {len(items)} articles
+</h3>"""
+        for item in items:
+            is_fallback = item["article_snippet"].startswith("[Article could not be fetched")
+            snippet_preview = item["article_snippet"][:400]
+            fetch_badge = (
+                '<span style="font-size:10px;background:#FEF3C7;color:#92400E;'
+                'padding:2px 6px;border-radius:4px;margin-left:6px;">⚠ tweet fallback</span>'
+                if is_fallback else
+                '<span style="font-size:10px;background:#DCFCE7;color:#166534;'
+                'padding:2px 6px;border-radius:4px;margin-left:6px;">✓ article fetched</span>'
+            )
+            enriched_html += f"""
+<div style="padding:12px 14px;margin-bottom:10px;border:1px solid #e5e7eb;
+            border-radius:6px;background:white;">
+  <div style="font-size:12px;font-weight:700;color:#111;margin-bottom:4px;">
+    {item['article_title'][:120]}{fetch_badge}
+  </div>
+  <div style="font-size:11px;color:#1A477A;margin-bottom:6px;">
+    <a href="{item['article_url']}" style="color:#1A477A;">{item['article_url'][:100]}</a>
+  </div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">
+    Shared by {item['tweet_author']} ({item['tweet_followers']:,} followers) ·
+    ❤ {item['tweet_likes']} · 🔁 {item['tweet_retweets']}
+  </div>
+  <div style="font-size:11px;color:#374151;font-style:italic;
+              background:#f8fafc;padding:8px;border-radius:4px;line-height:1.5;">
+    {snippet_preview}…
+  </div>
+</div>"""
+
+    html = f"""<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+             max-width:700px;margin:0 auto;padding:20px;color:#1a1a1a;background:#f8f9fa;">
+
+<div style="background:#7C3AED;color:white;padding:20px;border-radius:10px 10px 0 0;">
+  <div style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;opacity:.7;">
+    FP&A Field Notes — PREVIEW MODE
+  </div>
+  <h1 style="margin:4px 0 0;font-size:20px;font-weight:700;">{today_str}</h1>
+  <p style="margin:8px 0 0;font-size:13px;opacity:.8;">
+    Pipeline output BEFORE Claude evaluation.
+    {len(filtered_tweets)} tweets → {len(enriched_items)} enriched items.
+  </p>
+</div>
+
+<div style="background:white;padding:24px;border-radius:0 0 10px 10px;
+            border:1px solid #e2e8f0;border-top:none;">
+
+  <h2 style="font-size:16px;font-weight:700;color:#111;margin:0 0 4px;">
+    Stage A — Filtered Tweets ({len(filtered_tweets)} total, sorted by engagement ratio)
+  </h2>
+  <p style="font-size:12px;color:#6b7280;margin:0 0 12px;">
+    These passed: has URL · ≤100K followers · not a vendor handle · ≥2 likes.
+    Sorted by (likes + retweets×2) ÷ followers.
+  </p>
+  {tweets_html}
+
+  <hr style="border:none;border-top:2px solid #e5e7eb;margin:28px 0;">
+
+  <h2 style="font-size:16px;font-weight:700;color:#111;margin:0 0 4px;">
+    Stage B — Enriched Items ({len(enriched_items)} total) — what Claude will evaluate
+  </h2>
+  <p style="font-size:12px;color:#6b7280;margin:0 0 12px;">
+    Each unique article URL fetched. ⚠ tweet fallback = article unreachable
+    (Cloudflare / paywall / JS-rendered).
+  </p>
+  {enriched_html}
+
+</div>
+<div style="text-align:center;padding:14px;font-size:11px;color:#94a3b8;">
+  FP&A Field Notes — PREVIEW MODE · Pipeline stopped before Claude evaluation.
+</div>
+</body></html>"""
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"]    = GMAIL_ADDRESS
+    msg["To"]      = GMAIL_ADDRESS
+    msg.attach(MIMEText(html, "html"))
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        server.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
+        server.sendmail(GMAIL_ADDRESS, GMAIL_ADDRESS, msg.as_string())
+
+    print(f"   ✓ Preview email sent to {GMAIL_ADDRESS}")
+    print(f"   Pipeline stopped. Re-run without PREVIEW_MODE=true to produce the digest.")
+
+
 # ─── Main ─────────────────────────────────────────────────────────────────────
 
 def main():
@@ -1606,31 +1962,26 @@ def main():
     print()
 
     missing = []
-    if not ANTHROPIC_API_KEY:        missing.append("ANTHROPIC_API_KEY")
     if not INBOX_GMAIL_ADDRESS:      missing.append("INBOX_GMAIL_ADDRESS")
     if not INBOX_GMAIL_APP_PASSWORD: missing.append("INBOX_GMAIL_APP_PASSWORD")
+    if not ANTHROPIC_API_KEY:        missing.append("ANTHROPIC_API_KEY")
 
     if missing:
         print(f"❌ Missing environment variables: {', '.join(missing)}")
         return
 
-    today = date.today()
-
-    # ── Friday: just check queue and remind if light ──────────────────────────
-    if today.weekday() == 4:  # Friday
-        check_queue_and_remind()
-        return
-
-    # ── Tuesday (or manual): full pipeline ───────────────────────────────────
     try:
-        # Step 1: Check inbox for queued URLs
-        print("📬 Step 1: Checking inbox for queued articles...")
+        # Step 0: Check inbox for queued URLs
+        print("📬 Step 0: Checking inbox for queued articles...")
         queued_urls = fetch_queued_urls()
 
         if not queued_urls:
-            print("📬 No articles queued this week.")
-            send_empty_queue_email()
+            print("📬 No articles queued this week — sending notification and stopping.")
+            send_no_articles_email()
+            print("\n✅ Done.")
             return
+
+        print(f"📬 Found {len(queued_urls)} queued URL(s)")
 
         # Load previously featured URLs for dedup
         previously_featured_urls: set[str] = set()
@@ -1639,8 +1990,8 @@ def main():
             pf_content, _ = fetch_github_file(repo, "published_entries.json", PAGES_TOKEN)
             if pf_content:
                 try:
-                    pf_entries = json.loads(pf_content)
-                    for e in pf_entries:
+                    entries = json.loads(pf_content)
+                    for e in entries:
                         url = e.get("source_url", "").rstrip("/").lower()
                         if url:
                             previously_featured_urls.add(url)
@@ -1648,27 +1999,19 @@ def main():
                 except json.JSONDecodeError:
                     pass
 
-        # Step 2: Process articles into digest entries
-        entries = process_queued_articles(queued_urls, previously_featured_urls)
+        # Step 1: Process queued articles into digest entries
+        digest = process_queued_articles(queued_urls, previously_featured_urls)
 
-        if not entries:
-            print("📬 No valid articles after processing.")
-            send_empty_queue_email()
+        total_items = len(digest.get("tools", [])) + len(digest.get("fpa_practice", []))
+        if total_items == 0:
+            print("⚠ No valid entries after processing — sending notification and stopping.")
+            send_no_articles_email()
             return
 
-        # Step 3: Build digest dict
-        digest = {"articles": entries}
-
-        # Step 4: Generate synthesis draft
-        synthesis_draft = generate_synthesis_draft(entries)
-
-        # Step 5: Generate tweets
+        # Step 2: Send email + generate tweets
         tweets = generate_tweets(digest)
 
-        # Step 6: Send email (digest + tweets + synthesis draft)
-        send_email(digest, tweets, synthesis_draft)
-
-        # Step 7: Publish to website
+        # Step 3-4: Publish to website (optional)
         if PUBLISH_TO_WEB:
             publish_to_website(digest)
             publish_beehiiv_copy(digest)
@@ -1676,7 +2019,7 @@ def main():
         else:
             print("\n📋 Skipping website publish (PUBLISH_TO_WEB not set)")
 
-        # Step 8: Always save published entries for dedup
+        # Step 5: Always save published entries for dedup
         save_published_entries(digest)
 
         # Step 9: Save synthesis draft to repo
