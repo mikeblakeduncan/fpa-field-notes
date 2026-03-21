@@ -32,8 +32,8 @@
         .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
 
         header { padding: 14px 0 12px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); margin-bottom: 14px; }
-        .logo-mark { width: 36px; height: 36px; background: var(--accent); border-radius: 8px; transform: rotate(-3deg); position: relative; box-shadow: 2px 2px 0 var(--navy); flex-shrink: 0; }
-        .logo-mark::after { content: '📐'; font-size: 18px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .logo-mark { width: 36px; height: 36px; background: var(--accent); border-radius: 8px; transform: rotate(-3deg); position: relative; box-shadow: 2px 2px 0 var(--navy); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .logo-mark::after { content: 'FN'; font-family: 'Fraunces', serif; font-size: 13px; font-weight: 800; color: white; letter-spacing: -0.03em; }
         .header-text h1 { font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 300; color: var(--ink); line-height: 1.1; }
         .header-text h1 span { color: var(--accent); }
         .header-text p { font-size: 0.78rem; color: var(--warm-gray); margin-top: 1px; }
@@ -43,24 +43,24 @@
 
         .latest-date { font-size: 0.78rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
 
-        .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 16px; }
-        @media (max-width: 640px) { .columns { grid-template-columns: 1fr; } .header-links { display: none; } }
+        @media (max-width: 640px) { .header-links { display: none; } }
 
-        .column-header { font-family: 'Fraunces', serif; font-size: 1rem; font-weight: 700; padding-bottom: 6px; margin-bottom: 10px; }
-        .col-tools .column-header { border-bottom: 3px solid var(--accent); }
-        .col-practice .column-header { border-bottom: 3px solid var(--sage); }
+        /* Articles grid */
+        #articles-entries { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        @media (max-width: 640px) { #articles-entries { grid-template-columns: 1fr; } }
 
-        .entry { padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); margin-bottom: 10px; transition: border-color 0.15s; }
-        .entry:hover { border-color: var(--accent); }
-        .entry-badges { margin-bottom: 6px; }
-        .entry-badge { font-size: 0.68rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; display: inline-block; }
-        .entry-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
-        .entry-title a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--accent); }
-        .entry-source { font-size: 0.76rem; color: var(--warm-gray); margin-bottom: 6px; }
-        .entry-summary { font-size: 0.84rem; color: #374151; line-height: 1.5; margin-bottom: 8px; }
-        .entry-takeaway { padding: 6px 10px; background: #F0F9FF; border-radius: 6px; border: 1px solid #BAE6FD; font-size: 0.78rem; }
-        .entry-takeaway strong { color: #0369A1; font-size: 0.68rem; }
-        .entry-takeaway span { color: #0C4A6E; }
+        .entry { padding: 16px 18px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); transition: border-color 0.15s, box-shadow 0.15s; }
+        .entry:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(224,122,95,0.08); }
+        .entry-badges { margin-bottom: 8px; }
+        .entry-badge { font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-block; }
+        .entry-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; line-height: 1.4; }
+        .entry-title a { color: var(--ink); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+        .entry-title a:hover { border-color: var(--accent); }
+        .entry-source { font-size: 0.75rem; color: var(--warm-gray); margin-bottom: 8px; }
+        .entry-summary { font-size: 0.84rem; color: #4B5563; line-height: 1.55; margin-bottom: 10px; }
+        .entry-takeaway { padding: 8px 11px; background: #FFFBF5; border-radius: 6px; border: 1px solid #EDE0D4; font-size: 0.78rem; }
+        .entry-takeaway strong { color: var(--accent); font-size: 0.67rem; text-transform: uppercase; letter-spacing: 0.04em; display: block; margin-bottom: 2px; }
+        .entry-takeaway span { color: var(--navy); line-height: 1.5; }
         .empty-col { color: var(--warm-gray); font-style: italic; font-size: 0.85rem; padding: 20px 0; }
 
         /* Featured Blog Post */
@@ -81,9 +81,10 @@
         @media (max-width: 640px) { .featured-card { padding: 20px; } .featured-title { font-size: 1.25rem; } }
 
         /* Digest section divider */
-        .section-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+        .section-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
         .section-divider-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--warm-gray); white-space: nowrap; }
         .section-divider-line { flex: 1; height: 1px; background: var(--border); }
+        .digest-description { font-size: 0.82rem; color: var(--warm-gray); margin-bottom: 14px; }
 
         .bottom-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
         @media (max-width: 640px) { .bottom-nav { grid-template-columns: 1fr; } }
@@ -106,9 +107,11 @@
         .issue-arrow { font-size: 1rem; color: var(--accent); opacity: 0.3; }
         .issue-card:hover .issue-arrow { opacity: 1; }
 
-        footer { text-align: center; padding: 20px 0; border-top: 1px solid var(--border); margin-top: 16px; }
-        footer p { font-size: 0.76rem; color: var(--warm-gray); line-height: 1.8; }
-        footer a { color: var(--accent); text-decoration: none; }
+        footer { padding: 28px 0; border-top: 1px solid var(--border); margin-top: 24px; display: flex; align-items: center; justify-content: space-between; }
+        .footer-brand { font-family: 'Fraunces', serif; font-size: 0.88rem; font-weight: 700; color: var(--ink); }
+        .footer-credit { font-size: 0.76rem; color: var(--warm-gray); text-align: right; }
+        .footer-credit a { color: var(--accent); text-decoration: none; }
+        @media (max-width: 640px) { footer { flex-direction: column; gap: 8px; text-align: center; } .footer-credit { text-align: center; } }
     </style>
 </head>
 <body>
@@ -130,11 +133,12 @@
     <div class="featured-post" id="featured-post"></div>
 
     <!-- Digest section -->
-    <div class="section-divider" id="digest-divider" style="display: none;">
+    <div class="section-divider" id="digest-divider">
         <span class="section-divider-label">This week's digest</span>
         <span class="section-divider-line"></span>
         <span class="latest-date" id="latest-date">Week of March 19, 2026</span>
     </div>
+    <p class="digest-description">Recent links for FP&A practitioners — no vendor fluff, no listicles.</p>
 
     <div id="digest-date-fallback" class="latest-date">Week of March 19, 2026</div>
 
@@ -237,9 +241,9 @@
 </div>
 
 <footer>
-    <div class="container">
-        <p>FP&A Field Notes — curated by AI, reviewed by humans.</p>
-        <p>A <a href="https://seacloudconsulting.com">Sea Cloud Consulting</a> project.</p>
+    <div class="container" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+        <div class="footer-brand">FP&A Field Notes</div>
+        <div class="footer-credit">By <a href="https://seacloudconsulting.com">Sea Cloud Consulting</a> · Published weekly</div>
     </div>
 </footer>
 
@@ -278,9 +282,8 @@
                 '</div>';
             container.style.display = 'block';
 
-            // Show the digest divider and hide the fallback date
+            // Ensure digest divider is visible
             document.getElementById('digest-divider').style.display = 'flex';
-            document.getElementById('digest-date-fallback').style.display = 'none';
 
             // Show blog link in header
             var blogLink = document.getElementById('blog-link');
