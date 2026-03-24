@@ -366,8 +366,9 @@ def process_queued_articles(urls: list[str], previously_featured_urls: set = Non
     if skipped:
         print(f"   Skipped {skipped} already-published URL(s)")
 
-    # Known un-scrapable domains — skip before fetching
-    UNSUPPORTED_DOMAINS = ("twitter.com", "x.com", "t.co", "instagram.com", "facebook.com", "linkedin.com")
+    # Known un-scrapable domains — skip before fetching (except Twitter/X which has oEmbed)
+    UNSUPPORTED_DOMAINS = ("instagram.com", "facebook.com", "linkedin.com")
+    TWITTER_DOMAINS     = ("twitter.com", "x.com", "t.co")
 
     entries: list[dict] = []
 
@@ -377,8 +378,15 @@ def process_queued_articles(urls: list[str], previously_featured_urls: set = Non
             print(f"   ⚠ Skipped (unsupported domain — can't scrape): {url[:70]}")
             continue
 
-        print(f"   Fetching: {url[:80]}...")
-        meta = fetch_article_metadata(url)
+        is_twitter = any(domain == d or domain.endswith("." + d) for d in TWITTER_DOMAINS)
+        if is_twitter:
+            meta = fetch_tweet_metadata(url)
+            if not meta:
+                print(f"   ⚠ Skipped (Twitter URL but not a single tweet — needs /status/ link): {url[:70]}")
+                continue
+        else:
+            print(f"   Fetching: {url[:80]}...")
+            meta = fetch_article_metadata(url)
         if not meta:
             print(f"   ⚠ Could not fetch — skipping")
             continue
@@ -598,6 +606,44 @@ def mark_emails_as_read():
 
 
 # ─── Article Fetching ─────────────────────────────────────────────────────────
+
+def fetch_tweet_metadata(url: str) -> dict | None:
+    """
+    Use Twitter's free oEmbed API to get tweet text without authentication.
+    Only works for individual tweet URLs (must contain /status/).
+    Returns the same shape as fetch_article_metadata, or None if not a tweet URL.
+    """
+    if "/status/" not in url:
+        return None
+
+    # Normalise x.com → twitter.com for oEmbed (both work but twitter.com is canonical)
+    oembed_url = f"https://publish.twitter.com/oembed?url={urllib.parse.quote(url, safe=':/')}&omit_script=true"
+    try:
+        req = urllib.request.Request(oembed_url, headers={"User-Agent": "Mozilla/5.0"})
+        ctx = ssl.create_default_context()
+        with urllib.request.urlopen(req, context=ctx, timeout=8) as response:
+            data = json.loads(response.read().decode("utf-8"))
+    except Exception as e:
+        print(f"   ⚠ oEmbed fetch failed {url[:70]}: {e}")
+        return None
+
+    # oEmbed returns HTML like: <blockquote>Tweet text <a href...>pic</a>...</blockquote>
+    html   = data.get("html", "")
+    author = data.get("author_name", "")
+
+    # Strip tags to get plain tweet text
+    text = re.sub(r'<[^>]+>', ' ', html)
+    text = re.sub(r'\s+', ' ', text).strip()
+
+    title = f"Tweet by {author}" if author else "Tweet"
+    print(f"   ✓ Tweet fetched via oEmbed: {author}")
+
+    return {
+        "url":     url,
+        "title":   title,
+        "snippet": text[:3000],
+    }
+
 
 def fetch_article_metadata(url: str) -> dict | None:
     """Fetch a URL and return title + text snippet, or None on failure."""
