@@ -130,6 +130,18 @@
                 "date": "2026-03-11"
               }
             ]
+          },
+          "user_research_and_insights": {
+            "label": "User Research & Insights",
+            "entries": [
+              {
+                "title": "What 81,000 Claude Users Around the World Want from AI",
+                "source_name": "Anthropic",
+                "source_url": "https://www.anthropic.com/features/81k-interviews",
+                "summary": "Understanding your users' real, ground-level concerns about AI tools—not just abstract risks—is essential for product development and stakeholder communication.",
+                "date": "2026-03-24"
+              }
+            ]
           }
         }
       },
