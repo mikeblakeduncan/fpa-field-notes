@@ -1235,14 +1235,14 @@ def publish_to_website(digest: dict):
     import re as _re
 
     # ── Migrate old two-column structure to single articles-entries div ────────
-    # This handles the case where a previous pipeline version wrote the old HTML.
-    # It's safe to run every week — if the new structure is already there, the
-    # regex won't match and nothing changes.
+    # Anchors on the digest-description paragraph and bottom-nav div, which are
+    # stable landmarks that won't change. Replaces everything between them.
     if '<div class="columns">' in index_content:
         index_content = _re.sub(
-            r'<div id="digest-date-fallback"[^>]*>[^<]*</div>\s*'
-            r'<div class="columns">.*?</div>\s*</div>\s*</div>',
-            '<div id="articles-entries"><!--/articles-entries--></div>',
+            r'(<p class="digest-description">.*?</p>)'   # keep description
+            r'.*?'                                         # eat old columns block
+            r'(?=\s*<div class="bottom-nav">)',            # stop before bottom-nav
+            r'\1\n\n    <div id="articles-entries"><!--/articles-entries--></div>\n\n    ',
             index_content, flags=_re.DOTALL
         )
         print("   ✓ Migrated old two-column structure to #articles-entries")
