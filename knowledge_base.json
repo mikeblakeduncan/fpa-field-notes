@@ -168,6 +168,23 @@
             ]
           }
         }
+      },
+      "team_and_operations": {
+        "label": "Team & Operations",
+        "children": {
+          "outsourcing_and_service_models": {
+            "label": "Outsourcing & Service Models",
+            "entries": [
+              {
+                "title": "Services: The New Software – Why the Next $1T Company Will Sell Outcomes, Not Tools",
+                "source_name": "Julien Bek, Sequoia Capital",
+                "source_url": "https://sequoiacap.com/article/services-the-new-software/",
+                "summary": "FP&A leaders should consider whether their finance teams should shift from building internal AI tools to outsourcing intelligence-heavy work (like close procedures or forecasting) to AI-powered service providers, freeing internal staff for high-judgment activities like strategic planning.",
+                "date": "2026-03-24"
+              }
+            ]
+          }
+        }
       }
     }
   }
