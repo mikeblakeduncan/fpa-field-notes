@@ -1652,7 +1652,12 @@ def save_published_entries(digest: dict):
         entries.append({
             "title":          item.get("title", ""),
             "source_name":    item.get("source_name", ""),
+            "author_role":    item.get("author_role", ""),
             "source_url":     item.get("source_url", ""),
+            "summary":        item.get("summary", ""),
+            "takeaway":       item.get("takeaway", ""),
+            "credibility":    item.get("credibility", ""),
+            "days_old":       item.get("days_old", 7),
             "date_published": today_date,
         })
         new_count += 1
