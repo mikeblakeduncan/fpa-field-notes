@@ -130,6 +130,18 @@
                 "date": "2026-03-11"
               }
             ]
+          },
+          "user_research_and_insights": {
+            "label": "User Research & Insights",
+            "entries": [
+              {
+                "title": "What 81,000 Claude Users Around the World Want from AI",
+                "source_name": "Anthropic",
+                "source_url": "https://www.anthropic.com/features/81k-interviews",
+                "summary": "Understanding your users' real, ground-level concerns about AI tools—not just abstract risks—is essential for product development and stakeholder communication.",
+                "date": "2026-03-24"
+              }
+            ]
           }
         }
       },
@@ -152,6 +164,23 @@
                 "source_url": "https://www.orgvue.com/resources/articles/headcount-planning-a-strategic-approach-to-workforce-management/",
                 "summary": "Frame headcount planning as a productivity lever tied to specific business outcomes, and use scenario-based org charts to give executives visibility into talent gaps and succession risks.",
                 "date": "2026-03-03"
+              }
+            ]
+          }
+        }
+      },
+      "team_and_operations": {
+        "label": "Team & Operations",
+        "children": {
+          "outsourcing_and_service_models": {
+            "label": "Outsourcing & Service Models",
+            "entries": [
+              {
+                "title": "Services: The New Software – Why the Next $1T Company Will Sell Outcomes, Not Tools",
+                "source_name": "Julien Bek, Sequoia Capital",
+                "source_url": "https://sequoiacap.com/article/services-the-new-software/",
+                "summary": "FP&A leaders should consider whether their finance teams should shift from building internal AI tools to outsourcing intelligence-heavy work (like close procedures or forecasting) to AI-powered service providers, freeing internal staff for high-judgment activities like strategic planning.",
+                "date": "2026-03-24"
               }
             ]
           }
