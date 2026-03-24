@@ -316,5 +316,16 @@
     "credibility": "unknown",
     "author_role": "Unknown",
     "date_published": "2026-03-24"
+  },
+  {
+    "title": "Services: The New Software – Why the Next $1T Company Will Sell Outcomes, Not Tools",
+    "source_name": "Julien Bek, Sequoia Capital",
+    "source_url": "https://sequoiacap.com/article/services-the-new-software/",
+    "summary": "Bek argues that as AI models improve, the competitive advantage shifts from selling AI tools to selling services powered by AI—where the work itself becomes the product. He distinguishes between intelligence work (which AI now handles autonomously) and judgment work (which requires human experience), suggesting that software engineering was first to cross this threshold and other professions will follow.",
+    "takeaway": "FP&A leaders should consider whether their finance teams should shift from building internal AI tools to outsourcing intelligence-heavy work (like close procedures or forecasting) to AI-powered service providers, freeing internal staff for high-judgment activities like strategic planning.",
+    "section": "fpa_practice",
+    "credibility": "expert",
+    "author_role": "Venture capital investor at Sequoia Capital",
+    "date_published": "2026-03-24"
   }
 ]
