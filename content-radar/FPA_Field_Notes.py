@@ -1647,8 +1647,26 @@ def save_published_entries(digest: dict):
         entries = []
         pf_sha  = None
 
+    FAILURE_PHRASES = (
+        "unable to access", "cannot access", "could not access",
+        "no content", "login required", "access denied",
+        "paywalled", "content unavailable", "page not found",
+    )
+
+    def _is_publishable(item: dict) -> bool:
+        """Return False if the entry has signs of inaccessible content."""
+        combined = (
+            (item.get("title", "") + " " + item.get("summary", "")).lower()
+        )
+        return bool(item.get("source_url")) and not any(
+            p in combined for p in FAILURE_PHRASES
+        )
+
     new_count = 0
     for item in digest.get("articles", []):
+        if not _is_publishable(item):
+            print(f"   ⚠ Skipped unpublishable entry: {item.get('title', '')[:60]}")
+            continue
         entries.append({
             "title":          item.get("title", ""),
             "source_name":    item.get("source_name", ""),

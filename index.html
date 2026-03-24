@@ -329,17 +329,32 @@
             '</div>';
     }
 
+    // ── Filter: skip any entry that looks broken or inaccessible ─────────────
+    var BAD_PHRASES = [
+        'unable to access', 'cannot access', 'could not access',
+        'no content', 'login required', 'access denied',
+        'paywalled', 'content unavailable', 'page not found'
+    ];
+    function isValidEntry(item) {
+        if (!item.source_url || !item.title) return false;
+        var combined = ((item.title || '') + ' ' + (item.summary || '')).toLowerCase();
+        for (var i = 0; i < BAD_PHRASES.length; i++) {
+            if (combined.indexOf(BAD_PHRASES[i]) !== -1) return false;
+        }
+        return true;
+    }
+
     // ── Load 4 most recent articles from published_entries.json ───────────────
     fetch('published_entries.json')
         .then(function(r) { return r.json(); })
         .then(function(entries) {
             if (!entries || entries.length === 0) return;
 
-            // Sort by date_published descending, take 4 most recent
+            // Sort by date_published descending, filter bad entries, take 4 most recent
             entries.sort(function(a, b) {
                 return (b.date_published || '').localeCompare(a.date_published || '');
             });
-            var recent = entries.slice(0, 4);
+            var recent = entries.filter(isValidEntry).slice(0, 4);
 
             // Update date label from most recent entry's date
             var latestDate = recent[0].date_published;
