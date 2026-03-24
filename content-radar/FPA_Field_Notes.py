@@ -105,71 +105,6 @@ def call_claude(system: str, user_message: str, max_tokens: int = 4000) -> str:
 
 def fetch_queued_urls() -> list[str]:
     """
-    Connect to the dedicated inbox via IMAP, find unread emails with subject
-    containing 'FN', extract all URLs from the body, mark as read, and return
-    a deduplicated list of URLs.
-    """
-    import imaplib
-    import email as email_lib
-
-    if not INBOX_GMAIL_ADDRESS or not INBOX_GMAIL_APP_PASSWORD:
-        print("   ⚠ INBOX_GMAIL_ADDRESS or INBOX_GMAIL_APP_PASSWORD not set — skipping inbox check")
-        return []
-
-    try:
-        mail = imaplib.IMAP4_SSL("imap.gmail.com")
-        mail.login(INBOX_GMAIL_ADDRESS, INBOX_GMAIL_APP_PASSWORD)
-        mail.select("INBOX")
-    except Exception as e:
-        print(f"   ⚠ IMAP connection failed: {e}")
-        return []
-
-    try:
-        _, data = mail.search(None, 'UNSEEN SUBJECT "FN"')
-        email_ids = data[0].split()
-    except Exception as e:
-        print(f"   ⚠ IMAP search failed: {e}")
-        mail.logout()
-        return []
-
-    if not email_ids:
-        mail.logout()
-        return []
-
-    url_pattern = re.compile(r'https?://[^\s<>"\')\]]+')
-    all_urls: set[str] = set()
-
-    for email_id in email_ids:
-        try:
-            _, msg_data = mail.fetch(email_id, "(RFC822)")
-            raw_email = msg_data[0][1]
-            msg = email_lib.message_from_bytes(raw_email)
-
-            parts = msg.walk() if msg.is_multipart() else [msg]
-            for part in parts:
-                if part.get_content_type() not in ("text/plain", "text/html"):
-                    continue
-                try:
-                    body = part.get_payload(decode=True).decode("utf-8", errors="replace")
-                    for url in url_pattern.findall(body):
-                        url = url.rstrip(".,;:)>\"'")
-                        all_urls.add(url)
-                except Exception:
-                    pass
-
-            # Mark as read
-            mail.store(email_id, "+FLAGS", "\\Seen")
-        except Exception as e:
-            print(f"   ⚠ Failed to process email {email_id}: {e}")
-
-    mail.logout()
-    return list(all_urls)
-
-
-# ─── Search Queries (hardcoded, rotating weekly) ──────────────────────────────
-
-def fetch_queued_urls() -> list[str]:
-    """
     Connect to the dedicated inbox via IMAP, find all UNSEEN emails,
     extract URLs from the body, and return a deduplicated list.
 
@@ -366,11 +301,27 @@ def process_queued_articles(urls: list[str], previously_featured_urls: set = Non
     if skipped:
         print(f"   Skipped {skipped} already-published URL(s)")
 
+    # Known un-scrapable domains — skip before fetching (except Twitter/X which has oEmbed)
+    UNSUPPORTED_DOMAINS = ("instagram.com", "facebook.com", "linkedin.com")
+    TWITTER_DOMAINS     = ("twitter.com", "x.com", "t.co")
+
     entries: list[dict] = []
 
     for url in new_urls:
-        print(f"   Fetching: {url[:80]}...")
-        meta = fetch_article_metadata(url)
+        domain = url.split("/")[2].lstrip("www.") if "//" in url else ""
+        if any(domain == d or domain.endswith("." + d) for d in UNSUPPORTED_DOMAINS):
+            print(f"   ⚠ Skipped (unsupported domain — can't scrape): {url[:70]}")
+            continue
+
+        is_twitter = any(domain == d or domain.endswith("." + d) for d in TWITTER_DOMAINS)
+        if is_twitter:
+            meta = fetch_tweet_metadata(url)
+            if not meta:
+                print(f"   ⚠ Skipped (Twitter URL but not a single tweet — needs /status/ link): {url[:70]}")
+                continue
+        else:
+            print(f"   Fetching: {url[:80]}...")
+            meta = fetch_article_metadata(url)
         if not meta:
             print(f"   ⚠ Could not fetch — skipping")
             continue
@@ -416,6 +367,13 @@ def process_queued_articles(urls: list[str], previously_featured_urls: set = Non
         summary = (entry.get("summary") or "").strip()
         if not summary or len(summary) < 30:
             print(f"   ⚠ Dropped (bad summary): {entry.get('title', url[:60])}")
+            continue
+
+        # Drop entries where Claude couldn't access the content
+        failure_phrases = ("unable to access", "cannot access", "no content", "login required", "access denied")
+        combined_text = (summary + " " + (entry.get("takeaway") or "")).lower()
+        if any(p in combined_text for p in failure_phrases):
+            print(f"   ⚠ Dropped (inaccessible content): {entry.get('title', url[:60])}")
             continue
 
         entry["source_url"] = url
@@ -584,6 +542,44 @@ def mark_emails_as_read():
 
 # ─── Article Fetching ─────────────────────────────────────────────────────────
 
+def fetch_tweet_metadata(url: str) -> dict | None:
+    """
+    Use Twitter's free oEmbed API to get tweet text without authentication.
+    Only works for individual tweet URLs (must contain /status/).
+    Returns the same shape as fetch_article_metadata, or None if not a tweet URL.
+    """
+    if "/status/" not in url:
+        return None
+
+    # Normalise x.com → twitter.com for oEmbed (both work but twitter.com is canonical)
+    oembed_url = f"https://publish.twitter.com/oembed?url={urllib.parse.quote(url, safe=':/')}&omit_script=true"
+    try:
+        req = urllib.request.Request(oembed_url, headers={"User-Agent": "Mozilla/5.0"})
+        ctx = ssl.create_default_context()
+        with urllib.request.urlopen(req, context=ctx, timeout=8) as response:
+            data = json.loads(response.read().decode("utf-8"))
+    except Exception as e:
+        print(f"   ⚠ oEmbed fetch failed {url[:70]}: {e}")
+        return None
+
+    # oEmbed returns HTML like: <blockquote>Tweet text <a href...>pic</a>...</blockquote>
+    html   = data.get("html", "")
+    author = data.get("author_name", "")
+
+    # Strip tags to get plain tweet text
+    text = re.sub(r'<[^>]+>', ' ', html)
+    text = re.sub(r'\s+', ' ', text).strip()
+
+    title = f"Tweet by {author}" if author else "Tweet"
+    print(f"   ✓ Tweet fetched via oEmbed: {author}")
+
+    return {
+        "url":     url,
+        "title":   title,
+        "snippet": text[:3000],
+    }
+
+
 def fetch_article_metadata(url: str) -> dict | None:
     """Fetch a URL and return title + text snippet, or None on failure."""
     try:
@@ -684,88 +680,6 @@ Given an article's title and text, produce a single JSON object. Return valid JS
 
 Set days_old to an integer based on any visible publication date, or -1 if unclear.
 If this is vendor marketing content, return: null"""
-
-
-def process_queued_articles(urls: list[str], previously_featured_urls: set = None) -> dict:
-    """
-    For each URL: fetch the article, send to Claude to generate a digest entry.
-    Returns a digest dict {"tools": [...], "fpa_practice": [...]} in the same
-    format as evaluate_results().
-    """
-    if previously_featured_urls is None:
-        previously_featured_urls = set()
-
-    # Filter out already-published URLs before fetching
-    new_urls = [u for u in urls if u.rstrip("/").lower() not in previously_featured_urls]
-    skipped = len(urls) - len(new_urls)
-    if skipped:
-        print(f"   Skipped {skipped} already-published URL(s)")
-
-    digest: dict = {"tools": [], "fpa_practice": []}
-
-    for url in new_urls:
-        print(f"   Fetching: {url[:80]}...")
-        meta = fetch_article_metadata(url)
-        if not meta:
-            print(f"   ⚠ Could not fetch — skipping")
-            continue
-
-        article_input = json.dumps({
-            "url":     url,
-            "title":   meta["title"],
-            "snippet": meta["snippet"],
-        }, ensure_ascii=False)
-
-        try:
-            text = call_claude(
-                INBOX_EVAL_PROMPT,
-                f"Generate a digest entry for this article:\n\n{article_input}",
-                max_tokens=1000,
-            )
-        except Exception as e:
-            print(f"   ⚠ Claude error: {e} — skipping")
-            continue
-
-        # Handle explicit null (marketing rejection)
-        stripped = text.strip()
-        if stripped.lower() in ("null", "null;", "null."):
-            print(f"   ⚠ Dropped (marketing): {url[:70]}")
-            continue
-
-        first_brace = text.find('{')
-        last_brace  = text.rfind('}')
-        if first_brace == -1 or last_brace == -1:
-            print(f"   ⚠ No JSON in response — skipping")
-            continue
-
-        try:
-            entry = json.loads(text[first_brace:last_brace + 1])
-        except json.JSONDecodeError:
-            print(f"   ⚠ JSON parse failed — skipping")
-            continue
-
-        if entry.get("credibility") == "marketing":
-            print(f"   ⚠ Dropped (marketing): {entry.get('title', url[:60])}")
-            continue
-
-        summary = (entry.get("summary") or "").strip()
-        if not summary or len(summary) < 30:
-            print(f"   ⚠ Dropped (bad summary): {entry.get('title', url[:60])}")
-            continue
-
-        section = entry.get("section", "fpa_practice")
-        if section not in ("tools", "fpa_practice"):
-            section = "fpa_practice"
-
-        entry["source_url"] = url
-        entry["section"]    = section
-        digest[section].append(entry)
-        print(f"   ✓ [{section}] {entry.get('title', url[:60])}")
-
-    tools_count    = len(digest["tools"])
-    practice_count = len(digest["fpa_practice"])
-    print(f"   ✓ Digest built: {tools_count} tools, {practice_count} FP&A practice")
-    return digest
 
 
 # ─── GitHub Helpers ──────────────────────────────────────────────────────────
@@ -2000,18 +1914,26 @@ def main():
                     pass
 
         # Step 1: Process queued articles into digest entries
-        digest = process_queued_articles(queued_urls, previously_featured_urls)
+        entries = process_queued_articles(queued_urls, previously_featured_urls)
+        digest  = {"articles": entries}
 
-        total_items = len(digest.get("tools", [])) + len(digest.get("fpa_practice", []))
-        if total_items == 0:
+        if not entries:
             print("⚠ No valid entries after processing — sending notification and stopping.")
             send_no_articles_email()
             return
 
-        # Step 2: Send email + generate tweets
-        tweets = generate_tweets(digest)
+        print(f"   ✓ Digest built: {len(entries)} article(s)")
 
-        # Step 3-4: Publish to website (optional)
+        # Step 2: Generate synthesis blog draft
+        print("\n✍️  Step 2: Generating synthesis blog draft...")
+        synthesis_draft = generate_synthesis_draft(entries)
+
+        # Step 3: Send digest email with tweets and synthesis draft
+        print("\n📧 Step 3: Sending digest email...")
+        tweets = generate_tweets(digest)
+        send_email(digest, tweets, synthesis_draft)
+
+        # Step 4: Publish to website (optional)
         if PUBLISH_TO_WEB:
             publish_to_website(digest)
             publish_beehiiv_copy(digest)
@@ -2022,10 +1944,11 @@ def main():
         # Step 5: Always save published entries for dedup
         save_published_entries(digest)
 
-        # Step 9: Save synthesis draft to repo
+        # Step 6: Save synthesis draft to repo as a draft for Mike to edit
+        print("\n💾 Step 6: Saving synthesis draft to repo...")
         save_synthesis_draft(synthesis_draft, entry_count=len(entries))
 
-        # Step 10: Mark inbox emails as read (last — only after everything succeeds)
+        # Step 7: Mark inbox emails as read (last — only after everything succeeds)
         mark_emails_as_read()
 
         print("\n✅ Pipeline complete!")
