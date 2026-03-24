@@ -134,11 +134,10 @@
 
     <!-- Digest section -->
     <div class="section-divider" id="digest-divider">
-        <span class="section-divider-label">This week's digest</span>
+        <span class="section-divider-label">Recent links for FP&amp;A practitioners</span>
         <span class="section-divider-line"></span>
         <span class="latest-date" id="latest-date">Week of March 24, 2026</span>
     </div>
-    <p class="digest-description">Recent links for FP&A practitioners — no vendor fluff, no listicles.</p>
 
     <div id="articles-entries"><!--/articles-entries--></div>
 
@@ -225,21 +224,15 @@
 (function() {
 
     // ── Render an article card from a published_entries.json item ──────────────
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        var d = new Date(dateStr + 'T12:00:00');
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+    }
+
     function renderEntryCard(item) {
-        var daysOld = item.days_old;
-        var freshLabel, freshBg, freshFg;
-        if (daysOld === -1 || daysOld === null || daysOld === undefined) {
-            freshLabel = '📅 Recent'; freshBg = '#F3F4F6'; freshFg = '#6B7280';
-        } else if (daysOld <= 3) {
-            freshLabel = daysOld <= 1 ? '🟢 Today' : '🟢 ' + Math.round(daysOld) + 'd ago';
-            freshBg = '#DCFCE7'; freshFg = '#166534';
-        } else if (daysOld <= 5) {
-            freshLabel = '🟡 ' + Math.round(daysOld) + 'd ago';
-            freshBg = '#FEF3C7'; freshFg = '#92400E';
-        } else {
-            freshLabel = '🟠 ~' + Math.round(daysOld) + 'd ago';
-            freshBg = '#FFEDD5'; freshFg = '#9A3412';
-        }
+        var dateLabel = formatDate(item.date_published);
 
         var credMap = {
             'practitioner': ['👤 Practitioner', '#DCFCE7', '#166534'],
@@ -253,7 +246,9 @@
             sourceStr += ' · ' + item.author_role;
         }
 
-        var badgesHtml = '<span class="entry-badge" style="background:' + freshBg + ';color:' + freshFg + ';">' + freshLabel + '</span>';
+        var badgesHtml = dateLabel
+            ? '<span class="entry-badge" style="background:#F3F4F6;color:#6B7280;">' + dateLabel + '</span>'
+            : '';
         if (cred[0]) {
             badgesHtml += ' <span class="entry-badge" style="background:' + cred[1] + ';color:' + cred[2] + ';">' + cred[0] + '</span>';
         }
