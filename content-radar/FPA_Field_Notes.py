@@ -1232,46 +1232,24 @@ def publish_to_website(digest: dict):
         print(f"   ⚠ Failed to fetch index.html: {e}")
         return
 
-    def render_entry_html(item):
-        days_old    = item.get("days_old", 7)
-        credibility = item.get("credibility", "")
-        if isinstance(days_old, (int, float)) and days_old == -1:
-            fresh_label, fresh_bg, fresh_fg = "📅 Recent", "#F3F4F6", "#6B7280"
-        elif isinstance(days_old, (int, float)) and days_old <= 3:
-            fresh_label, fresh_bg, fresh_fg = (f"🟢 {int(days_old)}d ago" if days_old > 1 else "🟢 Today"), "#DCFCE7", "#166534"
-        elif isinstance(days_old, (int, float)) and days_old <= 5:
-            fresh_label, fresh_bg, fresh_fg = f"🟡 {int(days_old)}d ago", "#FEF3C7", "#92400E"
-        else:
-            fresh_label, fresh_bg, fresh_fg = f"🟠 ~{int(days_old)}d ago", "#FFEDD5", "#9A3412"
-
-        cred_map = {
-            "practitioner": ("👤 Practitioner", "#DCFCE7", "#166534"),
-            "expert":       ("🎓 Expert",        "#DBEAFE", "#1E40AF"),
-            "journalist":   ("📰 Journalist",    "#F3F4F6", "#374151"),
-        }
-        cred_text, cred_bg, cred_fg = cred_map.get(credibility, ("", "#F3F4F6", "#374151"))
-
-        return f'''<div class="entry">
-              <div class="entry-badges">
-                <span class="entry-badge" style="background: {fresh_bg}; color: {fresh_fg};">{fresh_label}</span>
-                <span class="entry-badge" style="background: {cred_bg}; color: {cred_fg};">{cred_text}</span>
-              </div>
-              <div class="entry-title"><a href="{item.get("source_url", "#")}">{item.get("title", "")}</a></div>
-              <div class="entry-source">by {item.get("source_name", "Unknown")}{(" · " + item.get("author_role", "")) if item.get("author_role") and item.get("author_role") != "Unknown" else ""}</div>
-              <div class="entry-summary">{item.get("summary", "")}</div>
-              <div class="entry-takeaway"><strong>WHAT YOU'LL LEARN →</strong> <span>{item.get("takeaway", "")}</span></div>
-              <div style="margin-top: 8px;"><a href="{item.get("source_url", "#")}" style="font-size: 0.78rem; font-weight: 600; color: #E07A5F; text-decoration: none;">Read the original →</a></div>
-            </div>'''
-
-    articles_html = "\n".join(render_entry_html(i) for i in digest.get("articles", []))
-
     import re as _re
-    if articles_html:
+
+    # ── Migrate old two-column structure to single articles-entries div ────────
+    # This handles the case where a previous pipeline version wrote the old HTML.
+    # It's safe to run every week — if the new structure is already there, the
+    # regex won't match and nothing changes.
+    if '<div class="columns">' in index_content:
         index_content = _re.sub(
-            r'<div id="articles-entries">.*?<!--/articles-entries-->',
-            f'<div id="articles-entries">\n{articles_html}\n            <!--/articles-entries-->',
+            r'<div id="digest-date-fallback"[^>]*>[^<]*</div>\s*'
+            r'<div class="columns">.*?</div>\s*</div>\s*</div>',
+            '<div id="articles-entries"><!--/articles-entries--></div>',
             index_content, flags=_re.DOTALL
         )
+        print("   ✓ Migrated old two-column structure to #articles-entries")
+
+    # ── Articles are now rendered by JS from published_entries.json ───────────
+    # The pipeline no longer injects static article HTML here. The JS on the
+    # page fetches published_entries.json and renders the 4 most recent cards.
 
     index_content = _re.sub(
         r'(<span class="latest-date" id="latest-date">)[^<]*(</span>)',
