@@ -366,9 +366,17 @@ def process_queued_articles(urls: list[str], previously_featured_urls: set = Non
     if skipped:
         print(f"   Skipped {skipped} already-published URL(s)")
 
+    # Known un-scrapable domains — skip before fetching
+    UNSUPPORTED_DOMAINS = ("twitter.com", "x.com", "t.co", "instagram.com", "facebook.com", "linkedin.com")
+
     entries: list[dict] = []
 
     for url in new_urls:
+        domain = url.split("/")[2].lstrip("www.") if "//" in url else ""
+        if any(domain == d or domain.endswith("." + d) for d in UNSUPPORTED_DOMAINS):
+            print(f"   ⚠ Skipped (unsupported domain — can't scrape): {url[:70]}")
+            continue
+
         print(f"   Fetching: {url[:80]}...")
         meta = fetch_article_metadata(url)
         if not meta:
@@ -416,6 +424,13 @@ def process_queued_articles(urls: list[str], previously_featured_urls: set = Non
         summary = (entry.get("summary") or "").strip()
         if not summary or len(summary) < 30:
             print(f"   ⚠ Dropped (bad summary): {entry.get('title', url[:60])}")
+            continue
+
+        # Drop entries where Claude couldn't access the content
+        failure_phrases = ("unable to access", "cannot access", "no content", "login required", "access denied")
+        combined_text = (summary + " " + (entry.get("takeaway") or "")).lower()
+        if any(p in combined_text for p in failure_phrases):
+            print(f"   ⚠ Dropped (inaccessible content): {entry.get('title', url[:60])}")
             continue
 
         entry["source_url"] = url
