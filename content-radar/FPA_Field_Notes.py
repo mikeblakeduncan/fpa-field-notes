@@ -1038,67 +1038,6 @@ def send_empty_queue_email():
         print(f"   ⚠ Failed to send notification: {e}")
 
 
-# ─── Beehiiv Newsletter Copy ──────────────────────────────────────────────────
-
-def generate_beehiiv_html(digest: dict) -> str:
-    """Generate a clean HTML version of the digest for pasting into Beehiiv."""
-    today_str = date.today().strftime("%B %d, %Y")
-
-    articles = digest.get("articles", [])
-
-    html = f"""<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; color: #1a1a2e;">
-"""
-
-    if not articles:
-        html += '<p style="font-size: 14px; color: #94a3b8; font-style: italic;">Nothing queued this week.</p>\n'
-    else:
-        for item in articles:
-            source_name = item.get("source_name", "")
-            source_url  = item.get("source_url", "#")
-            html += f"""<div style="padding: 14px 16px; border: 1px solid #e5e7eb; border-radius: 8px; background: white; margin-bottom: 10px;">
-  <div style="font-size: 15px; font-weight: 600; margin-bottom: 4px;"><a href="{source_url}" style="color: #1a1a2e; text-decoration: none;">{item.get('title', '')}</a></div>
-  <div style="font-size: 12px; color: #8D8D8D; margin-bottom: 8px;">by {source_name}</div>
-  <p style="font-size: 14px; color: #374151; line-height: 1.6; margin: 0 0 10px;">{item.get('summary', '')}</p>
-  <div style="padding: 8px 12px; background: #FFFBF5; border-radius: 6px; border: 1px solid #EDE0D4;">
-    <span style="font-size: 10px; font-weight: 700; color: #E07A5F; text-transform: uppercase; letter-spacing: 0.04em; display: block; margin-bottom: 2px;">What you'll learn</span>
-    <span style="font-size: 13px; color: #3D405B;">{item.get('takeaway', '')}</span>
-  </div>
-  <div style="margin-top: 8px;"><a href="{source_url}" style="font-size: 13px; font-weight: 600; color: #E07A5F; text-decoration: none;">Read the original →</a></div>
-</div>\n"""
-
-    html += """<div style="text-align: center; padding: 20px 0; font-size: 12px; color: #8D8D8D;">
-  <p>FP&amp;A Field Notes — curated by AI, reviewed by humans.</p>
-  <p><a href="https://fpafieldnotes.seacloudconsulting.com" style="color: #E07A5F;">Visit the archive</a> · A <a href="https://seacloudconsulting.com" style="color: #E07A5F;">Sea Cloud Consulting</a> project.</p>
-</div>
-</div>"""
-
-    return html
-
-
-def publish_beehiiv_copy(digest: dict):
-    """Save a Beehiiv-ready HTML file to the repo for easy copy/paste."""
-    print("📰 Saving Beehiiv newsletter copy...")
-
-    if not PAGES_TOKEN or not GITHUB_USERNAME:
-        print("   ⚠ PAGES_TOKEN or GITHUB_USERNAME not set — skipping")
-        return
-
-    repo = f"{GITHUB_USERNAME}/fpa-field-notes"
-    beehiiv_html = generate_beehiiv_html(digest)
-
-    existing_content, existing_sha = fetch_github_file(repo, "beehiiv-latest.html", PAGES_TOKEN)
-
-    try:
-        push_github_file(
-            repo, "beehiiv-latest.html", beehiiv_html, PAGES_TOKEN,
-            f"Update Beehiiv newsletter — {date.today().strftime('%B %d, %Y')}", existing_sha
-        )
-        print("   ✓ Saved beehiiv-latest.html")
-        print("   📋 Copy from: https://fpafieldnotes.seacloudconsulting.com/beehiiv-latest.html")
-    except Exception as e:
-        print(f"   ⚠ Failed to save Beehiiv copy: {e}")
-
-
 # ─── Generate and Publish Web Page ────────────────────────────────────────────
 
 def _make_meta_description(articles: list[dict]) -> str:
@@ -1293,46 +1232,24 @@ def publish_to_website(digest: dict):
         print(f"   ⚠ Failed to fetch index.html: {e}")
         return
 
-    def render_entry_html(item):
-        days_old    = item.get("days_old", 7)
-        credibility = item.get("credibility", "")
-        if isinstance(days_old, (int, float)) and days_old == -1:
-            fresh_label, fresh_bg, fresh_fg = "📅 Recent", "#F3F4F6", "#6B7280"
-        elif isinstance(days_old, (int, float)) and days_old <= 3:
-            fresh_label, fresh_bg, fresh_fg = (f"🟢 {int(days_old)}d ago" if days_old > 1 else "🟢 Today"), "#DCFCE7", "#166534"
-        elif isinstance(days_old, (int, float)) and days_old <= 5:
-            fresh_label, fresh_bg, fresh_fg = f"🟡 {int(days_old)}d ago", "#FEF3C7", "#92400E"
-        else:
-            fresh_label, fresh_bg, fresh_fg = f"🟠 ~{int(days_old)}d ago", "#FFEDD5", "#9A3412"
-
-        cred_map = {
-            "practitioner": ("👤 Practitioner", "#DCFCE7", "#166534"),
-            "expert":       ("🎓 Expert",        "#DBEAFE", "#1E40AF"),
-            "journalist":   ("📰 Journalist",    "#F3F4F6", "#374151"),
-        }
-        cred_text, cred_bg, cred_fg = cred_map.get(credibility, ("", "#F3F4F6", "#374151"))
-
-        return f'''<div class="entry">
-              <div class="entry-badges">
-                <span class="entry-badge" style="background: {fresh_bg}; color: {fresh_fg};">{fresh_label}</span>
-                <span class="entry-badge" style="background: {cred_bg}; color: {cred_fg};">{cred_text}</span>
-              </div>
-              <div class="entry-title"><a href="{item.get("source_url", "#")}">{item.get("title", "")}</a></div>
-              <div class="entry-source">by {item.get("source_name", "Unknown")}{(" · " + item.get("author_role", "")) if item.get("author_role") and item.get("author_role") != "Unknown" else ""}</div>
-              <div class="entry-summary">{item.get("summary", "")}</div>
-              <div class="entry-takeaway"><strong>WHAT YOU'LL LEARN →</strong> <span>{item.get("takeaway", "")}</span></div>
-              <div style="margin-top: 8px;"><a href="{item.get("source_url", "#")}" style="font-size: 0.78rem; font-weight: 600; color: #E07A5F; text-decoration: none;">Read the original →</a></div>
-            </div>'''
-
-    articles_html = "\n".join(render_entry_html(i) for i in digest.get("articles", []))
-
     import re as _re
-    if articles_html:
+
+    # ── Migrate old two-column structure to single articles-entries div ────────
+    # This handles the case where a previous pipeline version wrote the old HTML.
+    # It's safe to run every week — if the new structure is already there, the
+    # regex won't match and nothing changes.
+    if '<div class="columns">' in index_content:
         index_content = _re.sub(
-            r'<div id="articles-entries">.*?<!--/articles-entries-->',
-            f'<div id="articles-entries">\n{articles_html}\n            <!--/articles-entries-->',
+            r'<div id="digest-date-fallback"[^>]*>[^<]*</div>\s*'
+            r'<div class="columns">.*?</div>\s*</div>\s*</div>',
+            '<div id="articles-entries"><!--/articles-entries--></div>',
             index_content, flags=_re.DOTALL
         )
+        print("   ✓ Migrated old two-column structure to #articles-entries")
+
+    # ── Articles are now rendered by JS from published_entries.json ───────────
+    # The pipeline no longer injects static article HTML here. The JS on the
+    # page fetches published_entries.json and renders the 4 most recent cards.
 
     index_content = _re.sub(
         r'(<span class="latest-date" id="latest-date">)[^<]*(</span>)',
@@ -1959,7 +1876,6 @@ def main():
         # Step 4: Publish to website (optional)
         if PUBLISH_TO_WEB:
             publish_to_website(digest)
-            publish_beehiiv_copy(digest)
             update_knowledge_base(digest)
         else:
             print("\n📋 Skipping website publish (PUBLISH_TO_WEB not set)")
