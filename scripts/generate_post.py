@@ -363,6 +363,51 @@ def esc(s: str) -> str:
 # Claude API call
 # ---------------------------------------------------------------------------
 
+_POST_TOOL = {
+    "name": "publish_blog_post",
+    "description": "Publish a completed blog post for FP&A Field Notes.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "title": {
+                "type": "string",
+                "description": "Post title as plain text (no HTML entities).",
+            },
+            "slug": {
+                "type": "string",
+                "description": "kebab-case URL slug derived from the title.",
+            },
+            "excerpt": {
+                "type": "string",
+                "description": "One to two sentence summary for the post listing page. Plain text, no HTML.",
+            },
+            "tags": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "2-4 topic tags.",
+            },
+            "body_html": {
+                "type": "string",
+                "description": (
+                    "Full HTML content of the post body. "
+                    "Include only inner content: <p>, <h2>, <strong>, <a>, and tip-list divs. "
+                    "No outer wrappers, no <article>, no <h1>. "
+                    "For numbered lists use: "
+                    '<div class="tip-list"><div class="tip">'
+                    '<div class="tip-number">1</div>'
+                    '<div class="tip-content"><strong>Title.</strong><p>Body.</p></div>'
+                    "</div></div>. "
+                    "Target 300-800 words. "
+                    "Use HTML entities in body text where needed (&amp; for &, etc.). "
+                    "Do not include the post footer."
+                ),
+            },
+        },
+        "required": ["title", "slug", "excerpt", "tags", "body_html"],
+    },
+}
+
+
 def call_claude(topic_content: str) -> dict:
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
 
@@ -380,61 +425,26 @@ THIS WEEK'S TOPIC:
 ---
 
 Write a complete blog post based on the topic above. Follow the style guide exactly, especially the AI Anti-Patterns section.
-
-Return ONLY a valid JSON object with no surrounding markdown, no code fences, no extra text. Use these exact fields:
-{{
-  "title": "The post title as plain text (no HTML entities)",
-  "slug": "kebab-case-url-slug derived from the title",
-  "excerpt": "One to two sentence summary for the post listing page. Plain text, no HTML.",
-  "tags": ["Tag1", "Tag2", "Tag3"],
-  "body_html": "<p>Full HTML content of the post body...</p>"
-}}
-
-Rules for body_html:
-- Include only the inner content: paragraphs, headers, lists. No outer wrappers, no <article>, no <h1> title (it renders separately).
-- Use <p> for paragraphs.
-- Use <h2> for section headers when they help (include a relevant emoji in the header text).
-- Use <strong> for emphasis on key phrases within sentences. Do not bold full sentences.
-- For numbered tip/point lists, use this structure:
-  <div class="tip-list">
-    <div class="tip">
-      <div class="tip-number">1</div>
-      <div class="tip-content">
-        <strong>Point title.</strong>
-        <p>Explanation here.</p>
-      </div>
-    </div>
-  </div>
-- Target 300-800 words. Stop when the point is made.
-- Use proper HTML entities in body text where needed (& becomes &amp;, etc.).
-- The post footer ("Directed by Mike Duncan, drafted by Claude.") is added automatically — do not include it.
-"""
+Call the publish_blog_post tool with the completed post."""
 
     message = client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=4096,
+        tools=[_POST_TOOL],
+        tool_choice={"type": "tool", "name": "publish_blog_post"},
         messages=[{"role": "user", "content": prompt}],
     )
 
-    text = message.content[0].text.strip()
-
-    # Try direct parse first (Claude often returns clean JSON)
-    try:
-        return json.loads(text)
-    except json.JSONDecodeError:
-        pass
-
-    # Fall back to extracting JSON block from surrounding text
-    m = re.search(r"\{[\s\S]*\}", text)
-    if not m:
-        print(f"ERROR: No JSON found in Claude response:\n{text[:800]}")
+    tool_block = next(
+        (b for b in message.content if b.type == "tool_use"),
+        None,
+    )
+    if tool_block is None:
+        print("ERROR: Claude did not call the publish_blog_post tool.")
+        print("Response:", message.content)
         sys.exit(1)
 
-    try:
-        return json.loads(m.group())
-    except json.JSONDecodeError as e:
-        print(f"ERROR: JSON parse failed ({e}).\nRaw response:\n{text[:800]}")
-        sys.exit(1)
+    return tool_block.input
 
 
 # ---------------------------------------------------------------------------
