@@ -16,12 +16,10 @@ Headcount Planning at Scale: What Changes When You Hit 200 Employees
 
 ## 2026-03-30
 
-Rolling Forecasts vs. Annual Budgets: Why Most Companies Do Both Wrong
+How Adobe’s CFO is Using Agentic AI to Redefine Finance + Tips for FP&A Teams
 
-- Companies treat rolling forecasts as a second budget iteration instead of a live decision tool
-- The real value is in refreshing assumptions on a regular cadence, not just updating actuals
-- Common failure: finance updates the numbers but not the story behind them
-- What good looks like: quarterly driver review, documented assumptions, variances explained by driver not by "timing"
+- Summarize this article concisely and provide attribution to the writer: https://fortune.com/2026/03/22/meet-the-cfo-who-turned-adobes-finance-department-into-an-ai-lab/
+- Explain how FP&A teams can do the same thing at their companies, in a smaller way
 
 ## 2026-04-06
 
