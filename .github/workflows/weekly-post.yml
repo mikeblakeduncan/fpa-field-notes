@@ -1,0 +1,46 @@
+name: Publish Weekly Blog Post
+
+on:
+  schedule:
+    # Tuesday at 6:00 AM PST = 14:00 UTC
+    - cron: '0 14 * * 2'
+  workflow_dispatch:
+    inputs:
+      force_week:
+        description: 'Week to generate (YYYY-MM-DD, any date in that week). Leave blank to use the current week.'
+        required: false
+        default: ''
+        type: string
+      overwrite:
+        description: 'Overwrite an existing post for this week if one already exists.'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  generate-post:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install anthropic
+
+      - name: Generate and publish post
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          FORCE_WEEK: ${{ inputs.force_week }}
+          OVERWRITE: ${{ inputs.overwrite }}
+        run: python scripts/generate_post.py
