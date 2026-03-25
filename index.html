@@ -292,7 +292,15 @@
             entries.sort(function(a, b) {
                 return (b.date_published || '').localeCompare(a.date_published || '');
             });
-            var recent = entries.filter(isValidEntry).slice(0, 4);
+            // Deduplicate by URL — prevents same article showing twice even if JSON is dirty
+            var seenUrls = {};
+            var deduped = entries.filter(function(e) {
+                var key = (e.source_url || '').trim().toLowerCase().replace(/\/$/, '');
+                if (!key || seenUrls[key]) return false;
+                seenUrls[key] = true;
+                return true;
+            });
+            var recent = deduped.filter(isValidEntry).slice(0, 4);
 
             // Update date label from most recent entry's date
             var latestDate = recent[0].date_published;
