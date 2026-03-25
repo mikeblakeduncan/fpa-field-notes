@@ -295,6 +295,18 @@ def process_queued_articles(urls: list[str], previously_featured_urls: set = Non
 
     print(f"📰 Processing {len(urls)} queued URL(s)...")
 
+    # Deduplicate within the current batch first (in case same URL was emailed twice)
+    seen_this_batch: set[str] = set()
+    deduped: list[str] = []
+    for u in urls:
+        key = u.rstrip("/").lower()
+        if key not in seen_this_batch:
+            seen_this_batch.add(key)
+            deduped.append(u)
+    if len(deduped) < len(urls):
+        print(f"   Removed {len(urls) - len(deduped)} within-batch duplicate(s)")
+    urls = deduped
+
     # Filter out already-published URLs
     new_urls = [u for u in urls if u.rstrip("/").lower() not in previously_featured_urls]
     skipped = len(urls) - len(new_urls)
@@ -1579,11 +1591,19 @@ def save_published_entries(digest: dict):
             p in combined for p in FAILURE_PHRASES
         )
 
+    # Build a set of already-saved URLs so we never append a duplicate
+    existing_urls = {e.get("source_url", "").rstrip("/").lower() for e in entries}
+
     new_count = 0
     for item in digest.get("articles", []):
         if not _is_publishable(item):
             print(f"   ⚠ Skipped unpublishable entry: {item.get('title', '')[:60]}")
             continue
+        url_key = item.get("source_url", "").rstrip("/").lower()
+        if url_key in existing_urls:
+            print(f"   ⚠ Skipped duplicate entry: {item.get('title', '')[:60]}")
+            continue
+        existing_urls.add(url_key)
         entries.append({
             "title":          item.get("title", ""),
             "source_name":    item.get("source_name", ""),
