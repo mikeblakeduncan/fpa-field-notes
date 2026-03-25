@@ -54,12 +54,6 @@
     "date_published": "2026-02-25"
   },
   {
-    "title": "Claude in Excel: Building Financial Models in Real-Time",
-    "source_name": "Nate's Newsletter",
-    "source_url": "https://natesnewsletter.substack.com/p/anthropic-just-put-claude-inside",
-    "date_published": "2026-02-27"
-  },
-  {
     "title": "Claude vs. ChatGPT for Financial Document Analysis and Bank Statement Review",
     "source_name": "Counsel Pro AI",
     "source_url": "https://www.counselpro.ai/blog/chatgpt-vs-claude-vs-gemini-for-lawyers-financial-review",
@@ -70,24 +64,6 @@
     "source_name": "Common Thread Co",
     "source_url": "https://commonthreadco.com/blogs/ecommerce-playbook/2026-forecast-planning-board-vs-budget-vs-bonus-explained",
     "date_published": "2026-02-27"
-  },
-  {
-    "title": "Claude in Excel: Building Financial Models Directly in Spreadsheets",
-    "source_name": "Nate's Newsletter",
-    "source_url": "https://natesnewsletter.substack.com/p/anthropic-just-put-claude-inside",
-    "date_published": "2026-03-03"
-  },
-  {
-    "title": "ChatGPT for FP&A Workflows: Automating Variance Analysis, Forecasting, and Reports",
-    "source_name": "The FP&A Guy",
-    "source_url": "https://www.thefpandaguy.com/guests/episode-47-glenn-hopper-using-chatgpt-to-build-an-fpampa-tool-and-what-happened-next",
-    "date_published": "2026-03-03"
-  },
-  {
-    "title": "Power Query for Finance Automation: One-Click Dashboard Refresh",
-    "source_name": "Resourceful Finance Pro",
-    "source_url": "https://www.resourcefulfinancepro.com/articles/excel-power-query/",
-    "date_published": "2026-03-03"
   },
   {
     "title": "Board Forecast Presentation: Visual Storytelling and Multi-Scenario Planning",
@@ -102,12 +78,6 @@
     "date_published": "2026-03-03"
   },
   {
-    "title": "Claude in Excel: Building Financial Models Directly in Spreadsheets",
-    "source_name": "Nate's Newsletter",
-    "source_url": "https://natesnewsletter.substack.com/p/anthropic-just-put-claude-inside",
-    "date_published": "2026-03-03"
-  },
-  {
     "title": "Efficiency Gains from Claude in Excel: Reducing 3-Statement Model Time to 90 Minutes",
     "source_name": "Albus Research",
     "source_url": "https://albusi.com/research/ai-financial-modeling-how-claude-projects-cut-our-3-statement-model-time-in-half/",
@@ -117,12 +87,6 @@
     "title": "ChatGPT Power Query Automation for FP&A: Generating M Code Without Manual Editing",
     "source_name": "Zero to Mastery",
     "source_url": "https://zerotomastery.io/blog/chatgpt-excel-formula-examples/",
-    "date_published": "2026-03-03"
-  },
-  {
-    "title": "CFO Lessons: Presenting Forecasts to the Board—Lead with Impact, Not Context",
-    "source_name": "OneStream",
-    "source_url": "https://www.onestream.com/blog/storytelling-tips-for-cfos/",
     "date_published": "2026-03-03"
   },
   {
@@ -252,28 +216,6 @@
     "date_published": "2026-03-19"
   },
   {
-    "title": "Unable to access article content from X/Twitter",
-    "source_name": "X (Twitter)",
-    "source_url": "https://x.com/quantscience_/status/2034297848389378529?s=46",
-    "summary": "The provided URL is a Twitter link that failed to load properly, returning only browser error code and JavaScript configuration. No article content is available for analysis.",
-    "takeaway": "This source cannot be processed as a valid article for FP&A Field Notes; a different source or accessible link is needed.",
-    "section": "fpa_practice",
-    "credibility": "unknown",
-    "author_role": "Unknown",
-    "date_published": "2026-03-24"
-  },
-  {
-    "title": "Unable to Access Article - X/Twitter Content Unavailable",
-    "source_name": "X (Twitter)",
-    "source_url": "https://x.com/aiedge_/status/2034988195432341868?s=46",
-    "summary": "The provided URL appears to be a broken X/Twitter link that returns only JavaScript error code and browser configuration messages rather than actual article content. No meaningful FP&A content could be extracted from this source.",
-    "takeaway": "This source cannot be evaluated as a digest entry due to inaccessible content; please provide a working link or alternative source.",
-    "section": "fpa_practice",
-    "credibility": "journalist",
-    "author_role": "Unknown",
-    "date_published": "2026-03-24"
-  },
-  {
     "title": "What 81,000 Claude Users Around the World Want from AI",
     "source_name": "Anthropic",
     "source_url": "https://www.anthropic.com/features/81k-interviews",
@@ -281,171 +223,6 @@
     "takeaway": "Understanding your users' real, ground-level concerns about AI tools—not just abstract risks—is essential for product development and stakeholder communication.",
     "section": "fpa_practice",
     "credibility": "marketing",
-    "author_role": "Unknown",
-    "date_published": "2026-03-24"
-  },
-  {
-    "title": "Unable to access article content",
-    "source_name": "X (Twitter)",
-    "source_url": "https://x.com/yourcfoguy/status/2034273996221419936?s=46",
-    "summary": "The provided URL points to a Twitter/X post but the content could not be retrieved due to JavaScript requirements and page loading errors. No article text or FP&A content is available for analysis.",
-    "takeaway": "This source cannot be processed as a digest entry due to technical limitations in accessing the underlying content.",
-    "section": "fpa_practice",
-    "credibility": "unknown",
-    "author_role": "Unknown",
-    "date_published": "2026-03-24"
-  },
-  {
-    "title": "Unable to Access Article Content",
-    "source_name": "X (Twitter)",
-    "source_url": "https://x.com/kanikabk/status/2034676837918679122?s=46",
-    "summary": "The provided URL links to an X post but the content is inaccessible due to JavaScript requirements and page rendering issues. No article content could be extracted for analysis.",
-    "takeaway": "Unable to generate a meaningful digest entry without access to the actual article content.",
-    "section": "fpa_practice",
-    "credibility": "unknown",
-    "author_role": "Unknown",
-    "date_published": "2026-03-24"
-  },
-  {
-    "title": "Unable to Access Article Content",
-    "source_name": "X (Twitter)",
-    "source_url": "https://x.com/levie/status/2034484203522261293?s=46",
-    "summary": "The provided URL points to an X post but the content is inaccessible—only JavaScript error code and browser configuration messages are available. Unable to determine the actual article content or topic.",
-    "takeaway": "This source cannot be processed; a direct link to readable content or alternative source is needed.",
-    "section": "fpa_practice",
-    "credibility": "unknown",
-    "author_role": "Unknown",
-    "date_published": "2026-03-24"
-  },
-  {
-    "title": "Services: The New Software – Why the Next $1T Company Will Sell Outcomes, Not Tools",
-    "source_name": "Julien Bek, Sequoia Capital",
-    "source_url": "https://sequoiacap.com/article/services-the-new-software/",
-    "summary": "Bek argues that as AI models improve, the competitive advantage shifts from selling AI tools to selling services powered by AI—where the work itself becomes the product. He distinguishes between intelligence work (which AI now handles autonomously) and judgment work (which requires human experience), suggesting that software engineering was first to cross this threshold and other professions will follow.",
-    "takeaway": "FP&A leaders should consider whether their finance teams should shift from building internal AI tools to outsourcing intelligence-heavy work (like close procedures or forecasting) to AI-powered service providers, freeing internal staff for high-judgment activities like strategic planning.",
-    "section": "fpa_practice",
-    "credibility": "expert",
-    "author_role": "Venture capital investor at Sequoia Capital",
-    "date_published": "2026-03-24"
-  },
-  {
-    "title": "Services: The New Software – Why the Next $1T Company Will Sell Outcomes, Not Tools",
-    "source_name": "Julien Bek, Sequoia Capital",
-    "source_url": "https://sequoiacap.com/article/services-the-new-software/",
-    "summary": "Bek argues that as AI models improve, the competitive advantage shifts from selling AI tools to selling services powered by AI—where the work itself becomes the product. He distinguishes between intelligence work (which AI now handles autonomously) and judgment work (which requires human experience), suggesting that software engineering was first to cross this threshold and other professions will follow.",
-    "takeaway": "FP&A leaders should consider whether their finance teams should shift from building internal AI tools to outsourcing intelligence-heavy work (like close procedures or forecasting) to AI-powered service providers, freeing internal staff for high-judgment activities like strategic planning.",
-    "section": "fpa_practice",
-    "credibility": "expert",
-    "author_role": "Venture capital investor at Sequoia Capital",
-    "date_published": "2026-03-24"
-  },
-  {
-    "title": "Unable to Access Article Content",
-    "source_name": "X (Twitter)",
-    "source_url": "https://x.com/levie/status/2034484203522261293?s=46",
-    "summary": "The provided URL points to an X post but the content is inaccessible—only JavaScript error code and browser configuration messages are available. Unable to determine the actual article content or topic.",
-    "takeaway": "This source cannot be processed; a direct link to readable content or alternative source is needed.",
-    "section": "fpa_practice",
-    "credibility": "unknown",
-    "author_role": "Unknown",
-    "date_published": "2026-03-24"
-  },
-  {
-    "title": "Unable to Access Article Content",
-    "source_name": "X (Twitter)",
-    "source_url": "https://x.com/kanikabk/status/2034676837918679122?s=46",
-    "summary": "The provided URL links to an X post but the content is inaccessible due to JavaScript requirements and page rendering issues. No article content could be extracted for analysis.",
-    "takeaway": "Unable to generate a meaningful digest entry without access to the actual article content.",
-    "section": "fpa_practice",
-    "credibility": "unknown",
-    "author_role": "Unknown",
-    "date_published": "2026-03-24"
-  },
-  {
-    "title": "Unable to Access Article Content",
-    "source_name": "X (Twitter)",
-    "source_url": "https://x.com/kanikabk/status/2034676837918679122?s=46",
-    "summary": "The provided URL links to an X post but the content is inaccessible due to JavaScript requirements and page rendering issues. No article content could be extracted for analysis.",
-    "takeaway": "Unable to generate a meaningful digest entry without access to the actual article content.",
-    "section": "fpa_practice",
-    "credibility": "unknown",
-    "author_role": "Unknown",
-    "date_published": "2026-03-24"
-  },
-  {
-    "title": "Unable to Access Article Content",
-    "source_name": "X (Twitter)",
-    "source_url": "https://x.com/levie/status/2034484203522261293?s=46",
-    "summary": "The provided URL points to an X post but the content is inaccessible—only JavaScript error code and browser configuration messages are available. Unable to determine the actual article content or topic.",
-    "takeaway": "This source cannot be processed; a direct link to readable content or alternative source is needed.",
-    "section": "fpa_practice",
-    "credibility": "unknown",
-    "author_role": "Unknown",
-    "date_published": "2026-03-24"
-  },
-  {
-    "title": "Services: The New Software – Why the Next $1T Company Will Sell Outcomes, Not Tools",
-    "source_name": "Julien Bek, Sequoia Capital",
-    "source_url": "https://sequoiacap.com/article/services-the-new-software/",
-    "summary": "Bek argues that as AI models improve, the competitive advantage shifts from selling AI tools to selling services powered by AI—where the work itself becomes the product. He distinguishes between intelligence work (which AI now handles autonomously) and judgment work (which requires human experience), suggesting that software engineering was first to cross this threshold and other professions will follow.",
-    "takeaway": "FP&A leaders should consider whether their finance teams should shift from building internal AI tools to outsourcing intelligence-heavy work (like close procedures or forecasting) to AI-powered service providers, freeing internal staff for high-judgment activities like strategic planning.",
-    "section": "fpa_practice",
-    "credibility": "expert",
-    "author_role": "Venture capital investor at Sequoia Capital",
-    "date_published": "2026-03-24"
-  },
-  {
-    "title": "Services: The New Software – Why the Next $1T Company Will Sell Outcomes, Not Tools",
-    "source_name": "Julien Bek, Sequoia Capital",
-    "source_url": "https://sequoiacap.com/article/services-the-new-software/",
-    "summary": "Bek argues that as AI models improve, the competitive advantage shifts from selling AI tools to selling services powered by AI—where the work itself becomes the product. He distinguishes between intelligence work (which AI now handles autonomously) and judgment work (which requires human experience), suggesting that software engineering was first to cross this threshold and other professions will follow.",
-    "takeaway": "FP&A leaders should consider whether their finance teams should shift from building internal AI tools to outsourcing intelligence-heavy work (like close procedures or forecasting) to AI-powered service providers, freeing internal staff for high-judgment activities like strategic planning.",
-    "section": "fpa_practice",
-    "credibility": "expert",
-    "author_role": "Venture capital investor at Sequoia Capital",
-    "date_published": "2026-03-24"
-  },
-  {
-    "title": "Unable to Access Article Content",
-    "source_name": "X (Twitter)",
-    "source_url": "https://x.com/levie/status/2034484203522261293?s=46",
-    "summary": "The provided URL points to an X post but the content is inaccessible—only JavaScript error code and browser configuration messages are available. Unable to determine the actual article content or topic.",
-    "takeaway": "This source cannot be processed; a direct link to readable content or alternative source is needed.",
-    "section": "fpa_practice",
-    "credibility": "unknown",
-    "author_role": "Unknown",
-    "date_published": "2026-03-24"
-  },
-  {
-    "title": "Unable to Access Article Content",
-    "source_name": "X (Twitter)",
-    "source_url": "https://x.com/kanikabk/status/2034676837918679122?s=46",
-    "summary": "The provided URL links to an X post but the content is inaccessible due to JavaScript requirements and page rendering issues. No article content could be extracted for analysis.",
-    "takeaway": "Unable to generate a meaningful digest entry without access to the actual article content.",
-    "section": "fpa_practice",
-    "credibility": "unknown",
-    "author_role": "Unknown",
-    "date_published": "2026-03-24"
-  },
-  {
-    "title": "Unable to Access Article Content",
-    "source_name": "X (Twitter)",
-    "source_url": "https://x.com/kanikabk/status/2034676837918679122?s=46",
-    "summary": "The provided URL links to an X post but the content is inaccessible due to JavaScript requirements and page rendering issues. No article content could be extracted for analysis.",
-    "takeaway": "Unable to generate a meaningful digest entry without access to the actual article content.",
-    "section": "fpa_practice",
-    "credibility": "unknown",
-    "author_role": "Unknown",
-    "date_published": "2026-03-24"
-  },
-  {
-    "title": "Unable to Access Article Content",
-    "source_name": "X (Twitter)",
-    "source_url": "https://x.com/levie/status/2034484203522261293?s=46",
-    "summary": "The provided URL points to an X post but the content is inaccessible—only JavaScript error code and browser configuration messages are available. Unable to determine the actual article content or topic.",
-    "takeaway": "This source cannot be processed; a direct link to readable content or alternative source is needed.",
-    "section": "fpa_practice",
-    "credibility": "unknown",
     "author_role": "Unknown",
     "date_published": "2026-03-24"
   },
