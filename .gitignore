@@ -1,0 +1,6 @@
+# Claude Code worktrees (temporary, local-only)
+.claude/worktrees/
+
+# Python cache
+__pycache__/
+*.pyc
