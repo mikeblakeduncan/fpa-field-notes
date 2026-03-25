@@ -32,8 +32,8 @@
         .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
 
         header { padding: 14px 0 12px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); margin-bottom: 14px; }
-        .logo-mark { width: 36px; height: 36px; background: var(--accent); border-radius: 8px; transform: rotate(-3deg); position: relative; box-shadow: 2px 2px 0 var(--navy); flex-shrink: 0; }
-        .logo-mark::after { content: '📐'; font-size: 18px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .logo-mark { width: 36px; height: 36px; background: var(--accent); border-radius: 8px; transform: rotate(-3deg); position: relative; box-shadow: 2px 2px 0 var(--navy); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .logo-mark::after { content: 'FN'; font-family: 'Fraunces', serif; font-size: 13px; font-weight: 800; color: white; letter-spacing: -0.03em; }
         .header-text h1 { font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 300; color: var(--ink); line-height: 1.1; }
         .header-text h1 span { color: var(--accent); }
         .header-text p { font-size: 0.78rem; color: var(--warm-gray); margin-top: 1px; }
@@ -43,25 +43,25 @@
 
         .latest-date { font-size: 0.78rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
 
-        .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 16px; }
-        @media (max-width: 640px) { .columns { grid-template-columns: 1fr; } .header-links { display: none; } }
+        @media (max-width: 640px) { .header-links { display: none; } }
 
-        .column-header { font-family: 'Fraunces', serif; font-size: 1rem; font-weight: 700; padding-bottom: 6px; margin-bottom: 10px; }
-        .col-tools .column-header { border-bottom: 3px solid var(--accent); }
-        .col-practice .column-header { border-bottom: 3px solid var(--sage); }
+        /* Articles grid */
+        #articles-entries { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        @media (max-width: 640px) { #articles-entries { grid-template-columns: 1fr; } }
 
-        .entry { padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); margin-bottom: 10px; transition: border-color 0.15s; }
-        .entry:hover { border-color: var(--accent); }
-        .entry-badges { margin-bottom: 6px; }
-        .entry-badge { font-size: 0.68rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; display: inline-block; }
-        .entry-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
-        .entry-title a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--accent); }
-        .entry-source { font-size: 0.76rem; color: var(--warm-gray); margin-bottom: 6px; }
-        .entry-summary { font-size: 0.84rem; color: #374151; line-height: 1.5; margin-bottom: 8px; }
-        .entry-takeaway { padding: 6px 10px; background: #F0F9FF; border-radius: 6px; border: 1px solid #BAE6FD; font-size: 0.78rem; }
-        .entry-takeaway strong { color: #0369A1; font-size: 0.68rem; }
-        .entry-takeaway span { color: #0C4A6E; }
-        .empty-col { color: var(--warm-gray); font-style: italic; font-size: 0.85rem; padding: 20px 0; }
+        .entry { padding: 16px 18px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); transition: border-color 0.15s, box-shadow 0.15s; }
+        .entry:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(224,122,95,0.08); }
+        .entry-badges { margin-bottom: 8px; }
+        .entry-badge { font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-block; }
+        .entry-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; line-height: 1.4; }
+        .entry-title a { color: var(--ink); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+        .entry-title a:hover { border-color: var(--accent); }
+        .entry-source { font-size: 0.75rem; color: var(--warm-gray); margin-bottom: 8px; }
+        .entry-summary { font-size: 0.84rem; color: #4B5563; line-height: 1.55; margin-bottom: 10px; }
+        .entry-takeaway { padding: 8px 11px; background: #FFFBF5; border-radius: 6px; border: 1px solid #EDE0D4; font-size: 0.78rem; }
+        .entry-takeaway strong { color: var(--accent); font-size: 0.67rem; text-transform: uppercase; letter-spacing: 0.04em; display: block; margin-bottom: 2px; }
+        .entry-takeaway span { color: var(--navy); line-height: 1.5; }
+        .empty-state { color: var(--warm-gray); font-style: italic; font-size: 0.85rem; padding: 20px 0; }
 
         /* Featured Blog Post */
         .featured-post { margin-bottom: 16px; display: none; }
@@ -81,9 +81,10 @@
         @media (max-width: 640px) { .featured-card { padding: 20px; } .featured-title { font-size: 1.25rem; } }
 
         /* Digest section divider */
-        .section-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+        .section-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
         .section-divider-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--warm-gray); white-space: nowrap; }
         .section-divider-line { flex: 1; height: 1px; background: var(--border); }
+        .digest-description { font-size: 0.82rem; color: var(--warm-gray); margin-bottom: 14px; }
 
         .bottom-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
         @media (max-width: 640px) { .bottom-nav { grid-template-columns: 1fr; } }
@@ -106,9 +107,11 @@
         .issue-arrow { font-size: 1rem; color: var(--accent); opacity: 0.3; }
         .issue-card:hover .issue-arrow { opacity: 1; }
 
-        footer { text-align: center; padding: 20px 0; border-top: 1px solid var(--border); margin-top: 16px; }
-        footer p { font-size: 0.76rem; color: var(--warm-gray); line-height: 1.8; }
-        footer a { color: var(--accent); text-decoration: none; }
+        footer { padding: 28px 0; border-top: 1px solid var(--border); margin-top: 24px; display: flex; align-items: center; justify-content: space-between; }
+        .footer-brand { font-family: 'Fraunces', serif; font-size: 0.88rem; font-weight: 700; color: var(--ink); }
+        .footer-credit { font-size: 0.76rem; color: var(--warm-gray); text-align: right; }
+        .footer-credit a { color: var(--accent); text-decoration: none; }
+        @media (max-width: 640px) { footer { flex-direction: column; gap: 8px; text-align: center; } .footer-credit { text-align: center; } }
     </style>
 </head>
 <body>
@@ -130,48 +133,13 @@
     <div class="featured-post" id="featured-post"></div>
 
     <!-- Digest section -->
-    <div class="section-divider" id="digest-divider" style="display: none;">
-        <span class="section-divider-label">This week's digest</span>
+    <div class="section-divider" id="digest-divider">
+        <span class="section-divider-label">Recent links for FP&amp;A practitioners</span>
         <span class="section-divider-line"></span>
-        <span class="latest-date" id="latest-date">Week of March 11, 2026</span>
+        <span class="latest-date" id="latest-date">Week of March 24, 2026</span>
     </div>
 
-    <div id="digest-date-fallback" class="latest-date">Week of March 11, 2026</div>
-
-    <div class="columns">
-        <div class="col-tools">
-            <div class="column-header">🛠️ Tools & Efficiency</div>
-            <div id="tools-entries">
-<div class="entry">
-              <div class="entry-badges">
-                <span class="entry-badge" style="background: #F3F4F6; color: #6B7280;">📅 Recent</span>
-                <span class="entry-badge" style="background: #DCFCE7; color: #166534;">👤 Practitioner</span>
-              </div>
-              <div class="entry-title"><a href="https://sarahgschlott.com/how-to-build-an-audit-friendly-financial-data-pipeline-with-excel-power-query/">Automating FP&A Variance Analysis with Excel Power Query</a></div>
-              <div class="entry-source">by Sarah Schlott · FP&A practitioner</div>
-              <div class="entry-summary">Builds audit-friendly financial data pipelines using Power Query by creating a raw data layer, applying documented transformations, and using external mapping tables for reusable logic. The approach eliminates manual copy-paste, maintains version control, and enables one-click dashboard refresh for variance analysis.</div>
-              <div class="entry-takeaway"><strong>WHAT YOU'LL LEARN →</strong> <span>Learn how to structure Power Query workflows with a raw data layer and documented M code comments so your budgets-vs-actuals can scale without breaking audit controls.</span></div>
-              <div style="margin-top: 8px;"><a href="https://sarahgschlott.com/how-to-build-an-audit-friendly-financial-data-pipeline-with-excel-power-query/" style="font-size: 0.78rem; font-weight: 600; color: #E07A5F; text-decoration: none;">Read the original →</a></div>
-            </div>
-            <!--/tools-entries--></div>
-        </div>
-        <div class="col-practice">
-            <div class="column-header">📐 FP&A Practice</div>
-            <div id="practice-entries">
-<div class="entry">
-              <div class="entry-badges">
-                <span class="entry-badge" style="background: #FFEDD5; color: #9A3412;">🟠 ~7d ago</span>
-                <span class="entry-badge" style="background: #DBEAFE; color: #1E40AF;">🎓 Expert</span>
-              </div>
-              <div class="entry-title"><a href="https://qxaccounting.com/usa/blog/surviving-budget-season-2026-10-practical-lessons-from-a-cfo/">Finance Leaders Handling Difficult Budget Conversations in 2026</a></div>
-              <div class="entry-source">by QX Accounting</div>
-              <div class="entry-summary">Finance leaders should align budgets to strategic goals first, then ruthlessly prioritize initiatives by impact and build flexibility through contingency funds. The piece emphasizes that fewer than 50% of budgets stay accurate beyond six months, underscoring the need for adaptive planning.</div>
-              <div class="entry-takeaway"><strong>WHAT YOU'LL LEARN →</strong> <span>Start tough budget conversations by establishing shared strategic goals, not numbers—this reduces defensiveness and creates a foundation for prioritization.</span></div>
-              <div style="margin-top: 8px;"><a href="https://qxaccounting.com/usa/blog/surviving-budget-season-2026-10-practical-lessons-from-a-cfo/" style="font-size: 0.78rem; font-weight: 600; color: #E07A5F; text-decoration: none;">Read the original →</a></div>
-            </div>
-            <!--/practice-entries--></div>
-        </div>
-    </div>
+    <div id="articles-entries"><!--/articles-entries--></div>
 
     <div class="bottom-nav">
         <a href="knowledge.html" class="nav-card nav-kb">
@@ -187,6 +155,24 @@
     <div class="archive-section" id="past-issues" style="display: none;">
         <h2>Past Issues</h2>
         <div id="issues-list">
+        <a href="issues/2026-03-24.html" class="issue-card">
+            <div>
+                <div class="issue-date">March 24, 2026</div>
+                <div class="issue-title">FP&A Field Notes — March 24, 2026</div>
+                <div class="issue-meta">6 FP&amp;A practice</div>
+            </div>
+            <span class="issue-arrow">→</span>
+        </a>
+        
+        <a href="issues/2026-03-19.html" class="issue-card">
+            <div>
+                <div class="issue-date">March 19, 2026</div>
+                <div class="issue-title">FP&A Field Notes — March 19, 2026</div>
+                <div class="issue-meta">1 tools</div>
+            </div>
+            <span class="issue-arrow">→</span>
+        </a>
+        
         <a href="issues/2026-03-11.html" class="issue-card">
             <div>
                 <div class="issue-date">March 11, 2026</div>
@@ -228,29 +214,126 @@
 </div>
 
 <footer>
-    <div class="container">
-        <p>FP&A Field Notes — curated by AI, reviewed by humans.</p>
-        <p>A <a href="https://seacloudconsulting.com">Sea Cloud Consulting</a> project.</p>
+    <div class="container" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+        <div class="footer-brand">FP&A Field Notes</div>
+        <div class="footer-credit">By <a href="https://seacloudconsulting.com">Sea Cloud Consulting</a> · Published weekly</div>
     </div>
 </footer>
 
 <script>
 (function() {
+
+    // ── Render an article card from a published_entries.json item ──────────────
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        var d = new Date(dateStr + 'T12:00:00');
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+    }
+
+    function renderEntryCard(item) {
+        var dateLabel = formatDate(item.date_published);
+
+        var credMap = {
+            'practitioner': ['👤 Practitioner', '#DCFCE7', '#166534'],
+            'expert':       ['🎓 Expert',        '#DBEAFE', '#1E40AF'],
+            'journalist':   ['📰 Journalist',    '#F3F4F6', '#374151'],
+        };
+        var cred = credMap[item.credibility] || ['', '#F3F4F6', '#374151'];
+
+        var sourceStr = 'by ' + (item.source_name || 'Unknown');
+        if (item.author_role && item.author_role !== 'Unknown') {
+            sourceStr += ' · ' + item.author_role;
+        }
+
+        var badgesHtml = dateLabel
+            ? '<span class="entry-badge" style="background:#F3F4F6;color:#6B7280;">' + dateLabel + '</span>'
+            : '';
+        if (cred[0]) {
+            badgesHtml += ' <span class="entry-badge" style="background:' + cred[1] + ';color:' + cred[2] + ';">' + cred[0] + '</span>';
+        }
+
+        var takeawayHtml = item.takeaway
+            ? '<div class="entry-takeaway"><strong>WHAT YOU\'LL LEARN →</strong> <span>' + item.takeaway + '</span></div>'
+            : '';
+
+        return '<div class="entry">' +
+            '<div class="entry-badges">' + badgesHtml + '</div>' +
+            '<div class="entry-title"><a href="' + item.source_url + '">' + item.title + '</a></div>' +
+            '<div class="entry-source">' + sourceStr + '</div>' +
+            '<div class="entry-summary">' + (item.summary || '') + '</div>' +
+            takeawayHtml +
+            '<div style="margin-top:8px;"><a href="' + item.source_url + '" style="font-size:0.78rem;font-weight:600;color:#E07A5F;text-decoration:none;">Read the original →</a></div>' +
+            '</div>';
+    }
+
+    // ── Filter: skip any entry that looks broken or inaccessible ─────────────
+    var BAD_PHRASES = [
+        'unable to access', 'cannot access', 'could not access',
+        'no content', 'login required', 'access denied',
+        'paywalled', 'content unavailable', 'page not found'
+    ];
+    function isValidEntry(item) {
+        if (!item.source_url || !item.title) return false;
+        var combined = ((item.title || '') + ' ' + (item.summary || '')).toLowerCase();
+        for (var i = 0; i < BAD_PHRASES.length; i++) {
+            if (combined.indexOf(BAD_PHRASES[i]) !== -1) return false;
+        }
+        return true;
+    }
+
+    // ── Load 4 most recent articles from published_entries.json ───────────────
+    fetch('published_entries.json')
+        .then(function(r) { return r.json(); })
+        .then(function(entries) {
+            if (!entries || entries.length === 0) return;
+
+            // Sort by date_published descending, filter bad entries, take 4 most recent
+            entries.sort(function(a, b) {
+                return (b.date_published || '').localeCompare(a.date_published || '');
+            });
+            // Deduplicate by URL — prevents same article showing twice even if JSON is dirty
+            var seenUrls = {};
+            var deduped = entries.filter(function(e) {
+                var key = (e.source_url || '').trim().toLowerCase().replace(/\/$/, '');
+                if (!key || seenUrls[key]) return false;
+                seenUrls[key] = true;
+                return true;
+            });
+            var recent = deduped.filter(isValidEntry).slice(0, 4);
+
+            // Update date label from most recent entry's date
+            var latestDate = recent[0].date_published;
+            if (latestDate) {
+                var d = new Date(latestDate + 'T12:00:00');
+                var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+                var dateStr = 'Week of ' + months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+                var dateEl = document.getElementById('latest-date');
+                if (dateEl) dateEl.textContent = dateStr;
+            }
+
+            var container = document.getElementById('articles-entries');
+            if (container) {
+                container.innerHTML = recent.map(renderEntryCard).join('');
+            }
+        })
+        .catch(function() {
+            // No published_entries.json yet — static fallback already in place
+        });
+
+    // ── Load featured blog post from posts.json ────────────────────────────────
     fetch('posts.json')
-        .then(r => r.json())
-        .then(posts => {
+        .then(function(r) { return r.json(); })
+        .then(function(posts) {
             if (!posts || posts.length === 0) return;
 
-            // Sort by date descending, show most recent
-            posts.sort((a, b) => b.date.localeCompare(a.date));
+            posts.sort(function(a, b) { return b.date.localeCompare(a.date); });
             var post = posts[0];
 
-            // Format date
             var d = new Date(post.date + 'T12:00:00');
             var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
             var dateStr = months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
 
-            // Build tags HTML
             var tagsHtml = '';
             if (post.tags) {
                 post.tags.forEach(function(tag) {
@@ -259,28 +342,24 @@
             }
 
             var container = document.getElementById('featured-post');
-            container.innerHTML = '<div class="featured-label">Latest from the editor</div>' +
+            container.innerHTML =
+                '<div class="featured-label">Latest from the editor</div>' +
                 '<div class="featured-card">' +
                 '  <div class="featured-meta"><strong>Directed by Mike Duncan; Drafted by Claude</strong> · ' + dateStr + '</div>' +
                 '  <h2 class="featured-title"><a href="blog/' + post.slug + '.html">' + post.title + '</a></h2>' +
-                '  <div style="margin-bottom: 12px;">' + tagsHtml + '</div>' +
+                '  <div style="margin-bottom:12px;">' + tagsHtml + '</div>' +
                 '  <p class="featured-excerpt">' + post.excerpt + '</p>' +
                 '  <a href="blog/' + post.slug + '.html" class="featured-cta">Read the full post →</a>' +
                 '</div>';
             container.style.display = 'block';
-
-            // Show the digest divider and hide the fallback date
             document.getElementById('digest-divider').style.display = 'flex';
-            document.getElementById('digest-date-fallback').style.display = 'none';
 
-            // Show blog link in header
             var blogLink = document.getElementById('blog-link');
             blogLink.href = 'blog/' + post.slug + '.html';
             blogLink.style.display = 'inline';
         })
-        .catch(function() {
-            // No posts.json or empty — just show the digest as normal
-        });
+        .catch(function() {});
+
 })();
 </script>
 

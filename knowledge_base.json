@@ -44,15 +44,32 @@
       },
       "ai_and_automation": {
         "label": "AI & Automation",
-        "entries": [
-          {
-            "title": "ChatGPT for FP&A Workflows: Automating Variance Analysis, Forecasting, and Reports",
-            "source_name": "The FP&A Guy",
-            "source_url": "https://www.thefpandaguy.com/guests/episode-47-glenn-hopper-using-chatgpt-to-build-an-fpampa-tool-and-what-happened-next",
-            "summary": "Structure ChatGPT requests as an FP&A analyst taking on specific jobs (variance analysis, consolidation, narrative), and feed it your actual Excel data to automate repetitive reporting in minutes rather than hours.",
-            "date": "2026-03-03"
+        "children": {
+          "ai_agents_and_workflows": {
+            "label": "AI Agents & Advanced Workflows",
+            "entries": [
+              {
+                "title": "AI Agents Now Build McKinsey-Level Financial Models in 10 Minutes",
+                "source_name": "Dr. Ryan Ahmed, Ph.D., MBA",
+                "source_url": "https://www.linkedin.com/posts/dr-ryan-ahmed_watch-claude-build-a-mckinsey-level-financial-activity-7432093493206024192-LmoX/",
+                "summary": "Learn to use AI agents like Claude Artifacts to automate financial modeling end-to-end, from research and assumptions to sensitivity analysis and executive dashboards, rather than treating AI as a basic chat tool.",
+                "date": "2026-03-19"
+              }
+            ]
+          },
+          "chatgpt_and_llm_automation": {
+            "label": "ChatGPT & LLM Automation",
+            "entries": [
+              {
+                "title": "ChatGPT for FP&A Workflows: Automating Variance Analysis, Forecasting, and Reports",
+                "source_name": "The FP&A Guy",
+                "source_url": "https://www.thefpandaguy.com/guests/episode-47-glenn-hopper-using-chatgpt-to-build-an-fpampa-tool-and-what-happened-next",
+                "summary": "Structure ChatGPT requests as an FP&A analyst taking on specific jobs (variance analysis, consolidation, narrative), and feed it your actual Excel data to automate repetitive reporting in minutes rather than hours.",
+                "date": "2026-03-03"
+              }
+            ]
           }
-        ]
+        }
       }
     }
   },
@@ -113,6 +130,18 @@
                 "date": "2026-03-11"
               }
             ]
+          },
+          "user_research_and_insights": {
+            "label": "User Research & Insights",
+            "entries": [
+              {
+                "title": "What 81,000 Claude Users Around the World Want from AI",
+                "source_name": "Anthropic",
+                "source_url": "https://www.anthropic.com/features/81k-interviews",
+                "summary": "Understanding your users' real, ground-level concerns about AI tools—not just abstract risks—is essential for product development and stakeholder communication.",
+                "date": "2026-03-24"
+              }
+            ]
           }
         }
       },
@@ -135,6 +164,23 @@
                 "source_url": "https://www.orgvue.com/resources/articles/headcount-planning-a-strategic-approach-to-workforce-management/",
                 "summary": "Frame headcount planning as a productivity lever tied to specific business outcomes, and use scenario-based org charts to give executives visibility into talent gaps and succession risks.",
                 "date": "2026-03-03"
+              }
+            ]
+          }
+        }
+      },
+      "team_and_operations": {
+        "label": "Team & Operations",
+        "children": {
+          "outsourcing_and_service_models": {
+            "label": "Outsourcing & Service Models",
+            "entries": [
+              {
+                "title": "Services: The New Software – Why the Next $1T Company Will Sell Outcomes, Not Tools",
+                "source_name": "Julien Bek, Sequoia Capital",
+                "source_url": "https://sequoiacap.com/article/services-the-new-software/",
+                "summary": "FP&A leaders should consider whether their finance teams should shift from building internal AI tools to outsourcing intelligence-heavy work (like close procedures or forecasting) to AI-powered service providers, freeing internal staff for high-judgment activities like strategic planning.",
+                "date": "2026-03-24"
               }
             ]
           }

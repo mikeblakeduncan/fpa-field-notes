@@ -1,0 +1,30 @@
+name: FPA Field Notes
+
+on:
+  schedule:
+    # Runs Tuesday at 10:41 AM UTC (5:41 AM ET)
+    - cron: '41 10 * * 2'
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish to website?'
+        type: boolean
+        default: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run FPA Field Notes
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          INBOX_GMAIL_ADDRESS: ${{ secrets.INBOX_GMAIL_ADDRESS }}
+          INBOX_GMAIL_APP_PASSWORD: ${{ secrets.INBOX_GMAIL_APP_PASSWORD }}
+          PAGES_TOKEN: ${{ secrets.PAGES_TOKEN }}
+          GITHUB_USERNAME: ${{ github.repository_owner }}
+          PUBLISH_TO_WEB: ${{ github.event_name == 'schedule' && 'true' || inputs.publish }}
+        run: python content-radar/FPA_Field_Notes.py
