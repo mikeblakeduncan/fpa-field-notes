@@ -5,6 +5,14 @@ The body can be just a title, or include bullet points for additional context.
 The Tuesday workflow picks up the current week's entry automatically.
 
 ---
+## 2026-03-23
+
+Headcount Planning at Scale: What Changes When You Hit 200 Employees
+
+- Below 200 employees, headcount planning is essentially a list with hiring dates
+- Above 200, you need department-level drivers, span of control assumptions, and ramp cost models
+- FP&A's role shifts: less "build the list" and more "translate between HR and the business"
+- Systems question: when does spreadsheet-based headcount planning actually break down
 
 ## 2026-03-30
 
@@ -44,18 +52,11 @@ AI in the Month-End Close: Where It Actually Helps
 
 ## 2026-04-27
 
-Headcount Planning at Scale: What Changes When You Hit 200 Employees
-
-- Below 200 employees, headcount planning is essentially a list with hiring dates
-- Above 200, you need department-level drivers, span of control assumptions, and ramp cost models
-- FP&A's role shifts: less "build the list" and more "translate between HR and the business"
-- Systems question: when does spreadsheet-based headcount planning actually break down
-
-## 2026-05-04
-
 Zero-Based Budgeting: When It's Worth the Pain
 
 - ZBB gets overhyped as a transformation tool and misapplied as cost-cutting theater
 - It works well for G&A overhead, discretionary spend, and new business lines without a history
 - It does not work for revenue-generating teams or anything that requires operational continuity
 - The practical version: apply ZBB discipline to the 20 percent of your budget that never gets questioned
+
+
