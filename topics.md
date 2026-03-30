@@ -23,12 +23,13 @@ How Adobe’s CFO is Using Agentic AI to Redefine Finance + Tips for FP&A Teams
 
 ## 2026-04-06
 
-What Boards Actually Want from FP&A (and What You're Delivering Instead)
-
-- Most board packages optimize for completeness, not clarity
-- The board wants three things: where are we vs. plan, why, and what are we doing about it
-- Apply the "So what?" test to every slide before it goes in the deck
-- Cutting 40 percent of a board deck often makes it more effective, not less
+Headline: "AI Didn't Take the FP&A Job. It Took the Part Nobody Wanted Anyway."
+1. The spreadsheet was always just the entry ticket.
+The forecast, the model, the variance deck - those got you in the room. The value was what you did once you were there. That part hasn't changed.
+2. AI can produce the analysis. It can't own the result.
+Someone still has to push back on the sandbagged number, get the VP on the phone, and make the CFO confident enough to act. Hiring managers are already reflecting this - they're looking for finance professionals who can engage with AI outputs critically and provide the business context that raw data can't supply on its own. Dewintergroup Trust and accountability aren't automatable.
+3. The path forward is two moves, not one.
+Two-thirds of finance professionals say AI is on track to save up to 200 hours of FP&A work annually. Corporate Finance Institute That's nearly a month handed back. Automate the analysis, get that time back, then spend it getting closer to the business - owning a recommendation, driving a decision. Most FP&A people are better at that side than they think. They just never had the bandwidth to show it.
 
 ## 2026-04-13
 
