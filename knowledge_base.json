@@ -45,6 +45,18 @@
       "ai_and_automation": {
         "label": "AI & Automation",
         "children": {
+          "ai_implementation_strategy": {
+            "label": "AI Implementation Strategy",
+            "entries": [
+              {
+                "title": "AI in Finance: The Order of Operations—Why Tools Aren't Enough",
+                "source_name": "Subha Kumar CA",
+                "source_url": "https://www.linkedin.com/posts/subhakumar_aiinfinance-saas-finance-share-7442662918858399744-Fxej?utm_source=share&utm_medium=member_ios&rcm=ACoAAAAaSTIBfm7D9SZ_vAiHvY-MRDZHF2JFdrM",
+                "summary": "Before automating anything, map your workflows, kill the garbage work, and build a TRACE-compliant implementation strategy that your CFO can understand in 60 seconds.",
+                "date": "2026-03-31"
+              }
+            ]
+          },
           "ai_agents_and_workflows": {
             "label": "AI Agents & Advanced Workflows",
             "entries": [
@@ -66,6 +78,18 @@
                 "source_url": "https://www.thefpandaguy.com/guests/episode-47-glenn-hopper-using-chatgpt-to-build-an-fpampa-tool-and-what-happened-next",
                 "summary": "Structure ChatGPT requests as an FP&A analyst taking on specific jobs (variance analysis, consolidation, narrative), and feed it your actual Excel data to automate repetitive reporting in minutes rather than hours.",
                 "date": "2026-03-03"
+              }
+            ]
+          },
+          "ai_safety_and_governance": {
+            "label": "AI Safety & Governance",
+            "entries": [
+              {
+                "title": "Claude Code Auto Mode: Balancing AI Autonomy with Safety Controls",
+                "source_name": "Anthropic",
+                "source_url": "https://www.anthropic.com/engineering/claude-code-auto-mode",
+                "summary": "For teams using AI coding assistants, auto mode offers a way to reduce permission friction without sacrificing security by letting models evaluate whether actions are genuinely user-intended.",
+                "date": "2026-03-31"
               }
             ]
           }
