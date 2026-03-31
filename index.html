@@ -283,7 +283,7 @@
         'paywalled', 'content unavailable', 'page not found', 'javascript error'
     ];
     function isValidEntry(item) {
-        if (!item.source_url || !item.title) return false;
+        if (!item.source_url || !item.title || !item.summary) return false;
         var combined = ((item.title || '') + ' ' + (item.summary || '')).toLowerCase();
         for (var i = 0; i < BAD_PHRASES.length; i++) {
             if (combined.indexOf(BAD_PHRASES[i]) !== -1) return false;
