@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Adobe's CFO Is Using Agentic AI to Redefine Finance (And What FP&amp;A Teams Can Learn) — FP&amp;A Field Notes</title>
+    <meta name="description" content="Adobe's CFO Dan Durn has turned the finance org into an internal AI lab, using agentic AI to automate complex workflows. Here's what smaller FP&amp;A teams can take from that playbook.">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DTR4KSL0LS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-DTR4KSL0LS');
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,800;1,9..144,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a2e;
+            --paper: #FDFBF7;
+            --accent: #E07A5F;
+            --sage: #81B29A;
+            --navy: #3D405B;
+            --warm-gray: #8D8D8D;
+            --border: #E8E4DE;
+            --card: #FFFFFF;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+        body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 100; }
+        .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+        header { padding: 20px 0 16px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
+        .logo-mark { width: 36px; height: 36px; background: var(--accent); border-radius: 8px; transform: rotate(-3deg); position: relative; box-shadow: 2px 2px 0 var(--navy); flex-shrink: 0; }
+        .logo-mark::after { content: '📐'; font-size: 18px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .header-text h1 { font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 800; color: var(--ink); line-height: 1.1; }
+        .header-text h1 span { color: var(--accent); }
+        .header-text p { font-size: 0.78rem; color: var(--warm-gray); margin-top: 1px; }
+        .header-links { margin-left: auto; display: flex; gap: 16px; flex-shrink: 0; }
+        .header-links a { font-size: 0.8rem; font-weight: 600; color: var(--navy); text-decoration: none; }
+        article { margin-bottom: 48px; }
+        .post-meta { font-size: 0.82rem; color: var(--warm-gray); margin-bottom: 12px; }
+        .post-meta strong { color: var(--navy); }
+        .post-title { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; color: var(--ink); }
+        .post-tags { margin-bottom: 24px; }
+        .post-tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: #FEF3C7; color: #92400E; margin-right: 6px; }
+        .post-body p { font-size: 0.95rem; margin-bottom: 16px; color: #374151; }
+        .post-body h2 { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 700; margin: 32px 0 12px; color: var(--ink); }
+        .post-body a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); }
+        .tip-list { margin: 24px 0 32px; }
+        .tip { display: flex; gap: 16px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+        .tip:last-child { border-bottom: none; margin-bottom: 0; }
+        .tip-number { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 800; color: var(--accent); flex-shrink: 0; line-height: 1.3; width: 28px; }
+        .tip-content strong { display: block; font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+        .tip-content p { font-size: 0.92rem; color: #374151; margin-bottom: 0; line-height: 1.6; }
+        .post-footer { padding: 20px 0; border-top: 1px solid var(--border); margin-top: 32px; font-size: 0.8rem; color: var(--warm-gray); line-height: 1.6; }
+        footer { text-align: center; padding: 28px 0; border-top: 1px solid var(--border); }
+        footer p { font-size: 0.76rem; color: var(--warm-gray); line-height: 1.8; }
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <a href="../index.html" style="text-decoration: none; display: flex; align-items: center; gap: 14px;">
+            <div class="logo-mark"></div>
+            <div class="header-text">
+                <h1>FP&amp;A <span>Field Notes</span></h1>
+                <p>Fresh practitioner insights every Tuesday.</p>
+            </div>
+        </a>
+        <div class="header-links">
+            <a href="../index.html">Home</a>
+            <a href="../knowledge.html">📚 Knowledge Base</a>
+        </div>
+    </header>
+
+    <article>
+        <div class="post-meta"><strong>Mike Duncan</strong> · March 31, 2026 · 3 min read</div>
+        <h1 class="post-title">How Adobe's CFO Is Using Agentic AI to Redefine Finance (And What FP&amp;A Teams Can Learn)</h1>
+        <div class="post-tags">
+            <span class="post-tag">AI in Finance</span>
+            <span class="post-tag">FP&amp;A Leadership</span>
+            <span class="post-tag">Agentic AI</span>
+            <span class="post-tag">Finance Transformation</span>
+        </div>
+        <div class="post-body">
+<p>Adobe's CFO Dan Durn isn't waiting to see how AI plays out in finance. According to <a href="https://fortune.com/2026/03/22/meet-the-cfo-who-turned-adobes-finance-department-into-an-ai-lab/" target="_blank" rel="noopener">a recent Fortune profile by Paige McGlauflin</a>, Durn has turned Adobe's finance organization into something closer to an internal AI lab, experimenting with agentic AI systems that don't just answer questions but actually execute multi-step workflows on their own. Variance analysis, close processes, financial commentary — tasks that used to eat analyst hours are increasingly being handed off to AI agents that can reason, act, and report back.</p>
+
+<p>It's worth paying attention to, not because Adobe is a model every company can replicate at scale, but because the underlying logic is sound: if AI can handle the repetitive cognitive work in finance, your team gets to focus on the stuff that actually requires human judgment.</p>
+
+<p>The challenge, of course, is that most FP&A teams aren't sitting on Adobe's resources. So what does this actually look like at a mid-size company with a finance team of five?</p>
+
+<h2>🛠️ Start With the Work Nobody Wants to Do</h2>
+
+<p>The first goal isn't to build an AI lab. The first goal is to identify where your team spends time on work that is high-volume, rule-based, and low-judgment. Think monthly variance write-ups, pulling actuals into a reporting template, formatting board deck tables, or compiling budget vs. actual commentary from business partners.</p>
+
+<p>These are exactly the kinds of tasks agentic AI is suited for. You don't need an enterprise AI platform to get started. A well-structured prompt in ChatGPT or Claude, fed the right data, can produce a first draft of variance commentary in seconds. That's not the vision Durn is executing at Adobe, but it's the same principle applied at a scale your team can actually use today.</p>
+
+<h2>🔑 The Unlock Is Prompt Engineering, Not Software</h2>
+
+<p>Most FP&A teams underestimate how much of this is about how you structure the ask, not which tool you're using. If you hand an AI model a flat export from your ERP with no context, you'll get generic output. If you give it context about the business, the prior period, and what your CFO cares about, you'll get something much closer to usable.</p>
+
+<p>Building that context layer — what I'd call a "finance brief" that travels with your data — is one of the most practical investments a small FP&A team can make right now. Document your business model assumptions, your reporting definitions, and the questions your CFO asks every month. Feed that context to your AI tools. The output quality jumps.</p>
+
+<h2>📉 Don't Automate What You Don't Understand</h2>
+
+<p>One thing Durn emphasizes in the Fortune piece is that Adobe's team stays close to what the AI is doing. That's the right instinct. Agentic AI can move fast and produce confident-sounding output that is subtly wrong. In finance, that's a real risk.</p>
+
+<p>The discipline here isn't different from what you'd apply to a new analyst. You review their work closely at first. You spot-check. You trace the logic. The same standard applies to AI agents. Automating a process you don't fully own is how errors compound quietly until they surface in a board meeting.</p>
+
+<h2>Where to Go From Here</h2>
+
+<p>Adobe is playing a long game, building infrastructure and governance around AI in finance at an enterprise level. Most teams don't need to think at that scale yet. What they do need is a clear-eyed view of where their team's time goes, a willingness to experiment with the tools already available, and enough discipline to verify what the AI produces before it becomes an output.</p>
+
+<p>The CFOs who figure this out early won't necessarily have the biggest AI budgets. They'll be the ones who got their teams comfortable with the tools, built good habits around verification, and gradually shifted analyst time toward the judgment work that actually moves the needle.</p>
+
+<p><strong>Read the original:</strong> <a href="https://fortune.com/2026/03/22/meet-the-cfo-who-turned-adobes-finance-department-into-an-ai-lab/" target="_blank" rel="noopener">"Meet the CFO Who Turned Adobe's Finance Department Into an AI Lab"</a> by Paige McGlauflin, <em>Fortune</em>, March 22, 2026.</p>
+        </div>
+        <div class="post-footer">
+            Directed by Mike Duncan, drafted by Claude.
+            <br><br>
+            <a href="../blog.html" style="font-size: 0.82rem; font-weight: 600; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent);">View all posts &rarr;</a>
+        </div>
+    </article>
+</div>
+
+<footer>
+    <div class="container">
+        <p>FP&amp;A Field Notes &mdash; curated by AI, reviewed by humans.</p>
+        <p>A <a href="https://seacloudconsulting.com">Sea Cloud Consulting</a> project.</p>
+    </div>
+</footer>
+</body>
+</html>
