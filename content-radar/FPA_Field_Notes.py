@@ -103,10 +103,15 @@ def call_claude(system: str, user_message: str, max_tokens: int = 4000) -> str:
 
 # ─── Inbox: Fetch Queued URLs ─────────────────────────────────────────────────
 
-def fetch_queued_urls() -> list[str]:
+def fetch_queued_urls() -> list[dict]:
     """
-    Connect to the dedicated inbox via IMAP, find all UNSEEN emails,
-    extract URLs from the body, and return a deduplicated list.
+    Connect to the dedicated inbox via IMAP, find all UNSEEN emails with
+    subject "FN", extract the first URL from each email plus any body text
+    that follows it.
+
+    Returns a list of dicts: {"url": str, "body_text": str}
+    body_text is the text after the URL — used as article content when
+    the URL can't be scraped (Twitter, YouTube, LinkedIn, etc.).
 
     Does NOT mark emails as read — that happens in mark_emails_as_read()
     after the full pipeline succeeds.
@@ -143,7 +148,8 @@ def fetch_queued_urls() -> list[str]:
         return []
 
     url_pattern = re.compile(r'https?://[^\s<>"\')\]]+')
-    all_urls: set[str] = set()
+    seen_urls: set[str] = set()
+    items: list[dict] = []
 
     for email_id in email_ids:
         try:
@@ -151,27 +157,55 @@ def fetch_queued_urls() -> list[str]:
             raw_email = msg_data[0][1]
             msg = email_lib.message_from_bytes(raw_email)
 
+            # Prefer plain text part; fall back to HTML
+            body = ""
             parts = list(msg.walk()) if msg.is_multipart() else [msg]
             for part in parts:
-                if part.get_content_type() not in ("text/plain", "text/html"):
-                    continue
-                try:
-                    body = part.get_payload(decode=True).decode("utf-8", errors="replace")
-                    for url in url_pattern.findall(body):
-                        # Strip trailing punctuation, angle brackets, tracking params
-                        url = url.rstrip(".,;:)>\"'")
-                        url = re.sub(r'[?&](utm_[^&]+|ref=[^&]+)(&|$)', '', url)
-                        all_urls.add(url)
-                except Exception:
-                    pass
+                if part.get_content_type() == "text/plain":
+                    try:
+                        body = part.get_payload(decode=True).decode("utf-8", errors="replace")
+                        break
+                    except Exception:
+                        pass
+            if not body:
+                for part in parts:
+                    if part.get_content_type() == "text/html":
+                        try:
+                            body = part.get_payload(decode=True).decode("utf-8", errors="replace")
+                            break
+                        except Exception:
+                            pass
 
+            # Find the first URL in the email — that's the article link
+            urls_found = url_pattern.findall(body)
+            if not urls_found:
+                continue
+
+            raw_url = urls_found[0].rstrip(".,;:)>\"'")
+            raw_url = re.sub(r'[?&](utm_[^&]+|ref=[^&]+)(&|$)', '', raw_url)
+
+            url_key = raw_url.rstrip("/").lower()
+            if url_key in seen_urls:
+                continue
+            seen_urls.add(url_key)
+
+            # Body text = everything after the URL (stripped of inline links/HTML)
+            url_end = body.find(urls_found[0]) + len(urls_found[0])
+            after_url = body[url_end:].strip()
+            # Remove embedded <...> links but keep the surrounding text
+            after_url = re.sub(r'<https?://[^>]+>', '', after_url)
+            after_url = re.sub(r'\r\n', '\n', after_url).strip()
+            # Truncate to avoid sending huge bodies to Claude
+            body_text = after_url[:6000] if after_url else ""
+
+            items.append({"url": raw_url, "body_text": body_text})
             _pending_email_ids.append(email_id)
         except Exception as e:
             print(f"   ⚠ Failed to process email {email_id}: {e}")
 
     mail.logout()
-    print(f"   Found {len(all_urls)} unique URL(s) across {len(_pending_email_ids)} email(s)")
-    return list(all_urls)
+    print(f"   Found {len(items)} unique article(s) across {len(_pending_email_ids)} email(s)")
+    return items
 
 
 # ─── Friday: Queue Reminder ───────────────────────────────────────────────────
@@ -284,56 +318,64 @@ Set days_old to an integer based on any visible publication date, or -1 if uncle
 If this is vendor marketing content, return: null"""
 
 
-def process_queued_articles(urls: list[str], previously_featured_urls: set = None) -> list[dict]:
+def process_queued_articles(items: list[dict], previously_featured_urls: set = None) -> list[dict]:
     """
-    For each URL: check dedup, fetch the article, send to Claude for a digest entry.
+    For each item ({"url": ..., "body_text": ...}): check dedup, fetch or use
+    provided body text, send to Claude for a digest entry.
     Returns a flat list of entry dicts.
     Drops entries where credibility is 'marketing'.
+
+    body_text takes priority over scraping — when you paste article/tweet text
+    into the email body, it's used directly instead of fetching the URL.
     """
     if previously_featured_urls is None:
         previously_featured_urls = set()
 
-    print(f"📰 Processing {len(urls)} queued URL(s)...")
-
-    # Deduplicate within the current batch first (in case same URL was emailed twice)
-    seen_this_batch: set[str] = set()
-    deduped: list[str] = []
-    for u in urls:
-        key = u.rstrip("/").lower()
-        if key not in seen_this_batch:
-            seen_this_batch.add(key)
-            deduped.append(u)
-    if len(deduped) < len(urls):
-        print(f"   Removed {len(urls) - len(deduped)} within-batch duplicate(s)")
-    urls = deduped
+    print(f"📰 Processing {len(items)} queued article(s)...")
 
     # Filter out already-published URLs
-    new_urls = [u for u in urls if u.rstrip("/").lower() not in previously_featured_urls]
-    skipped = len(urls) - len(new_urls)
+    new_items = [i for i in items if i["url"].rstrip("/").lower() not in previously_featured_urls]
+    skipped = len(items) - len(new_items)
     if skipped:
         print(f"   Skipped {skipped} already-published URL(s)")
 
-    # Known un-scrapable domains — skip before fetching (except Twitter/X which has oEmbed)
-    UNSUPPORTED_DOMAINS = ("instagram.com", "facebook.com", "linkedin.com")
+    # Domains where scraping never works — body_text required
+    UNSUPPORTED_DOMAINS = ("instagram.com", "facebook.com", "linkedin.com",
+                           "m.youtube.com", "youtube.com", "youtu.be")
     TWITTER_DOMAINS     = ("twitter.com", "x.com", "t.co")
 
     entries: list[dict] = []
 
-    for url in new_urls:
-        domain = url.split("/")[2].lstrip("www.") if "//" in url else ""
-        if any(domain == d or domain.endswith("." + d) for d in UNSUPPORTED_DOMAINS):
-            print(f"   ⚠ Skipped (unsupported domain — can't scrape): {url[:70]}")
-            continue
+    for item in new_items:
+        url       = item["url"]
+        body_text = item.get("body_text", "").strip()
+        domain    = url.split("/")[2].lstrip("www.") if "//" in url else ""
 
-        is_twitter = any(domain == d or domain.endswith("." + d) for d in TWITTER_DOMAINS)
-        if is_twitter:
+        # ── Choose how to get article content ─────────────────────────────
+        if body_text and len(body_text) > 100:
+            # User pasted the article/tweet text — use it directly, no scraping needed
+            title = f"Article from {domain}"
+            meta  = {"url": url, "title": title, "snippet": body_text}
+            print(f"   Using pasted body text for: {url[:70]}")
+        elif any(domain == d or domain.endswith("." + d) for d in TWITTER_DOMAINS):
+            # Try oEmbed first; fall back to body_text if available
             meta = fetch_tweet_metadata(url)
-            if not meta:
-                print(f"   ⚠ Skipped (Twitter URL but not a single tweet — needs /status/ link): {url[:70]}")
+            if not meta and body_text:
+                meta = {"url": url, "title": f"Tweet ({domain})", "snippet": body_text}
+            elif not meta:
+                print(f"   ⚠ Skipped (Twitter URL — no oEmbed match and no body text): {url[:70]}")
+                continue
+        elif any(domain == d or domain.endswith("." + d) for d in UNSUPPORTED_DOMAINS):
+            if body_text:
+                meta = {"url": url, "title": f"Content from {domain}", "snippet": body_text}
+                print(f"   Using pasted body text for unsupported domain: {url[:70]}")
+            else:
+                print(f"   ⚠ Skipped (unsupported domain, no body text provided): {url[:70]}")
                 continue
         else:
             print(f"   Fetching: {url[:80]}...")
             meta = fetch_article_metadata(url)
+
         if not meta:
             print(f"   ⚠ Could not fetch — skipping")
             continue
@@ -1667,6 +1709,105 @@ def send_no_articles_email():
     print(f"   ✓ Sent no-articles notification to {GMAIL_ADDRESS}")
 
 
+# ─── Monday Summary Email ─────────────────────────────────────────────────────
+
+def send_monday_summary_email():
+    """
+    Monday night job: email Mike a summary of every article published in the
+    most recent digest, with title, summary, and key takeaway for each.
+    Reads from published_entries.json and picks the latest batch (same date).
+    """
+    print("📋 Building Monday summary email...")
+
+    if not GMAIL_ADDRESS or not GMAIL_APP_PASSWORD:
+        print("   ⚠ GMAIL_ADDRESS or GMAIL_APP_PASSWORD not set — skipping")
+        return
+
+    # Load published entries
+    entries_all: list[dict] = []
+    if PAGES_TOKEN and GITHUB_USERNAME:
+        repo = f"{GITHUB_USERNAME}/fpa-field-notes"
+        content, _ = fetch_github_file(repo, "published_entries.json", PAGES_TOKEN)
+        if content:
+            try:
+                entries_all = json.loads(content)
+            except json.JSONDecodeError:
+                pass
+
+    if not entries_all:
+        print("   ⚠ No published entries found — skipping summary email")
+        return
+
+    # Find the most recent publish date and get all entries from that batch
+    latest_date = max((e.get("date_published", "") for e in entries_all), default="")
+    if not latest_date:
+        return
+    recent = [e for e in entries_all if e.get("date_published") == latest_date
+              and e.get("summary") and "unable to" not in (e.get("title","") + e.get("summary","")).lower()]
+
+    if not recent:
+        print("   ⚠ No valid entries from the latest batch — skipping")
+        return
+
+    # Format the email
+    from datetime import datetime
+    try:
+        d = datetime.strptime(latest_date, "%Y-%m-%d")
+        date_label = d.strftime("%B %d, %Y")
+    except ValueError:
+        date_label = latest_date
+
+    cards_html = ""
+    for e in recent:
+        title     = e.get("title", "Untitled")
+        source    = e.get("source_name", "")
+        url       = e.get("source_url", "#")
+        summary   = e.get("summary", "")
+        takeaway  = e.get("takeaway", "")
+        cards_html += f"""
+<div style="background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:18px 20px;margin-bottom:14px;">
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">{source}</div>
+  <div style="font-size:16px;font-weight:700;margin-bottom:8px;">
+    <a href="{url}" style="color:#1a1a1a;text-decoration:none;">{title}</a>
+  </div>
+  <div style="font-size:14px;color:#374151;line-height:1.6;margin-bottom:10px;">{summary}</div>
+  {f'<div style="background:#FFFBF5;border:1px solid #EDE0D4;border-radius:6px;padding:10px 14px;font-size:13px;color:#374151;"><strong style="color:#E07A5F;font-size:11px;letter-spacing:.05em;text-transform:uppercase;">What you\'ll learn →</strong><br>{takeaway}</div>' if takeaway else ""}
+</div>"""
+
+    html = f"""<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;padding:20px;color:#1a1a1a;background:#f8f9fa;">
+<div style="background:#1a1a2e;color:white;padding:20px 24px;border-radius:10px 10px 0 0;">
+  <div style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;opacity:.6;">FP&A Field Notes</div>
+  <h1 style="margin:4px 0 0;font-size:20px;font-weight:700;">This Week's Articles — {date_label}</h1>
+  <div style="font-size:13px;opacity:.7;margin-top:4px;">{len(recent)} article{"s" if len(recent) != 1 else ""} queued for Tuesday's digest</div>
+</div>
+<div style="background:white;padding:24px;border-radius:0 0 10px 10px;border:1px solid #e2e8f0;border-top:none;">
+  <p style="font-size:14px;color:#6b7280;margin:0 0 18px;">Here's a quick summary of everything you sent in this week. The full digest goes out Tuesday morning.</p>
+  {cards_html}
+  <p style="font-size:12px;color:#9ca3af;margin-top:20px;border-top:1px solid #f3f4f6;padding-top:16px;">
+    Want to add more? Email links to the inbox with subject <strong>FN</strong> before Tuesday morning.
+  </p>
+</div>
+</body></html>"""
+
+    subject = f"FP&A Field Notes — {len(recent)} article{'s' if len(recent) != 1 else ''} queued for Tuesday ({date_label})"
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"]    = GMAIL_ADDRESS
+    msg["To"]      = GMAIL_ADDRESS
+    msg.attach(MIMEText(html, "html"))
+
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
+            server.sendmail(GMAIL_ADDRESS, GMAIL_ADDRESS, msg.as_string())
+        print(f"   ✓ Monday summary sent to {GMAIL_ADDRESS} ({len(recent)} articles)")
+    except Exception as e:
+        print(f"   ⚠ Failed to send Monday summary: {e}")
+
+
 # ─── Preview Mode ─────────────────────────────────────────────────────────────
 
 def send_preview_email(filtered_tweets: list[dict], enriched_items: list[dict]):
@@ -1844,18 +1985,34 @@ def main():
         print(f"❌ Missing environment variables: {', '.join(missing)}")
         return
 
+    today   = date.today()
+    weekday = today.weekday()  # 0=Mon 1=Tue 2=Wed 3=Thu 4=Fri
+
+    # ── Monday: send weekly summary of last week's articles ───────────────
+    if weekday == 0:
+        print("📋 Monday job: sending weekly article summary...")
+        send_monday_summary_email()
+        print("\n✅ Done.")
+        return
+
+    # ── Friday: check queue size and remind if low ────────────────────────
+    if weekday == 4:
+        check_queue_and_remind()
+        print("\n✅ Done.")
+        return
+
     try:
         # Step 0: Check inbox for queued URLs
         print("📬 Step 0: Checking inbox for queued articles...")
-        queued_urls = fetch_queued_urls()
+        queued_items = fetch_queued_urls()
 
-        if not queued_urls:
+        if not queued_items:
             print("📬 No articles queued this week — sending notification and stopping.")
             send_no_articles_email()
             print("\n✅ Done.")
             return
 
-        print(f"📬 Found {len(queued_urls)} queued URL(s)")
+        print(f"📬 Found {len(queued_items)} queued article(s)")
 
         # Load previously featured URLs for dedup
         previously_featured_urls: set[str] = set()
@@ -1874,7 +2031,7 @@ def main():
                     pass
 
         # Step 1: Process queued articles into digest entries
-        entries = process_queued_articles(queued_urls, previously_featured_urls)
+        entries = process_queued_articles(queued_items, previously_featured_urls)
         digest  = {"articles": entries}
 
         if not entries:

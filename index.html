@@ -278,9 +278,9 @@
 
     // ── Filter: skip any entry that looks broken or inaccessible ─────────────
     var BAD_PHRASES = [
-        'unable to access', 'cannot access', 'could not access',
-        'no content', 'login required', 'access denied',
-        'paywalled', 'content unavailable', 'page not found'
+        'unable to access', 'unable to process', 'cannot access', 'could not access',
+        'no content', 'login required', 'access denied', 'invalid content',
+        'paywalled', 'content unavailable', 'page not found', 'javascript error'
     ];
     function isValidEntry(item) {
         if (!item.source_url || !item.title) return false;
