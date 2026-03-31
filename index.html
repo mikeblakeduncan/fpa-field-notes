@@ -291,7 +291,7 @@
         return true;
     }
 
-    // ── Load 4 most recent articles from published_entries.json ───────────────
+    // ── Load up to 6 most recent articles from published_entries.json ─────────
     fetch('published_entries.json')
         .then(function(r) { return r.json(); })
         .then(function(entries) {
@@ -309,7 +309,7 @@
                 seenUrls[key] = true;
                 return true;
             });
-            var recent = deduped.filter(isValidEntry).slice(0, 4);
+            var recent = deduped.filter(isValidEntry).slice(0, 6);
 
             // Update date label from most recent entry's date
             var latestDate = recent[0].date_published;
