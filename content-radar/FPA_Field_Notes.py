@@ -1757,6 +1757,7 @@ def send_monday_summary_email():
     except ValueError:
         date_label = latest_date
 
+    learn_label = "What you'll learn \u2192"
     cards_html = ""
     for e in recent:
         title     = e.get("title", "Untitled")
@@ -1764,6 +1765,12 @@ def send_monday_summary_email():
         url       = e.get("source_url", "#")
         summary   = e.get("summary", "")
         takeaway  = e.get("takeaway", "")
+        takeaway_html = (
+            f'<div style="background:#FFFBF5;border:1px solid #EDE0D4;border-radius:6px;'
+            f'padding:10px 14px;font-size:13px;color:#374151;">'
+            f'<strong style="color:#E07A5F;font-size:11px;letter-spacing:.05em;text-transform:uppercase;">'
+            f'{learn_label}</strong><br>{takeaway}</div>'
+        ) if takeaway else ""
         cards_html += f"""
 <div style="background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:18px 20px;margin-bottom:14px;">
   <div style="font-size:11px;color:#6b7280;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">{source}</div>
@@ -1771,7 +1778,7 @@ def send_monday_summary_email():
     <a href="{url}" style="color:#1a1a1a;text-decoration:none;">{title}</a>
   </div>
   <div style="font-size:14px;color:#374151;line-height:1.6;margin-bottom:10px;">{summary}</div>
-  {f'<div style="background:#FFFBF5;border:1px solid #EDE0D4;border-radius:6px;padding:10px 14px;font-size:13px;color:#374151;"><strong style="color:#E07A5F;font-size:11px;letter-spacing:.05em;text-transform:uppercase;">What you\'ll learn →</strong><br>{takeaway}</div>' if takeaway else ""}
+  {takeaway_html}
 </div>"""
 
     html = f"""<!DOCTYPE html>
