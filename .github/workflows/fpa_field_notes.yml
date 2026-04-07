@@ -4,6 +4,7 @@ on:
   schedule:
     - cron: '0 3 * * 2'    # Monday 8PM PDT  — summary of queued articles
     - cron: '41 10 * * 2'  # Tuesday 3:41AM PDT — full pipeline (digest + publish)
+    - cron: '0 15 * * 3'   # Wednesday 8AM PDT  — blog topics reminder
     - cron: '0 3 * * 6'    # Friday 8PM PDT  — queue reminder if < 3 articles
   workflow_dispatch:
     inputs:

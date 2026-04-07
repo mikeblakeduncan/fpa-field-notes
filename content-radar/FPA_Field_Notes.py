@@ -993,6 +993,71 @@ def send_empty_queue_email():
         print(f"   ⚠ Failed to send notification: {e}")
 
 
+# ─── Wednesday Blog Topics Reminder ──────────────────────────────────────────
+
+def send_blog_topics_reminder():
+    """Read blog-topics.json from the repo and email a reminder to keep it updated."""
+    print("📝 Sending blog topics reminder...")
+
+    repo   = f"{GITHUB_USERNAME}/fpa-field-notes"
+    raw, _ = fetch_github_file(repo, "blog-topics.json", PAGES_TOKEN)
+
+    try:
+        topics = json.loads(raw) if raw else []
+    except Exception:
+        topics = []
+
+    today_str = date.today().strftime("%B %d, %Y")
+    topic_rows = ""
+    if topics:
+        for i, t in enumerate(topics, 1):
+            title = t.get("title", "(no title)")
+            notes = t.get("notes", "")
+            notes_html = f'<div style="font-size:13px;color:#6b7280;margin-top:4px;">{notes}</div>' if notes else ""
+            topic_rows += f"""
+            <div style="padding:14px 0;border-bottom:1px solid #f0f0f0;">
+              <div style="font-weight:600;color:#1a1a1a;">{i}. {title}</div>
+              {notes_html}
+            </div>"""
+    else:
+        topic_rows = '<p style="color:#6b7280;font-style:italic;">No topics in the list yet.</p>'
+
+    html = f"""<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;padding:20px;color:#1a1a1a;background:#f8f9fa;">
+<div style="background:#7C3AED;color:white;padding:20px;border-radius:10px 10px 0 0;">
+  <div style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;opacity:.7;">FP&A Field Notes</div>
+  <h1 style="margin:4px 0 0;font-size:20px;font-weight:700;">Blog Topics — {today_str}</h1>
+</div>
+<div style="background:white;padding:24px;border-radius:0 0 10px 10px;border:1px solid #e2e8f0;border-top:none;">
+  <p style="font-size:15px;color:#374151;margin-top:0;">Here are your upcoming blog topics. Edit <strong>blog-topics.json</strong> in the repo to add, remove, or reorder.</p>
+  {topic_rows}
+  <div style="margin-top:20px;padding:14px;background:#f8f5ff;border-radius:8px;border:1px solid #e9d5ff;">
+    <a href="https://github.com/{repo}/edit/main/blog-topics.json" style="font-size:13px;font-weight:600;color:#7C3AED;text-decoration:none;">Edit blog-topics.json on GitHub →</a>
+  </div>
+</div>
+</body></html>"""
+
+    recipient = GMAIL_ADDRESS or INBOX_GMAIL_ADDRESS
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = f"FP&A Field Notes — Blog Topics ({len(topics)} queued)"
+    msg["From"]    = INBOX_GMAIL_ADDRESS
+    msg["To"]      = recipient
+    msg.attach(MIMEText(html, "html"))
+
+    smtp_user     = GMAIL_ADDRESS      if GMAIL_ADDRESS      else INBOX_GMAIL_ADDRESS
+    smtp_password = GMAIL_APP_PASSWORD if GMAIL_APP_PASSWORD else INBOX_GMAIL_APP_PASSWORD
+
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(smtp_user, smtp_password)
+            server.sendmail(smtp_user, recipient, msg.as_string())
+        print(f"   ✓ Blog topics reminder sent to {recipient} ({len(topics)} topics)")
+    except Exception as e:
+        print(f"   ⚠ Failed to send blog topics reminder: {e}")
+
+
 # ─── Generate and Publish Web Page ────────────────────────────────────────────
 
 def _make_meta_description(articles: list[dict]) -> str:
@@ -1900,6 +1965,13 @@ def main():
     if weekday == 0:
         print("📋 Monday job: sending weekly article summary...")
         send_monday_summary_email()
+        print("\n✅ Done.")
+        return
+
+    # ── Wednesday: send blog topics reminder ─────────────────────────────
+    if weekday == 2:
+        print("📝 Wednesday job: sending blog topics reminder...")
+        send_blog_topics_reminder()
         print("\n✅ Done.")
         return
 
