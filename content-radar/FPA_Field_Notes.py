@@ -2052,10 +2052,10 @@ def main():
         print("\n✍️  Step 2: Generating synthesis blog draft...")
         synthesis_draft = generate_synthesis_draft(entries)
 
-        # Step 3: Send digest email with tweets and synthesis draft
+        # Step 3: Send digest email with tweets (no synthesis draft — blog is managed separately)
         print("\n📧 Step 3: Sending digest email...")
         tweets = generate_tweets(digest)
-        send_email(digest, tweets, synthesis_draft)
+        send_email(digest, tweets)
 
         # Step 4: Publish to website (optional)
         if PUBLISH_TO_WEB:
