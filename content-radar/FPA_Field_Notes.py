@@ -440,105 +440,6 @@ def process_queued_articles(items: list[dict], previously_featured_urls: set = N
 
 # ─── Synthesis Blog Draft ─────────────────────────────────────────────────────
 
-SYNTHESIS_SYSTEM_PROMPT = """You are drafting a weekly synthesis blog post for FP&A Field Notes. The author is Mike Duncan, a fractional FP&A consultant with 15+ years of experience at companies including Lyra Health, Teladoc, Included Health, and McKesson.
-
-You will receive this week's curated articles with their summaries. Your job is to find the thread that connects them and write a short blog post (300-500 words) that pulls out themes, adds Mike's perspective, and gives practitioners something to think about.
-
-WRITING RULES (from Mike's style guide):
-- No em dashes
-- No sentence fragments used for dramatic effect
-- No staccato contrast patterns (short. then long. then short.)
-- No triple structures (x. y. z. as a rhetorical device)
-- Avoid: "genuinely", "straightforward", "landscape", "navigate", "leverage", "dive in", "let's be honest", "here's the thing"
-- Write in complete sentences, clear and direct
-- Tone: peer-to-peer, not lecturing. Like a smart colleague sharing observations.
-- First person is fine. "I noticed..." "In my experience..." "What struck me this week..."
-
-STRUCTURE:
-- Open with 2-3 sentences framing what you noticed across this week's articles
-- Middle section connecting the themes with Mike's practitioner perspective
-- Close with a question or observation that invites reflection
-- No title needed (Mike will add one during editing)
-
-Do NOT just summarize each article sequentially. Find what connects them, what's missing from the conversation, or what practitioners should pay attention to that the articles don't say directly.
-
-Return the blog post text only, no JSON, no markdown fences."""
-
-
-def generate_synthesis_draft(digest_entries: list[dict]) -> str:
-    """
-    Generate a synthesis blog post connecting themes across this week's articles.
-    Returns the draft text.
-    """
-    print("✍️  Generating synthesis blog draft...")
-
-    if not digest_entries:
-        return ""
-
-    items_for_prompt = [
-        {
-            "title":       e.get("title", ""),
-            "source_name": e.get("source_name", ""),
-            "summary":     e.get("summary", ""),
-            "takeaway":    e.get("takeaway", ""),
-        }
-        for e in digest_entries
-    ]
-
-    user_msg = (
-        f"Here are this week's {len(items_for_prompt)} curated articles:\n\n"
-        + json.dumps(items_for_prompt, indent=2, ensure_ascii=False)
-    )
-
-    try:
-        draft = call_claude(SYNTHESIS_SYSTEM_PROMPT, user_msg, max_tokens=1200)
-        print(f"   ✓ Draft generated ({len(draft)} chars)")
-        return draft.strip()
-    except Exception as e:
-        print(f"   ⚠ Synthesis draft failed: {e}")
-        return ""
-
-
-# ─── Save Synthesis Draft to Repo ────────────────────────────────────────────
-
-def save_synthesis_draft(draft_text: str, entry_count: int = 0):
-    """Save the synthesis draft to drafts/{date}.md in the repo via GitHub API."""
-    print("💾 Saving synthesis draft to repo...")
-
-    if not draft_text:
-        print("   No draft text — skipping")
-        return
-
-    if not PAGES_TOKEN or not GITHUB_USERNAME:
-        print("   ⚠ PAGES_TOKEN or GITHUB_USERNAME not set — skipping")
-        return
-
-    repo       = f"{GITHUB_USERNAME}/fpa-field-notes"
-    today_date = date.today().strftime("%Y-%m-%d")
-    path       = f"drafts/synthesis-{today_date}.md"
-
-    front_matter = f"""---
-date: {today_date}
-status: draft
-source_articles: {entry_count}
-seo_note: When publishing, read SEO_REQUIREMENTS.md for meta description and title guidance.
----
-
-"""
-    content = front_matter + draft_text
-
-    # Check if file already exists (for sha)
-    existing_content, existing_sha = fetch_github_file(repo, path, PAGES_TOKEN)
-
-    try:
-        push_github_file(
-            repo, path, content, PAGES_TOKEN,
-            f"Save synthesis draft — {today_date}", existing_sha
-        )
-        print(f"   ✓ Saved {path}")
-    except Exception as e:
-        print(f"   ⚠ Failed to save synthesis draft: {e}")
-
 
 # ─── Mark Emails as Read ─────────────────────────────────────────────────────
 
@@ -2048,12 +1949,8 @@ def main():
 
         print(f"   ✓ Digest built: {len(entries)} article(s)")
 
-        # Step 2: Generate synthesis blog draft
-        print("\n✍️  Step 2: Generating synthesis blog draft...")
-        synthesis_draft = generate_synthesis_draft(entries)
-
-        # Step 3: Send digest email with tweets (no synthesis draft — blog is managed separately)
-        print("\n📧 Step 3: Sending digest email...")
+        # Step 2: Send digest email with tweets
+        print("\n📧 Step 2: Sending digest email...")
         tweets = generate_tweets(digest)
         send_email(digest, tweets)
 
