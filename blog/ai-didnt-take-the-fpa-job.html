@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Didn't Take the FP&amp;A Job. It Took the Part Nobody Wanted Anyway. — FP&amp;A Field Notes</title>
+    <meta name="description" content="AI is automating the analysis work in FP&amp;A, but the part that actually drives value, owning a recommendation, pushing back on a sandbagged number, making a CFO confident enough to act, was never something a model could do. Here's what that means for how finance professionals should be spending their time.">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DTR4KSL0LS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-DTR4KSL0LS');
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,800;1,9..144,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a2e;
+            --paper: #FDFBF7;
+            --accent: #E07A5F;
+            --sage: #81B29A;
+            --navy: #3D405B;
+            --warm-gray: #8D8D8D;
+            --border: #E8E4DE;
+            --card: #FFFFFF;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+        body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 100; }
+        .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+        header { padding: 20px 0 16px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
+        .logo-mark { width: 36px; height: 36px; background: var(--accent); border-radius: 8px; transform: rotate(-3deg); position: relative; box-shadow: 2px 2px 0 var(--navy); flex-shrink: 0; }
+        .logo-mark::after { content: '📐'; font-size: 18px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .header-text h1 { font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 800; color: var(--ink); line-height: 1.1; }
+        .header-text h1 span { color: var(--accent); }
+        .header-text p { font-size: 0.78rem; color: var(--warm-gray); margin-top: 1px; }
+        .header-links { margin-left: auto; display: flex; gap: 16px; flex-shrink: 0; }
+        .header-links a { font-size: 0.8rem; font-weight: 600; color: var(--navy); text-decoration: none; }
+        article { margin-bottom: 48px; }
+        .post-meta { font-size: 0.82rem; color: var(--warm-gray); margin-bottom: 12px; }
+        .post-meta strong { color: var(--navy); }
+        .post-title { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; color: var(--ink); }
+        .post-tags { margin-bottom: 24px; }
+        .post-tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: #FEF3C7; color: #92400E; margin-right: 6px; }
+        .post-body p { font-size: 0.95rem; margin-bottom: 16px; color: #374151; }
+        .post-body h2 { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 700; margin: 32px 0 12px; color: var(--ink); }
+        .post-body a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); }
+        .tip-list { margin: 24px 0 32px; }
+        .tip { display: flex; gap: 16px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+        .tip:last-child { border-bottom: none; margin-bottom: 0; }
+        .tip-number { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 800; color: var(--accent); flex-shrink: 0; line-height: 1.3; width: 28px; }
+        .tip-content strong { display: block; font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+        .tip-content p { font-size: 0.92rem; color: #374151; margin-bottom: 0; line-height: 1.6; }
+        .post-footer { padding: 20px 0; border-top: 1px solid var(--border); margin-top: 32px; font-size: 0.8rem; color: var(--warm-gray); line-height: 1.6; }
+        footer { text-align: center; padding: 28px 0; border-top: 1px solid var(--border); }
+        footer p { font-size: 0.76rem; color: var(--warm-gray); line-height: 1.8; }
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <a href="../index.html" style="text-decoration: none; display: flex; align-items: center; gap: 14px;">
+            <div class="logo-mark"></div>
+            <div class="header-text">
+                <h1>FP&amp;A <span>Field Notes</span></h1>
+                <p>Fresh practitioner insights every Tuesday.</p>
+            </div>
+        </a>
+        <div class="header-links">
+            <a href="../index.html">Home</a>
+            <a href="../knowledge.html">📚 Knowledge Base</a>
+        </div>
+    </header>
+
+    <article>
+        <div class="post-meta"><strong>Mike Duncan</strong> · April 7, 2026 · 3 min read</div>
+        <h1 class="post-title">AI Didn't Take the FP&amp;A Job. It Took the Part Nobody Wanted Anyway.</h1>
+        <div class="post-tags">
+            <span class="post-tag">FP&amp;A</span>
+            <span class="post-tag">AI in Finance</span>
+            <span class="post-tag">Career Development</span>
+            <span class="post-tag">Finance Leadership</span>
+        </div>
+        <div class="post-body">
+<p>Think about what the forecast, the model, the variance deck actually did for you. They got you in the room. The value was what you did once you were there. That part hasn't changed, and it's worth being clear about why.</p>
+
+<p>The spreadsheet was always the entry ticket, not the destination. FP&A has spent decades building credibility through analytical rigor, and that credibility still matters. But the reason companies keep a senior finance person close to the business isn't so they can build another model. It's so someone with judgment is in the room when a decision needs to get made.</p>
+
+<h2>🛠️ AI Can Produce the Analysis. It Can't Own the Result.</h2>
+
+<p>Someone still has to push back on the sandbagged number. Someone still has to get the VP on the phone, read the room, and make the CFO confident enough to act. Those aren't tasks you can route through a language model and call done.</p>
+
+<p>Hiring managers are already reflecting this shift. The finance roles drawing the most interest now are ones that combine the ability to engage critically with AI outputs and supply the business context that raw data can't provide on its own. Trust and accountability aren't automatable. A model can generate a recommendation. It can't own what happens next.</p>
+
+<p>This isn't a controversial take. It's just what FP&A has always been at its best, and the tools are finally catching up to that reality in a way that makes it impossible to ignore.</p>
+
+<h2>📉 The Two-Move Path Forward</h2>
+
+<p>Two-thirds of finance professionals say AI is on track to save up to 200 hours of FP&A work annually, according to the <a href="https://corporatefinanceinstitute.com" target="_blank" rel="noopener">Corporate Finance Institute</a>. That's nearly a month handed back. The question is what you do with it.</p>
+
+<p>The move isn't just to automate the analysis work and call it efficiency. The move is to automate the analysis, reclaim that time, and then spend it getting closer to the business. Own a recommendation. Drive a decision. Be the person a VP calls before the CFO asks the question, not after.</p>
+
+<p>Most FP&A professionals are better at that side of the job than they think. They've just never had the bandwidth to show it. The analysts grinding through variance commentary at 10pm on a Sunday aren't doing it because they love it. They're doing it because the work has to get done, and there was no other way to get it done.</p>
+
+<h2>🔑 What This Actually Requires</h2>
+
+<p>Getting closer to the business isn't a soft skill you develop by reading about it. It comes from showing up consistently, learning how the commercial side actually thinks about risk and growth, and building enough credibility that leaders want your read before they've already made up their minds.</p>
+
+<p>The finance professionals who do that well tend to share one trait: they're comfortable having a view. Not just presenting the numbers, but saying "here's what I think this means and here's what I'd do about it." That's the job AI just made more visible by clearing everything else out of the way.</p>
+
+<p>The floor for FP&A is getting higher. The ceiling is getting higher too. Which side of that you end up on depends less on your technical skills and more on whether you're ready to own the part that was always hardest to automate.</p>
+        </div>
+        <div class="post-footer">
+            Directed by Mike Duncan, drafted by Claude.
+            <br><br>
+            <a href="../blog.html" style="font-size: 0.82rem; font-weight: 600; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent);">View all posts &rarr;</a>
+        </div>
+    </article>
+</div>
+
+<footer>
+    <div class="container">
+        <p>FP&amp;A Field Notes &mdash; curated by AI, reviewed by humans.</p>
+        <p>A <a href="https://seacloudconsulting.com">Sea Cloud Consulting</a> project.</p>
+    </div>
+</footer>
+</body>
+</html>
