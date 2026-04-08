@@ -289,10 +289,22 @@
     var BAD_PHRASES = [
         'unable to access', 'unable to process', 'cannot access', 'could not access',
         'no content', 'login required', 'access denied', 'invalid content',
-        'paywalled', 'content unavailable', 'page not found', 'javascript error'
+        'paywalled', 'content unavailable', 'page not found', 'javascript error',
+        'unable to parse', 'unable to retrieve', 'unable to load',
+        'subscription page', 'newsletter subscription',
+        'revenue marketing agency', 'vendor overview',
+        'x/twitter link', 'twitter/x', 'twitter content access'
     ];
+    var BAD_URLS = ['singlebrain.com', 'singlegrain.com', 'law.com/'];
+    function hasNoPath(url) {
+        try { var u = new URL(url); return u.pathname === '/' || u.pathname === ''; } catch(e) { return false; }
+    }
     function isValidEntry(item) {
         if (!item.source_url || !item.title || !item.summary) return false;
+        var url = (item.source_url || '').toLowerCase();
+        for (var j = 0; j < BAD_URLS.length; j++) {
+            if (url.indexOf(BAD_URLS[j]) !== -1) return false;
+        }
         var combined = ((item.title || '') + ' ' + (item.summary || '')).toLowerCase();
         for (var i = 0; i < BAD_PHRASES.length; i++) {
             if (combined.indexOf(BAD_PHRASES[i]) !== -1) return false;
