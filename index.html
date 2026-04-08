@@ -241,6 +241,25 @@
 <script>
 (function() {
 
+    // ── Mojibake safety net: fix common cp1252-as-UTF-8 garbling at render time ─
+    var MOJIBAKE_MAP = {
+        '\u00e2\u20ac\u201c': '\u2013', // â€" → en dash
+        '\u00e2\u20ac\u201d': '\u2014', // â€" → em dash
+        '\u00e2\u20ac\u2019': '\u2019', // â€™ → right single quote (fallback)
+        '\u00e2\u20ac\u2122': '\u2019', // â€™ → right single quote
+        '\u00e2\u20ac\u0153': '\u201c', // â€œ → left double quote
+        '\u00e2\u20ac\u009d': '\u201d', // â€  → right double quote
+        '\u00e2\u20ac\u2026': '\u2026', // â€¦ → ellipsis
+        '\u00e2\u20ac\u2022': '\u2022'  // â€¢ → bullet
+    };
+    function fixMojibake(text) {
+        if (!text) return text;
+        for (var k in MOJIBAKE_MAP) {
+            while (text.indexOf(k) !== -1) text = text.replace(k, MOJIBAKE_MAP[k]);
+        }
+        return text;
+    }
+
     // ── Render an article card from a published_entries.json item ──────────────
     function formatDate(dateStr) {
         if (!dateStr) return '';
@@ -259,9 +278,13 @@
         };
         var cred = credMap[item.credibility] || ['', '#F3F4F6', '#374151'];
 
-        var sourceStr = 'by ' + (item.source_name || 'Unknown');
+        var title   = fixMojibake(item.title || '');
+        var summary = fixMojibake(item.summary || '');
+        var takeaway = fixMojibake(item.takeaway || '');
+
+        var sourceStr = 'by ' + fixMojibake(item.source_name || 'Unknown');
         if (item.author_role && item.author_role !== 'Unknown') {
-            sourceStr += ' · ' + item.author_role;
+            sourceStr += ' · ' + fixMojibake(item.author_role);
         }
 
         var badgesHtml = dateLabel
@@ -271,21 +294,22 @@
             badgesHtml += ' <span class="entry-badge" style="background:' + cred[1] + ';color:' + cred[2] + ';">' + cred[0] + '</span>';
         }
 
-        var takeawayHtml = item.takeaway
-            ? '<div class="entry-takeaway"><strong>WHAT YOU\'LL LEARN →</strong> <span>' + item.takeaway + '</span></div>'
+        var takeawayHtml = takeaway
+            ? '<div class="entry-takeaway"><strong>WHAT YOU\'LL LEARN →</strong> <span>' + takeaway + '</span></div>'
             : '';
 
         return '<div class="entry">' +
             '<div class="entry-badges">' + badgesHtml + '</div>' +
-            '<div class="entry-title"><a href="' + item.source_url + '">' + item.title + '</a></div>' +
+            '<div class="entry-title"><a href="' + item.source_url + '">' + title + '</a></div>' +
             '<div class="entry-source">' + sourceStr + '</div>' +
-            '<div class="entry-summary">' + (item.summary || '') + '</div>' +
+            '<div class="entry-summary">' + summary + '</div>' +
             takeawayHtml +
             '<div style="margin-top:8px;"><a href="' + item.source_url + '" style="font-size:0.78rem;font-weight:600;color:#E07A5F;text-decoration:none;">Read the original →</a></div>' +
             '</div>';
     }
 
     // ── Filter: skip any entry that looks broken or inaccessible ─────────────
+    // Defaults — overridden when blocklist.json loads successfully
     var BAD_PHRASES = [
         'unable to access', 'unable to process', 'cannot access', 'could not access',
         'no content', 'login required', 'access denied', 'invalid content',
@@ -295,15 +319,21 @@
         'revenue marketing agency', 'vendor overview',
         'x/twitter link', 'twitter/x', 'twitter content access'
     ];
-    var BAD_URLS = ['singlebrain.com', 'singlegrain.com', 'law.com/'];
-    function hasNoPath(url) {
-        try { var u = new URL(url); return u.pathname === '/' || u.pathname === ''; } catch(e) { return false; }
+    var BAD_DOMAINS = ['singlebrain.com', 'singlegrain.com', 'law.com', 'twitter.com', 'x.com', 'youtube.com', 't.co'];
+
+    function getRootDomain(url) {
+        try {
+            var host = new URL(url).hostname.toLowerCase();
+            // Strip www. prefix
+            return host.replace(/^www\./, '');
+        } catch(e) { return ''; }
     }
+
     function isValidEntry(item) {
         if (!item.source_url || !item.title || !item.summary) return false;
-        var url = (item.source_url || '').toLowerCase();
-        for (var j = 0; j < BAD_URLS.length; j++) {
-            if (url.indexOf(BAD_URLS[j]) !== -1) return false;
+        var domain = getRootDomain(item.source_url);
+        for (var j = 0; j < BAD_DOMAINS.length; j++) {
+            if (domain === BAD_DOMAINS[j] || domain.indexOf('.' + BAD_DOMAINS[j]) !== -1) return false;
         }
         var combined = ((item.title || '') + ' ' + (item.summary || '')).toLowerCase();
         for (var i = 0; i < BAD_PHRASES.length; i++) {
@@ -312,25 +342,50 @@
         return true;
     }
 
-    // ── Load up to 6 most recent articles from published_entries.json ─────────
-    fetch('published_entries.json')
+    // ── Load blocklist.json then published_entries.json ────────────────────────
+    var blocklistPromise = fetch('blocklist.json')
         .then(function(r) { return r.json(); })
+        .then(function(bl) {
+            if (bl.blocked_domains && bl.blocked_domains.length) BAD_DOMAINS = bl.blocked_domains;
+            if (bl.blocked_phrases && bl.blocked_phrases.length) BAD_PHRASES = bl.blocked_phrases;
+        })
+        .catch(function() { /* use defaults */ });
+
+    blocklistPromise.then(function() {
+        return fetch('published_entries.json').then(function(r) { return r.json(); });
+    })
         .then(function(entries) {
             if (!entries || entries.length === 0) return;
 
-            // Sort by date_published descending, filter bad entries, take 4 most recent
+            // Sort by date_published descending
             entries.sort(function(a, b) {
                 return (b.date_published || '').localeCompare(a.date_published || '');
             });
-            // Deduplicate by URL — prevents same article showing twice even if JSON is dirty
+
+            // Deduplicate by exact URL
             var seenUrls = {};
             var deduped = entries.filter(function(e) {
-                var key = (e.source_url || '').trim().toLowerCase().replace(/\/$/, '');
+                var key = (e.source_url || '').trim().toLowerCase().replace(/\/$/, '').split('?')[0];
                 if (!key || seenUrls[key]) return false;
                 seenUrls[key] = true;
                 return true;
             });
+
+            // Deduplicate by author name (source_name) and root domain — keep most recent only
+            var seenAuthors = {};
+            var seenDomains = {};
+            deduped = deduped.filter(function(e) {
+                var author = (e.source_name || '').trim().toLowerCase();
+                var domain = getRootDomain(e.source_url || '');
+                if (author && seenAuthors[author]) return false;
+                if (domain && seenDomains[domain]) return false;
+                if (author) seenAuthors[author] = true;
+                if (domain) seenDomains[domain] = true;
+                return true;
+            });
+
             var recent = deduped.filter(isValidEntry).slice(0, 6);
+            if (!recent.length) return;
 
             // Update date label from most recent entry's date
             var latestDate = recent[0].date_published;

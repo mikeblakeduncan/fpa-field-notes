@@ -1,0 +1,34 @@
+{
+  "blocked_domains": [
+    "singlegrain.com",
+    "singlebrain.com",
+    "law.com",
+    "twitter.com",
+    "x.com",
+    "youtube.com",
+    "t.co"
+  ],
+  "blocked_phrases": [
+    "unable to access",
+    "unable to parse",
+    "unable to retrieve",
+    "unable to process",
+    "subscription page",
+    "paywalled",
+    "sign in to read",
+    "login required",
+    "access denied",
+    "no content",
+    "page not found",
+    "invalid content",
+    "content unavailable",
+    "javascript error",
+    "unable to load",
+    "newsletter subscription",
+    "revenue marketing agency",
+    "vendor overview",
+    "x/twitter link",
+    "twitter/x",
+    "twitter content access"
+  ]
+}
