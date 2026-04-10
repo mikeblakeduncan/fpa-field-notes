@@ -33,12 +33,19 @@ Two-thirds of finance professionals say AI is on track to save up to 200 hours o
 
 ## 2026-04-13
 
-The Real Cost of a Long Budget Cycle
+Practical steps for FP&A teams to implement their first AI Agent
 
-- Budget cycles that run three to four months consume enormous management time with diminishing returns
-- Assumptions are stale before the budget is finished
-- The case for compressing to six to eight weeks: it forces prioritization and better conversations
-- What to cut: detailed bottom-up builds on cost lines that rarely move
+Here are the high level steps, but feel free to summarize some of these steps.  Emphasis simple, reliable tools though.
+- Pick a narrow, repeatable use case; If it's not repatable, don't automate it
+- Map the current workflow (before AI)
+- Define the semantic layer (this is critical); Key definitions
+- Structure your data
+- Start with a single “agent loop”
+- Use simple, reliable tools (don’t overbuild)
+- Build the first version (keep it ugly)
+- Add validation checks
+- Automate the trigger
+- Iterate before expanding
 
 ## 2026-04-20
 
