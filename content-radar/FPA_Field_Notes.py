@@ -267,33 +267,56 @@ def check_queue_and_remind():
     mail.logout()
     print(f"   {emails_with_urls} email(s) with URLs queued")
 
-    if emails_with_urls < 3:
-        print(f"   Queue is light — sending reminder to {GMAIL_ADDRESS}")
-        _send_reminder_email(emails_with_urls)
+    # Always send a status email so Mike knows where the queue stands
+    print(f"   Sending queue status to {GMAIL_ADDRESS}")
+    _send_reminder_email(emails_with_urls)
     else:
         print(f"   Queue looks good — no reminder needed")
 
 
 def _send_reminder_email(queued_count: int):
-    """Send a light-queue reminder to Mike's main address."""
-    subject = "FP&A Field Notes — Reminder: Queue is light"
-    body = (
-        f"You have {queued_count} article{'s' if queued_count != 1 else ''} queued for "
-        f"Tuesday's digest. Send more links to the Field Notes inbox if you want a fuller issue."
-    )
+    """Send a Friday queue status email to Mike's main address."""
+    article_word = "article" if queued_count == 1 else "articles"
+    if queued_count == 0:
+        status_line = "⚠️ No articles queued yet — send some links before Tuesday!"
+        nudge = "The inbox is empty. Forward links to the Field Notes inbox with subject FN before Tuesday's digest runs."
+    elif queued_count < 3:
+        status_line = f"📬 {queued_count} {article_word} queued — could use a few more."
+        nudge = "Tuesday's digest will be light. Send a few more links to the Field Notes inbox if you have them."
+    else:
+        status_line = f"✅ {queued_count} {article_word} queued — looking good for Tuesday."
+        nudge = "You're on track for a solid digest. Anything else worth adding before Tuesday?"
 
+    subject = f"FP&A Field Notes — Friday Queue: {queued_count} {article_word}"
+    today_str = date.today().strftime("%B %d, %Y")
+
+    html = f"""<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;padding:20px;color:#1a1a1a;background:#f8f9fa;">
+<div style="background:#7C3AED;color:white;padding:20px;border-radius:10px 10px 0 0;">
+  <div style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;opacity:.7;">FP&A Field Notes</div>
+  <h1 style="margin:4px 0 0;font-size:20px;font-weight:700;">Friday Queue Check — {today_str}</h1>
+</div>
+<div style="background:white;padding:24px;border-radius:0 0 10px 10px;border:1px solid #e2e8f0;border-top:none;">
+  <p style="font-size:18px;font-weight:600;margin-top:0;">{status_line}</p>
+  <p style="font-size:15px;color:#374151;">{nudge}</p>
+  <p style="font-size:13px;color:#9ca3af;margin-bottom:0;">Tuesday's digest runs at 3:41 AM PDT.</p>
+</div>
+</body></html>"""
+
+    recipient = GMAIL_ADDRESS or INBOX_GMAIL_ADDRESS
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
     msg["From"]    = INBOX_GMAIL_ADDRESS
-    msg["To"]      = GMAIL_ADDRESS or INBOX_GMAIL_ADDRESS
-
-    msg.attach(MIMEText(body, "plain"))
+    msg["To"]      = recipient
+    msg.attach(MIMEText(html, "html"))
 
     try:
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
             server.login(INBOX_GMAIL_ADDRESS, INBOX_GMAIL_APP_PASSWORD)
-            server.sendmail(INBOX_GMAIL_ADDRESS, msg["To"], msg.as_string())
-        print(f"   ✓ Reminder sent")
+            server.sendmail(INBOX_GMAIL_ADDRESS, recipient, msg.as_string())
+        print(f"   ✓ Queue status sent ({queued_count} articles)")
     except Exception as e:
         print(f"   ⚠ Failed to send reminder: {e}")
 
