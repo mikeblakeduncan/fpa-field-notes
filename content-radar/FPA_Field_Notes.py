@@ -2036,11 +2036,7 @@ def main():
         # Step 5: Always save published entries for dedup
         save_published_entries(digest)
 
-        # Step 6: Save synthesis draft to repo as a draft for Mike to edit
-        print("\n💾 Step 6: Saving synthesis draft to repo...")
-        save_synthesis_draft(synthesis_draft, entry_count=len(entries))
-
-        # Step 7: Mark inbox emails as read (last — only after everything succeeds)
+        # Step 6: Mark inbox emails as read (last — only after everything succeeds)
         mark_emails_as_read()
 
         print("\n✅ Pipeline complete!")
