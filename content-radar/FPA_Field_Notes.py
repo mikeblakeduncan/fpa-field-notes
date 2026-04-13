@@ -270,8 +270,6 @@ def check_queue_and_remind():
     # Always send a status email so Mike knows where the queue stands
     print(f"   Sending queue status to {GMAIL_ADDRESS}")
     _send_reminder_email(emails_with_urls)
-    else:
-        print(f"   Queue looks good — no reminder needed")
 
 
 def _send_reminder_email(queued_count: int):
