@@ -12,6 +12,10 @@ on:
         description: 'Publish to website?'
         type: boolean
         default: false
+      force_pipeline:
+        description: 'Force full Tuesday pipeline (even if not Tuesday)?'
+        type: boolean
+        default: false
 
 jobs:
   run:
@@ -31,4 +35,5 @@ jobs:
           PAGES_TOKEN: ${{ secrets.PAGES_TOKEN }}
           GITHUB_USERNAME: ${{ github.repository_owner }}
           PUBLISH_TO_WEB: ${{ github.event_name == 'schedule' && 'true' || inputs.publish }}
+          FORCE_PIPELINE: ${{ inputs.force_pipeline || 'false' }}
         run: python content-radar/FPA_Field_Notes.py

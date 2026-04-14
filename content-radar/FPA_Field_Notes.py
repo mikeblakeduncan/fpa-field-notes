@@ -1981,6 +1981,7 @@ def main():
 
     today   = date.today()
     weekday = today.weekday()  # 0=Mon 1=Tue 2=Wed 3=Thu 4=Fri
+    force   = os.environ.get("FORCE_PIPELINE", "").lower() == "true"
 
     # ── Monday: send weekly summary of last week's articles ───────────────
     if weekday == 0:
@@ -2000,6 +2001,13 @@ def main():
     if weekday == 4:
         check_queue_and_remind()
         print("\n✅ Done.")
+        return
+
+    # ── Guard: don't run the full pipeline on unscheduled days ───────────
+    if weekday not in (1,) and not force:
+        print(f"ℹ️  Today is weekday {weekday} — not a scheduled pipeline day.")
+        print("   To run the full pipeline manually, set FORCE_PIPELINE=true.")
+        print("\n✅ Done (no-op).")
         return
 
     try:
