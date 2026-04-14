@@ -1,5 +1,17 @@
 [
   {
+    "title": "How to Build Your First AI Agent in FP&A (Without Overbuilding It)",
+    "slug": "how-to-build-your-first-ai-agent-fpa",
+    "date": "2026-04-14",
+    "excerpt": "Most FP&A teams that struggle with AI agents don't fail on the technology. They fail because they try to automate the wrong thing, or they overbuild before they've proven anything works. Here's a practical sequence for getting your first agent off the ground.",
+    "tags": [
+      "AI",
+      "FP&A",
+      "automation",
+      "tools"
+    ]
+  },
+  {
     "title": "AI Didn't Take the FP&A Job. It Took the Part Nobody Wanted Anyway.",
     "slug": "ai-didnt-take-the-fpa-job",
     "date": "2026-04-07",
