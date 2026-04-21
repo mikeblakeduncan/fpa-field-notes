@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI in the Month-End Close: Where It Actually Helps — FP&amp;A Field Notes</title>
+    <meta name="description" content="AI can genuinely save time in the month-end close — but only in the right places. Here's where it earns its keep, where it doesn't, and one concrete workflow worth trying.">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DTR4KSL0LS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-DTR4KSL0LS');
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,800;1,9..144,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a2e;
+            --paper: #FDFBF7;
+            --accent: #E07A5F;
+            --sage: #81B29A;
+            --navy: #3D405B;
+            --warm-gray: #8D8D8D;
+            --border: #E8E4DE;
+            --card: #FFFFFF;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+        body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 100; }
+        .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+        header { padding: 20px 0 16px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
+        .logo-mark { width: 36px; height: 36px; background: var(--accent); border-radius: 8px; transform: rotate(-3deg); position: relative; box-shadow: 2px 2px 0 var(--navy); flex-shrink: 0; }
+        .logo-mark::after { content: '📐'; font-size: 18px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .header-text h1 { font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 800; color: var(--ink); line-height: 1.1; }
+        .header-text h1 span { color: var(--accent); }
+        .header-text p { font-size: 0.78rem; color: var(--warm-gray); margin-top: 1px; }
+        .header-links { margin-left: auto; display: flex; gap: 16px; flex-shrink: 0; }
+        .header-links a { font-size: 0.8rem; font-weight: 600; color: var(--navy); text-decoration: none; }
+        article { margin-bottom: 48px; }
+        .post-meta { font-size: 0.82rem; color: var(--warm-gray); margin-bottom: 12px; }
+        .post-meta strong { color: var(--navy); }
+        .post-title { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; color: var(--ink); }
+        .post-tags { margin-bottom: 24px; }
+        .post-tag { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: #FEF3C7; color: #92400E; margin-right: 6px; }
+        .post-body p { font-size: 0.95rem; margin-bottom: 16px; color: #374151; }
+        .post-body h2 { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 700; margin: 32px 0 12px; color: var(--ink); }
+        .post-body a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); }
+        .tip-list { margin: 24px 0 32px; }
+        .tip { display: flex; gap: 16px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+        .tip:last-child { border-bottom: none; margin-bottom: 0; }
+        .tip-number { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 800; color: var(--accent); flex-shrink: 0; line-height: 1.3; width: 28px; }
+        .tip-content strong { display: block; font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+        .tip-content p { font-size: 0.92rem; color: #374151; margin-bottom: 0; line-height: 1.6; }
+        .post-footer { padding: 20px 0; border-top: 1px solid var(--border); margin-top: 32px; font-size: 0.8rem; color: var(--warm-gray); line-height: 1.6; }
+        footer { text-align: center; padding: 28px 0; border-top: 1px solid var(--border); }
+        footer p { font-size: 0.76rem; color: var(--warm-gray); line-height: 1.8; }
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <a href="../index.html" style="text-decoration: none; display: flex; align-items: center; gap: 14px;">
+            <div class="logo-mark"></div>
+            <div class="header-text">
+                <h1>FP&amp;A <span>Field Notes</span></h1>
+                <p>Fresh practitioner insights every Tuesday.</p>
+            </div>
+        </a>
+        <div class="header-links">
+            <a href="../index.html">Home</a>
+            <a href="../knowledge.html">📚 Knowledge Base</a>
+        </div>
+    </header>
+
+    <article>
+        <div class="post-meta"><strong>Mike Duncan</strong> · April 21, 2026 · 4 min read</div>
+        <h1 class="post-title">AI in the Month-End Close: Where It Actually Helps</h1>
+        <div class="post-tags">
+            <span class="post-tag">AI Tools</span>
+            <span class="post-tag">Month-End Close</span>
+            <span class="post-tag">FP&amp;A Process</span>
+            <span class="post-tag">Finance Automation</span>
+        </div>
+        <div class="post-body">
+<p>Picture the last two days of your close. Someone on the team is typing variance commentary into a deck at 9pm. Another person is drafting the flux analysis narrative for the fourth month in a row, pulling the same numbers into the same sentence structure they always use. That work is real, it's necessary, and it's also exactly the kind of task that AI is actually good at.</p>
+
+<p>The conversation about AI in FP&A often swings between two extremes: either it's going to transform everything, or it's just a toy. The month-end close is a good place to test a more grounded view, because the use cases are concrete and the stakes are high enough that you can't afford wishful thinking.</p>
+
+<h2>🛠️ Where AI Earns Its Keep</h2>
+
+<p>The strongest use cases share a common trait: they involve generating structured narrative from structured data. Flux analysis commentary is a prime example. You have a prior period number, a current period number, a variance, and a known set of drivers. Turning that into a coherent paragraph is mostly pattern-matching and prose, not judgment. AI does that well.</p>
+
+<p>Variance commentary for board or leadership packages works the same way. The inputs are consistent, the format is repeatable, and the job is to communicate clearly, not to decide anything. Reconciliation summaries fall into this bucket too — especially when you're reconciling against a prior balance and need to document what moved and why.</p>
+
+<p>The key word in all of this is <strong>narrative generation</strong>. If the task is "take these numbers and write a clear explanation of what happened," AI can produce a solid first draft in seconds.</p>
+
+<h2>⚠️ Where It Doesn't Belong</h2>
+
+<p>Accrual judgments are not a good use case. Whether to accrue $200K for a vendor dispute, how to treat a contract modification, whether a partially-delivered project meets revenue recognition criteria — those require human context, audit trail documentation, and often a conversation with your controller or auditors. Handing that to AI is how you create a problem that's hard to explain later.</p>
+
+<p>The same goes for anything where the right answer depends on institutional knowledge that isn't in the prompt. AI doesn't know that your largest customer always pays late in Q4 because of their own internal process, or that last month's marketing accrual was manually adjusted for a reason that never made it into the system notes. That context lives with your team. It doesn't transfer to a language model.</p>
+
+<p>This isn't a knock on the technology. It's just an honest read on what the tool is and isn't built for.</p>
+
+<h2>🔑 The Setup Investment Is Real</h2>
+
+<p>One reason AI-assisted close workflows underperform expectations is that people treat the tool like a vending machine. They paste in numbers, ask for commentary, and get something generic that still needs significant editing. That's not a time-saver.</p>
+
+<p>The unlock is in the setup: good prompts, worked examples, and a review process that's consistent month over month. A well-constructed prompt includes the context a new analyst would need — what this account represents, what normally drives movement, what format the output needs to take, and what the audience cares about. Attach two or three prior examples of approved commentary and the output quality improves considerably.</p>
+
+<p>This is a one-time investment of maybe two to three hours per account type. After that, it compounds.</p>
+
+<h2>📉 One Workflow Worth Building</h2>
+
+<p>Here's a concrete starting point. Pick your top ten P&amp;L flux items — the accounts that always require explanation in your close package. For each one, build a simple prompt template that includes the prior period actuals, current period actuals, known drivers pulled from your variance analysis, and your house style for commentary length and format.</p>
+
+<p>Run the AI draft first. Then have the analyst review, correct, and approve — not rewrite from scratch. Track how long that review takes over two or three cycles. Most teams find the review drops from 15-20 minutes per account to 5 or fewer once the prompts are dialed in.</p>
+
+<p>Across ten accounts, that's somewhere between three and five hours back per close. That time can go toward the judgment calls that actually need human attention, or toward the forward-looking analysis your CFO keeps asking for and never quite gets.</p>
+
+<p>The close will never be easy. But some of the tedium is genuinely optional at this point — if you're willing to do the setup work to remove it.</p>
+        </div>
+        <div class="post-footer">
+            Directed by Mike Duncan, drafted by Claude.
+            <br><br>
+            <a href="../blog.html" style="font-size: 0.82rem; font-weight: 600; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent);">View all posts &rarr;</a>
+        </div>
+    </article>
+</div>
+
+<footer>
+    <div class="container">
+        <p>FP&amp;A Field Notes &mdash; curated by AI, reviewed by humans.</p>
+        <p>A <a href="https://seacloudconsulting.com">Sea Cloud Consulting</a> project.</p>
+    </div>
+</footer>
+</body>
+</html>
