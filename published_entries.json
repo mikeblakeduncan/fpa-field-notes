@@ -786,5 +786,38 @@
     "credibility": "journalist",
     "author_role": "Unknown",
     "date_published": "2026-04-14"
+  },
+  {
+    "title": "Unable to process - X/Twitter content not accessible",
+    "source_name": "X (Twitter)",
+    "source_url": "https://x.com/workflowwhisper/status/2045465063796912602?s=46",
+    "summary": "This article could not be processed because the X/Twitter link returns only error pages and JavaScript code rather than readable content. The page appears to require JavaScript and does not display the original post.",
+    "takeaway": "This source cannot be reliably extracted for FP&A Field Notes due to platform access limitations.",
+    "section": "tools",
+    "credibility": "journalist",
+    "author_role": "Unknown",
+    "date_published": "2026-04-21"
+  },
+  {
+    "title": "Unable to Access X/Twitter Content - JavaScript Required",
+    "source_name": "X (Twitter)",
+    "source_url": "https://x.com/scottastevenson/status/2045195115388600354?s=46",
+    "summary": "This appears to be a technical error page rather than substantive content. The URL points to a Twitter post by Scott A. Stevenson, but the page failed to load due to JavaScript being disabled or unavailable.",
+    "takeaway": "This entry cannot be processed as the source content is inaccessible and no article text is available for review.",
+    "section": "fpa_practice",
+    "credibility": "journalist",
+    "author_role": "Unknown",
+    "date_published": "2026-04-21"
+  },
+  {
+    "title": "Unable to Process - Twitter/X Content Unavailable",
+    "source_name": "Twitter/X",
+    "source_url": "https://twitter.com/WorkflowWhisper",
+    "summary": "The provided URL appears to be a Twitter/X profile page that failed to load properly, returning only JavaScript error handling code rather than readable article content. No FP&A-related material could be extracted.",
+    "takeaway": "This source cannot be processed as a digest entry due to technical limitations accessing the content.",
+    "section": "fpa_practice",
+    "credibility": "journalist",
+    "author_role": "Unknown",
+    "date_published": "2026-04-21"
   }
 ]
