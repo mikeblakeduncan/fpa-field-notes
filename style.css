@@ -57,6 +57,25 @@ p + p { margin-top: 1.25em; }
   padding: 0 32px;
 }
 
+/* ── Site sub-header (tagline band below nav) ────────────────── */
+.site-subheader {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 9px 0;
+}
+
+.site-subheader .container {
+  display: flex;
+  align-items: center;
+}
+
+.site-subheader-text {
+  font-size: 0.775rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  letter-spacing: 0.005em;
+}
+
 /* ── Navigation ──────────────────────────────────────────────── */
 .site-nav {
   background: var(--navy);
@@ -172,7 +191,7 @@ p + p { margin-top: 1.25em; }
 
 .page-hero-title {
   font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-size: clamp(1.45rem, 2.5vw, 1.85rem);
   font-weight: 700;
   line-height: 1.15;
   color: var(--navy);
@@ -207,7 +226,7 @@ p + p { margin-top: 1.25em; }
 
 .home-featured-title {
   font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-size: clamp(1.35rem, 2.2vw, 1.7rem);
   font-weight: 800;
   line-height: 1.15;
   letter-spacing: -0.025em;
@@ -230,6 +249,35 @@ p + p { margin-top: 1.25em; }
   max-width: 580px;
   line-height: 1.7;
   margin-bottom: 20px;
+}
+
+.home-featured-body {
+  font-size: 0.925rem;
+  color: var(--text-secondary);
+  max-width: 640px;
+  line-height: 1.75;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+/* Fade out the last bit of preview text */
+.home-featured-body::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3.5em;
+  background: linear-gradient(to bottom, transparent, var(--white));
+  pointer-events: none;
+}
+
+.home-featured-body p {
+  margin-bottom: 0.9em;
+}
+
+.home-featured-body p:last-child {
+  margin-bottom: 0;
 }
 
 .home-featured-meta {
@@ -321,7 +369,7 @@ p + p { margin-top: 1.25em; }
 
 .section-title {
   font-family: 'Fraunces', Georgia, serif;
-  font-size: 1.35rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--navy);
   letter-spacing: -0.01em;
@@ -385,7 +433,7 @@ p + p { margin-top: 1.25em; }
 
 .post-card-title {
   font-family: 'Fraunces', Georgia, serif;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: var(--navy);
   line-height: 1.35;
@@ -541,7 +589,7 @@ p + p { margin-top: 1.25em; }
 
 .kb-category-title {
   font-family: 'Fraunces', Georgia, serif;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--navy);
   letter-spacing: -0.01em;
@@ -640,10 +688,10 @@ p + p { margin-top: 1.25em; }
 
 .post-title {
   font-family: 'Fraunces', Georgia, serif;
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-size: clamp(1.4rem, 3vw, 1.95rem);
   font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.025em;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
   color: var(--navy);
   margin-bottom: 16px;
 }
