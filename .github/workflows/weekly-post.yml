@@ -1,9 +1,9 @@
 name: Publish Weekly Blog Post
+# DISABLED — schedule trigger removed April 2026 as part of site rebuild.
+# Automated blog post generation has been deprecated. Do not re-add the schedule trigger.
+# Keep for reference only. Run manually via workflow_dispatch if needed.
 
 on:
-  schedule:
-    # Tuesday at 6:00 AM PST = 14:00 UTC
-    - cron: '0 14 * * 2'
   workflow_dispatch:
     inputs:
       force_week:

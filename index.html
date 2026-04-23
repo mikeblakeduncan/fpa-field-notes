@@ -1,471 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FP&A Field Notes — Weekly practitioner insights for finance teams</title>
-    <meta name="description" content="Weekly FP&A digest for finance leaders — curated tools, forecasting practice, and AI insights. No vendor fluff, just practitioner-grade content.">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DTR4KSL0LS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-DTR4KSL0LS');
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,800;1,9..144,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --ink: #1a1a2e;
-            --paper: #FDFBF7;
-            --accent: #E07A5F;
-            --sage: #81B29A;
-            --navy: #3D405B;
-            --warm-gray: #8D8D8D;
-            --border: #E8E4DE;
-            --card: #FFFFFF;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; }
-        body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 100; }
-        .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
-
-        header { padding: 14px 0 12px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--border); margin-bottom: 14px; }
-        .logo-mark { width: 36px; height: 36px; background: var(--accent); border-radius: 8px; transform: rotate(-3deg); position: relative; box-shadow: 2px 2px 0 var(--navy); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-        .logo-mark::after { content: 'FN'; font-family: 'Fraunces', serif; font-size: 13px; font-weight: 800; color: white; letter-spacing: -0.03em; }
-        .header-text h1 { font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 300; color: var(--ink); line-height: 1.1; }
-        .header-text h1 span { color: var(--accent); }
-        .header-text p { font-size: 0.78rem; color: var(--warm-gray); margin-top: 1px; }
-        .header-links { margin-left: auto; display: flex; gap: 16px; flex-shrink: 0; }
-        .header-links a { font-size: 0.8rem; font-weight: 600; color: var(--navy); text-decoration: none; }
-        .header-links a:hover { color: var(--accent); }
-
-        .latest-date { font-size: 0.78rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
-
-        @media (max-width: 640px) { .header-links { display: none; } }
-
-        /* Articles grid */
-        #articles-entries { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        @media (max-width: 640px) { #articles-entries { grid-template-columns: 1fr; } }
-
-        .entry { padding: 16px 18px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); transition: border-color 0.15s, box-shadow 0.15s; }
-        .entry:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(224,122,95,0.08); }
-        .entry-badges { margin-bottom: 8px; }
-        .entry-badge { font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-block; }
-        .entry-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; line-height: 1.4; }
-        .entry-title a { color: var(--ink); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
-        .entry-title a:hover { border-color: var(--accent); }
-        .entry-source { font-size: 0.75rem; color: var(--warm-gray); margin-bottom: 8px; }
-        .entry-summary { font-size: 0.84rem; color: #4B5563; line-height: 1.55; margin-bottom: 10px; }
-        .entry-takeaway { padding: 8px 11px; background: #FFFBF5; border-radius: 6px; border: 1px solid #EDE0D4; font-size: 0.78rem; }
-        .entry-takeaway strong { color: var(--accent); font-size: 0.67rem; text-transform: uppercase; letter-spacing: 0.04em; display: block; margin-bottom: 2px; }
-        .entry-takeaway span { color: var(--navy); line-height: 1.5; }
-        .empty-state { color: var(--warm-gray); font-style: italic; font-size: 0.85rem; padding: 20px 0; }
-
-        /* Featured Blog Post */
-        .featured-post { margin-bottom: 16px; display: none; }
-        .featured-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 10px; }
-        .featured-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 28px 32px; position: relative; overflow: hidden; transition: border-color 0.2s; }
-        .featured-card:hover { border-color: var(--accent); }
-        .featured-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--accent), var(--sage)); }
-        .featured-meta { font-size: 0.76rem; color: var(--warm-gray); margin-bottom: 8px; }
-        .featured-meta strong { color: var(--navy); font-weight: 600; }
-        .featured-title { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 800; line-height: 1.25; margin-bottom: 12px; color: var(--ink); }
-        .featured-title a { color: inherit; text-decoration: none; }
-        .featured-title a:hover { color: var(--accent); }
-        .featured-excerpt { font-size: 0.92rem; color: #4B5563; line-height: 1.7; margin-bottom: 16px; }
-        .featured-cta { display: inline-block; font-size: 0.85rem; font-weight: 600; color: var(--accent); text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 1px; transition: color 0.15s; }
-        .featured-cta:hover { color: var(--navy); border-color: var(--navy); }
-        .featured-tag { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: #FEF3C7; color: #92400E; margin-right: 6px; }
-        @media (max-width: 640px) { .featured-card { padding: 20px; } .featured-title { font-size: 1.25rem; } }
-
-        /* Digest section divider */
-        .section-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
-        .section-divider-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--warm-gray); white-space: nowrap; }
-        .section-divider-line { flex: 1; height: 1px; background: var(--border); }
-        .digest-description { font-size: 0.82rem; color: var(--warm-gray); margin-bottom: 14px; }
-
-        .bottom-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
-        @media (max-width: 640px) { .bottom-nav { grid-template-columns: 1fr; } }
-        .nav-card { display: block; padding: 18px; border-radius: 10px; text-decoration: none; transition: transform 0.15s; }
-        .nav-card:hover { transform: translateY(-2px); }
-        .nav-kb { background: var(--ink); color: white; }
-        .nav-kb .nav-title { font-family: 'Fraunces', serif; font-size: 1rem; font-weight: 700; }
-        .nav-kb .nav-desc { font-size: 0.8rem; opacity: 0.7; margin-top: 3px; }
-        .nav-archive { background: var(--card); color: var(--ink); border: 1px solid var(--border); }
-        .nav-archive .nav-title { font-family: 'Fraunces', serif; font-size: 1rem; font-weight: 700; }
-        .nav-archive .nav-desc { font-size: 0.8rem; color: var(--warm-gray); margin-top: 3px; }
-
-        .archive-section { margin: 16px 0; }
-        .archive-section h2 { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 14px; }
-        .issue-card { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; text-decoration: none; color: var(--ink); transition: transform 0.15s, border-color 0.15s; }
-        .issue-card:hover { transform: translateX(4px); border-color: var(--accent); }
-        .issue-date { font-size: 0.72rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; }
-        .issue-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: 0.9rem; }
-        .issue-meta { font-size: 0.75rem; color: var(--warm-gray); margin-top: 2px; }
-        .issue-arrow { font-size: 1rem; color: var(--accent); opacity: 0.3; }
-        .issue-card:hover .issue-arrow { opacity: 1; }
-
-        footer { padding: 28px 0; border-top: 1px solid var(--border); margin-top: 24px; display: flex; align-items: center; justify-content: space-between; }
-        .footer-brand { font-family: 'Fraunces', serif; font-size: 0.88rem; font-weight: 700; color: var(--ink); }
-        .footer-credit { font-size: 0.76rem; color: var(--warm-gray); text-align: right; }
-        .footer-credit a { color: var(--accent); text-decoration: none; }
-        @media (max-width: 640px) { footer { flex-direction: column; gap: 8px; text-align: center; } .footer-credit { text-align: center; } }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FP&amp;A Field Notes — Practitioner writing for growth-stage finance teams</title>
+  <meta name="description" content="Practitioner writing on FP&A for CFOs, VPs of Finance, and FP&A Directors at growth-stage companies. By Mike Duncan, Sea Cloud Consulting.">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DTR4KSL0LS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DTR4KSL0LS');
+  </script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <div class="logo-mark"></div>
-        <div class="header-text">
-            <h1>FP&A Field Notes</h1>
-            <p>Fresh practitioner insights every week.</p>
-        </div>
-        <div class="header-links">
-            <a href="blog.html" id="blog-link">📝 Blog</a>
-            <a href="knowledge.html">📚 Knowledge Base</a>
-        </div>
-    </header>
+<!-- Navigation -->
+<nav class="site-nav">
+  <div class="container">
+    <a href="index.html" class="nav-brand">FP&amp;A Field Notes</a>
+    <ul class="nav-links">
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="knowledge.html">Knowledge Base</a></li>
+    </ul>
+  </div>
+</nav>
 
-    <!-- Featured Blog Post (loaded dynamically from posts.json) -->
-    <div class="featured-post" id="featured-post"></div>
+<!-- Hero -->
+<main>
+  <div class="container">
+    <section class="home-hero">
+      <div class="home-hero-eyebrow">FP&amp;A Field Notes</div>
+      <h1 class="home-hero-title">Practitioner writing on FP&amp;A for <em>growth-stage</em> companies</h1>
+      <p class="home-hero-body">
+        Original articles on financial planning, forecasting, AI in finance, and building
+        high-performing FP&amp;A teams. Written for CFOs, VPs of Finance, and FP&amp;A Directors
+        at Series A–C companies who want substance over vendor noise.
+      </p>
+      <div class="home-hero-nav">
+        <a href="blog.html" class="btn-primary">Read the blog →</a>
+        <a href="knowledge.html" class="btn-secondary">Knowledge Base</a>
+      </div>
+    </section>
 
-    <!-- Digest section -->
-    <div class="section-divider" id="digest-divider">
-        <span class="section-divider-label">Recent links for FP&amp;A practitioners</span>
-        <span class="section-divider-line"></span>
-        <span class="latest-date" id="latest-date">Week of April 21, 2026</span>
+    <!-- Recent posts -->
+    <section>
+      <div class="section-header">
+        <h2 class="section-title">Recent posts</h2>
+        <a href="blog.html" class="section-link">All posts →</a>
+      </div>
+      <div class="post-grid" id="recent-posts">
+        <!-- Loaded from posts.json -->
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">FP&amp;A Field Notes</div>
+      <div class="footer-credit">
+        By <a href="https://seacloudconsulting.com">Mike Duncan, Sea Cloud Consulting</a>
+      </div>
     </div>
-
-    <div id="articles-entries"><!--/articles-entries--></div>
-
-    <div class="bottom-nav">
-        <a href="knowledge.html" class="nav-card nav-kb">
-            <div class="nav-title">📚 Knowledge Base</div>
-            <div class="nav-desc">Every insight organized by topic.</div>
-        </a>
-        <a href="#" class="nav-card nav-archive" onclick="document.getElementById('past-issues').style.display='block'; this.style.display='none'; return false;">
-            <div class="nav-title">📁 Past Issues</div>
-            <div class="nav-desc">Browse previous weekly digests.</div>
-        </a>
-    </div>
-
-    <div class="archive-section" id="past-issues" style="display: none;">
-        <h2>Past Issues</h2>
-        <div id="issues-list">
-        <a href="issues/2026-04-21.html" class="issue-card">
-            <div>
-                <div class="issue-date">April 21, 2026</div>
-                <div class="issue-title">FP&A Field Notes — April 21, 2026</div>
-                <div class="issue-meta">1 tools · 2 FP&amp;A practice</div>
-            </div>
-            <span class="issue-arrow">→</span>
-        </a>
-        
-        <a href="issues/2026-04-14.html" class="issue-card">
-            <div>
-                <div class="issue-date">April 14, 2026</div>
-                <div class="issue-title">FP&A Field Notes — April 14, 2026</div>
-                <div class="issue-meta">4 tools · 39 FP&amp;A practice</div>
-            </div>
-            <span class="issue-arrow">→</span>
-        </a>
-        
-        <a href="issues/2026-04-07.html" class="issue-card">
-            <div>
-                <div class="issue-date">April 07, 2026</div>
-                <div class="issue-title">FP&A Field Notes — April 07, 2026</div>
-                <div class="issue-meta">4 tools · 4 FP&amp;A practice</div>
-            </div>
-            <span class="issue-arrow">→</span>
-        </a>
-        
-        <a href="issues/2026-03-31.html" class="issue-card">
-            <div>
-                <div class="issue-date">March 31, 2026</div>
-                <div class="issue-title">FP&A Field Notes — March 31, 2026</div>
-                <div class="issue-meta">6 tools · 23 FP&amp;A practice</div>
-            </div>
-            <span class="issue-arrow">→</span>
-        </a>
-        
-        <a href="issues/2026-03-24.html" class="issue-card">
-            <div>
-                <div class="issue-date">March 24, 2026</div>
-                <div class="issue-title">FP&A Field Notes — March 24, 2026</div>
-                <div class="issue-meta">6 FP&amp;A practice</div>
-            </div>
-            <span class="issue-arrow">→</span>
-        </a>
-        
-        <a href="issues/2026-03-19.html" class="issue-card">
-            <div>
-                <div class="issue-date">March 19, 2026</div>
-                <div class="issue-title">FP&A Field Notes — March 19, 2026</div>
-                <div class="issue-meta">1 tools</div>
-            </div>
-            <span class="issue-arrow">→</span>
-        </a>
-        
-        <a href="issues/2026-03-11.html" class="issue-card">
-            <div>
-                <div class="issue-date">March 11, 2026</div>
-                <div class="issue-title">FP&A Field Notes — March 11, 2026</div>
-                <div class="issue-meta">1 FP&amp;A practice</div>
-            </div>
-            <span class="issue-arrow">→</span>
-        </a>
-        
-        <a href="issues/2026-03-10.html" class="issue-card">
-            <div>
-                <div class="issue-date">March 10, 2026</div>
-                <div class="issue-title">FP&A Field Notes — March 10, 2026</div>
-                <div class="issue-meta">No items</div>
-            </div>
-            <span class="issue-arrow">→</span>
-        </a>
-        
-        <a href="issues/2026-03-03.html" class="issue-card">
-            <div>
-                <div class="issue-date">March 03, 2026</div>
-                <div class="issue-title">FP&A Field Notes — March 03, 2026</div>
-                <div class="issue-meta">3 tools · 2 FP&amp;A practice</div>
-            </div>
-            <span class="issue-arrow">→</span>
-        </a>
-        
-            <a href="issues/2026-02-27.html" class="issue-card">
-            <div>
-                <div class="issue-date">February 27, 2026</div>
-                <div class="issue-title">FP&A Field Notes — February 27, 2026</div>
-                <div class="issue-meta">2 tools · 1 FP&amp;A practice</div>
-            </div>
-            <span class="issue-arrow">→</span>
-        </a>
-
-        </div>
-    </div>
-</div>
-
-<footer>
-    <div class="container" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-        <div class="footer-brand">FP&A Field Notes</div>
-        <div class="footer-credit">By <a href="https://seacloudconsulting.com">Sea Cloud Consulting</a> · Published weekly</div>
-    </div>
+  </div>
 </footer>
 
 <script>
-(function() {
+(function () {
+  function formatDate(str) {
+    if (!str) return '';
+    var d = new Date(str + 'T12:00:00');
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  }
 
-    // ── Mojibake safety net: fix common cp1252-as-UTF-8 garbling at render time ─
-    var MOJIBAKE_MAP = {
-        '\u00e2\u20ac\u201c': '\u2013', // â€" → en dash
-        '\u00e2\u20ac\u201d': '\u2014', // â€" → em dash
-        '\u00e2\u20ac\u2019': '\u2019', // â€™ → right single quote (fallback)
-        '\u00e2\u20ac\u2122': '\u2019', // â€™ → right single quote
-        '\u00e2\u20ac\u0153': '\u201c', // â€œ → left double quote
-        '\u00e2\u20ac\u009d': '\u201d', // â€  → right double quote
-        '\u00e2\u20ac\u2026': '\u2026', // â€¦ → ellipsis
-        '\u00e2\u20ac\u2022': '\u2022'  // â€¢ → bullet
-    };
-    function fixMojibake(text) {
-        if (!text) return text;
-        for (var k in MOJIBAKE_MAP) {
-            while (text.indexOf(k) !== -1) text = text.replace(k, MOJIBAKE_MAP[k]);
-        }
-        return text;
-    }
+  function renderCard(post) {
+    var tag = (post.tags && post.tags[0]) ? post.tags[0] : '';
+    return '<a href="blog/' + post.slug + '.html" class="post-card">' +
+      '<div class="post-card-meta">' +
+        '<span>' + formatDate(post.date) + '</span>' +
+        (tag ? '<span class="post-card-tag">' + tag + '</span>' : '') +
+      '</div>' +
+      '<div class="post-card-title">' + post.title + '</div>' +
+      '<div class="post-card-excerpt">' + (post.excerpt || '') + '</div>' +
+      '<div class="post-card-cta">Read →</div>' +
+    '</a>';
+  }
 
-    // ── Render an article card from a published_entries.json item ──────────────
-    function formatDate(dateStr) {
-        if (!dateStr) return '';
-        var d = new Date(dateStr + 'T12:00:00');
-        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-    }
-
-    function renderEntryCard(item) {
-        var dateLabel = formatDate(item.date_published);
-
-        var credMap = {
-            'practitioner': ['👤 Practitioner', '#DCFCE7', '#166534'],
-            'expert':       ['🎓 Expert',        '#DBEAFE', '#1E40AF'],
-            'journalist':   ['📰 Journalist',    '#F3F4F6', '#374151'],
-        };
-        var cred = credMap[item.credibility] || ['', '#F3F4F6', '#374151'];
-
-        var title   = fixMojibake(item.title || '');
-        var summary = fixMojibake(item.summary || '');
-        var takeaway = fixMojibake(item.takeaway || '');
-
-        var sourceStr = 'by ' + fixMojibake(item.source_name || 'Unknown');
-        if (item.author_role && item.author_role !== 'Unknown') {
-            sourceStr += ' · ' + fixMojibake(item.author_role);
-        }
-
-        var badgesHtml = dateLabel
-            ? '<span class="entry-badge" style="background:#F3F4F6;color:#6B7280;">' + dateLabel + '</span>'
-            : '';
-        if (cred[0]) {
-            badgesHtml += ' <span class="entry-badge" style="background:' + cred[1] + ';color:' + cred[2] + ';">' + cred[0] + '</span>';
-        }
-
-        var takeawayHtml = takeaway
-            ? '<div class="entry-takeaway"><strong>WHAT YOU\'LL LEARN →</strong> <span>' + takeaway + '</span></div>'
-            : '';
-
-        return '<div class="entry">' +
-            '<div class="entry-badges">' + badgesHtml + '</div>' +
-            '<div class="entry-title"><a href="' + item.source_url + '">' + title + '</a></div>' +
-            '<div class="entry-source">' + sourceStr + '</div>' +
-            '<div class="entry-summary">' + summary + '</div>' +
-            takeawayHtml +
-            '<div style="margin-top:8px;"><a href="' + item.source_url + '" style="font-size:0.78rem;font-weight:600;color:#E07A5F;text-decoration:none;">Read the original →</a></div>' +
-            '</div>';
-    }
-
-    // ── Filter: skip any entry that looks broken or inaccessible ─────────────
-    // Defaults — overridden when blocklist.json loads successfully
-    var BAD_PHRASES = [
-        'unable to access', 'unable to process', 'cannot access', 'could not access',
-        'no content', 'login required', 'access denied', 'invalid content',
-        'paywalled', 'content unavailable', 'page not found', 'javascript error',
-        'unable to parse', 'unable to retrieve', 'unable to load',
-        'subscription page', 'newsletter subscription',
-        'revenue marketing agency', 'vendor overview',
-        'x/twitter link', 'twitter/x', 'twitter content access'
-    ];
-    var BAD_DOMAINS = ['singlebrain.com', 'singlegrain.com', 'law.com', 'twitter.com', 'x.com', 'youtube.com', 't.co'];
-
-    function getRootDomain(url) {
-        try {
-            var host = new URL(url).hostname.toLowerCase();
-            // Strip www. prefix
-            return host.replace(/^www\./, '');
-        } catch(e) { return ''; }
-    }
-
-    function isValidEntry(item) {
-        if (!item.source_url || !item.title || !item.summary) return false;
-        var domain = getRootDomain(item.source_url);
-        for (var j = 0; j < BAD_DOMAINS.length; j++) {
-            if (domain === BAD_DOMAINS[j] || domain.indexOf('.' + BAD_DOMAINS[j]) !== -1) return false;
-        }
-        var combined = ((item.title || '') + ' ' + (item.summary || '')).toLowerCase();
-        for (var i = 0; i < BAD_PHRASES.length; i++) {
-            if (combined.indexOf(BAD_PHRASES[i]) !== -1) return false;
-        }
-        return true;
-    }
-
-    // ── Load blocklist.json then published_entries.json ────────────────────────
-    var blocklistPromise = fetch('blocklist.json')
-        .then(function(r) { return r.json(); })
-        .then(function(bl) {
-            if (bl.blocked_domains && bl.blocked_domains.length) BAD_DOMAINS = bl.blocked_domains;
-            if (bl.blocked_phrases && bl.blocked_phrases.length) BAD_PHRASES = bl.blocked_phrases;
-        })
-        .catch(function() { /* use defaults */ });
-
-    blocklistPromise.then(function() {
-        return fetch('published_entries.json').then(function(r) { return r.json(); });
+  fetch('posts.json')
+    .then(function (r) { return r.json(); })
+    .then(function (posts) {
+      if (!posts || !posts.length) return;
+      posts.sort(function (a, b) { return b.date.localeCompare(a.date); });
+      var recent = posts.slice(0, 3);
+      var el = document.getElementById('recent-posts');
+      if (el) el.innerHTML = recent.map(renderCard).join('');
     })
-        .then(function(entries) {
-            if (!entries || entries.length === 0) return;
-
-            // Sort by date_published descending
-            entries.sort(function(a, b) {
-                return (b.date_published || '').localeCompare(a.date_published || '');
-            });
-
-            // Deduplicate by exact URL
-            var seenUrls = {};
-            var deduped = entries.filter(function(e) {
-                var key = (e.source_url || '').trim().toLowerCase().replace(/\/$/, '').split('?')[0];
-                if (!key || seenUrls[key]) return false;
-                seenUrls[key] = true;
-                return true;
-            });
-
-            // Deduplicate by author name (source_name) and root domain — keep most recent only
-            var seenAuthors = {};
-            var seenDomains = {};
-            deduped = deduped.filter(function(e) {
-                var author = (e.source_name || '').trim().toLowerCase();
-                var domain = getRootDomain(e.source_url || '');
-                if (author && seenAuthors[author]) return false;
-                if (domain && seenDomains[domain]) return false;
-                if (author) seenAuthors[author] = true;
-                if (domain) seenDomains[domain] = true;
-                return true;
-            });
-
-            var recent = deduped.filter(isValidEntry).slice(0, 6);
-            if (!recent.length) return;
-
-            // Update date label from most recent entry's date
-            var latestDate = recent[0].date_published;
-            if (latestDate) {
-                var d = new Date(latestDate + 'T12:00:00');
-                var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-                var dateStr = 'Week of ' + months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-                var dateEl = document.getElementById('latest-date');
-                if (dateEl) dateEl.textContent = dateStr;
-            }
-
-            var container = document.getElementById('articles-entries');
-            if (container) {
-                container.innerHTML = recent.map(renderEntryCard).join('');
-            }
-        })
-        .catch(function() {
-            // No published_entries.json yet — static fallback already in place
-        });
-
-    // ── Load featured blog post from posts.json ────────────────────────────────
-    fetch('posts.json')
-        .then(function(r) { return r.json(); })
-        .then(function(posts) {
-            if (!posts || posts.length === 0) return;
-
-            posts.sort(function(a, b) { return b.date.localeCompare(a.date); });
-            var post = posts[0];
-
-            var d = new Date(post.date + 'T12:00:00');
-            var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-            var dateStr = months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-
-            var tagsHtml = '';
-            if (post.tags) {
-                post.tags.forEach(function(tag) {
-                    tagsHtml += '<span class="featured-tag">' + tag + '</span>';
-                });
-            }
-
-            var container = document.getElementById('featured-post');
-            container.innerHTML =
-                '<div class="featured-label">Latest from the editor</div>' +
-                '<div class="featured-card">' +
-                '  <div class="featured-meta"><strong>Directed by Mike Duncan; Drafted by Claude</strong> · ' + dateStr + '</div>' +
-                '  <h2 class="featured-title"><a href="blog/' + post.slug + '.html">' + post.title + '</a></h2>' +
-                '  <div style="margin-bottom:12px;">' + tagsHtml + '</div>' +
-                '  <p class="featured-excerpt">' + post.excerpt + '</p>' +
-                '  <a href="blog/' + post.slug + '.html" class="featured-cta">Read the full post →</a>' +
-                '</div>';
-            container.style.display = 'block';
-            document.getElementById('digest-divider').style.display = 'flex';
-
-            var blogLink = document.getElementById('blog-link');
-            blogLink.href = 'blog/' + post.slug + '.html';
-            blogLink.style.display = 'inline';
-        })
-        .catch(function() {});
-
-})();
+    .catch(function () {});
+}());
 </script>
 
 </body>
 </html>
-
