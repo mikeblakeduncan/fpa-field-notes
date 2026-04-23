@@ -95,11 +95,17 @@
     return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
   }
 
+  // Root-level posts carry an explicit path; blog/ subfolder posts use slug
+  function postUrl(post) {
+    return post.path || ('blog/' + post.slug + '.html');
+  }
+
   // Render the featured post section. bodyHtml is the paragraph preview (may be empty).
   function renderFeatured(post, bodyHtml) {
     var tag = (post.tags && post.tags[0]) ? post.tags[0] : '';
     var el = document.getElementById('featured-post');
     if (!el) return;
+    var url = postUrl(post);
 
     var previewHtml = bodyHtml
       ? '<div class="home-featured-body">' + bodyHtml + '</div>'
@@ -108,7 +114,7 @@
     el.innerHTML =
       '<div class="home-featured-label">Latest post</div>' +
       '<h1 class="home-featured-title">' +
-        '<a href="blog/' + post.slug + '.html">' + post.title + '</a>' +
+        '<a href="' + url + '">' + post.title + '</a>' +
       '</h1>' +
       previewHtml +
       '<div class="home-featured-meta">' +
@@ -117,13 +123,13 @@
                '<span style="color:var(--accent);font-weight:600;">' + tag + '</span>' : '') +
       '</div>' +
       '<div style="margin-top:16px;">' +
-        '<a href="blog/' + post.slug + '.html" class="home-featured-cta">Read the full post →</a>' +
+        '<a href="' + url + '" class="home-featured-cta">Read the full post →</a>' +
       '</div>';
   }
 
   function renderCard(post) {
     var tag = (post.tags && post.tags[0]) ? post.tags[0] : '';
-    return '<a href="blog/' + post.slug + '.html" class="post-card">' +
+    return '<a href="' + postUrl(post) + '" class="post-card">' +
       '<div class="post-card-meta">' +
         '<span>' + formatDateShort(post.date) + '</span>' +
         (tag ? '<span class="post-card-tag">' + tag + '</span>' : '') +
@@ -135,8 +141,8 @@
   }
 
   // Fetch first 3 paragraphs from the actual post HTML file
-  function fetchPostPreview(slug) {
-    return fetch('blog/' + slug + '.html')
+  function fetchPostPreview(post) {
+    return fetch(postUrl(post))
       .then(function (r) { return r.text(); })
       .then(function (html) {
         var parser = new DOMParser();
@@ -169,7 +175,7 @@
       if (gridEl) gridEl.innerHTML = rest.map(renderCard).join('');
 
       // Try to load real paragraphs for featured post, fall back to excerpt
-      fetchPostPreview(featured.slug).then(function (bodyHtml) {
+      fetchPostPreview(featured).then(function (bodyHtml) {
         renderFeatured(featured, bodyHtml);
       });
     })

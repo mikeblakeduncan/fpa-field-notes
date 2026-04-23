@@ -99,8 +99,13 @@
     return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
   }
 
+  function postUrl(post) {
+    // Root-level posts carry an explicit path; blog/ subfolder posts use slug
+    return post.path || ('blog/' + post.slug + '.html');
+  }
+
   function renderPublished(post) {
-    return '<a href="blog/' + post.slug + '.html" class="blog-list-item">' +
+    return '<a href="' + postUrl(post) + '" class="blog-list-item">' +
       '<div class="blog-list-date">' + formatDate(post.date) + '</div>' +
       '<div class="blog-list-content">' +
         '<div class="blog-list-title">' + post.title + '</div>' +
