@@ -1,5 +1,93 @@
 [
   {
+    "title": "What to Actually Include in Your Board Deck Financials",
+    "slug": "board-deck-financials",
+    "path": "board-deck-financials.html",
+    "date": "2026-05-14",
+    "excerpt": "The instinct when building board financials is to include more. In practice, it usually signals the opposite. Here's what actually belongs and how to structure it.",
+    "tags": ["Board Reporting", "FP&A"]
+  },
+  {
+    "title": "Rolling Forecast vs Annual Budget for SaaS: Which One to Use",
+    "slug": "rolling-forecast-saas",
+    "path": "rolling-forecast-saas.html",
+    "date": "2026-05-13",
+    "excerpt": "The rolling forecast versus annual budget debate usually ends the same way: you need both. They do different things, and here's how to use each one properly.",
+    "tags": ["Forecasting", "FP&A", "SaaS"]
+  },
+  {
+    "title": "Budget vs Actuals: Building a Variance Analysis That Gets Used",
+    "slug": "variance-analysis",
+    "path": "variance-analysis.html",
+    "date": "2026-05-08",
+    "excerpt": "Most variance analysis reports get skimmed and filed. The ones that actually drive decisions have a few things in common — and format is the least of them.",
+    "tags": ["FP&A Process", "Budgeting"]
+  },
+  {
+    "title": "How to Present Your Budget to the Board",
+    "slug": "present-budget-to-board",
+    "path": "present-budget-to-board.html",
+    "date": "2026-05-07",
+    "excerpt": "Most budget presentations fail before they start. The finance team spends weeks building the model and then hands the board a spreadsheet walkthrough. Here's how to approach it differently.",
+    "tags": ["Board Reporting", "FP&A", "Budgeting"]
+  },
+  {
+    "title": "The Real Limitations of AI in Financial Planning",
+    "slug": "ai-limitations-fpa",
+    "path": "ai-limitations-fpa.html",
+    "date": "2026-05-06",
+    "excerpt": "The honest conversation about AI in finance is harder to find than the promotional one. Here's a practitioner's take on where the real limits are — including the risk of cognitive surrender.",
+    "tags": ["AI in Finance", "FP&A"]
+  },
+  {
+    "title": "FP&A Software Compared: Mosaic, Cube, Pigment, and the Rest",
+    "slug": "fpa-software-compared",
+    "path": "fpa-software-compared.html",
+    "date": "2026-05-01",
+    "excerpt": "The tool that's right for a 30-person Series A is almost certainly wrong for a 300-person Series C. Here's how to think through the FP&A software decision.",
+    "tags": ["AI Tools", "FP&A Process"]
+  },
+  {
+    "title": "ChatGPT for FP&A: Practical Use Cases That Hold Up",
+    "slug": "chatgpt-for-fpa",
+    "path": "chatgpt-for-fpa.html",
+    "date": "2026-04-30",
+    "excerpt": "Most lists of AI use cases for finance are too vague to act on. Here are the use cases that actually hold up under production conditions, and an honest note on where the limits are.",
+    "tags": ["AI Tools", "FP&A Process"]
+  },
+  {
+    "title": "AI for FP&A: What Actually Works Right Now",
+    "slug": "ai-for-fpa",
+    "path": "ai-for-fpa.html",
+    "date": "2026-04-29",
+    "excerpt": "Every FP&A team is somewhere on the AI adoption curve. Here's a practical framework: people, process, data, and tools — and why leadership has to come first.",
+    "tags": ["AI in Finance", "FP&A", "Strategy"]
+  },
+  {
+    "title": "What Fractional FP&A Actually Costs in 2026",
+    "slug": "fractional-fpa-cost",
+    "path": "fractional-fpa-cost.html",
+    "date": "2026-04-28",
+    "excerpt": "Pricing for fractional FP&A is one of those topics that's hard to find straight answers on. Here's what the market actually looks like — hourly rates, monthly retainers, and how it compares to a full-time hire.",
+    "tags": ["Fractional FP&A", "Growth Finance"]
+  },
+  {
+    "title": "Fractional CFO vs FP&A: They Are Not the Same Role",
+    "slug": "fractional-cfo-vs-fpa",
+    "path": "fractional-cfo-vs-fpa.html",
+    "date": "2026-04-25",
+    "excerpt": "Founders use these terms interchangeably, but they are different things. Here's what each role actually covers and how to know which one you actually need.",
+    "tags": ["Fractional CFO", "FP&A Leadership"]
+  },
+  {
+    "title": "Fractional FP&A vs Full-Time Hire: How to Decide",
+    "slug": "fractional-fpa-vs-fulltime",
+    "path": "fractional-fpa-vs-fulltime.html",
+    "date": "2026-04-24",
+    "excerpt": "Either can work. What determines the right call is usually the candidate pool and what the role actually needs to be — and there's a pattern worth understanding before you start interviewing.",
+    "tags": ["Fractional FP&A", "Growth Finance"]
+  },
+  {
     "title": "When to Hire a Fractional CFO",
     "slug": "when-to-hire-fractional-cfo",
     "path": "when-to-hire-fractional-cfo.html",

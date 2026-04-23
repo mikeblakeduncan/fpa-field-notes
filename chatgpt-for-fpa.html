@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ChatGPT for FP&amp;A: Practical Use Cases That Hold Up | FP&amp;A Field Notes</title>
+  <meta name="description" content="The AI use cases that actually work in FP&A practice, and an honest note on where the limits are.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://fpafieldnotes.seacloudconsulting.com/chatgpt-for-fpa.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="article">
+  <meta property="og:title"       content="ChatGPT for FP&amp;A: Practical Use Cases That Hold Up | FP&amp;A Field Notes">
+  <meta property="og:description" content="The AI use cases that actually work in FP&A practice, and an honest note on where the limits are.">
+  <meta property="og:url"         content="https://fpafieldnotes.seacloudconsulting.com/chatgpt-for-fpa.html">
+  <meta property="og:site_name"   content="FP&amp;A Field Notes">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DTR4KSL0LS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DTR4KSL0LS');
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="site-nav">
+  <div class="container">
+    <a href="index.html" class="nav-brand">
+      <svg class="nav-logo" width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+        <rect width="28" height="28" rx="5" fill="#C9844A"/>
+        <rect x="7" y="9"  width="14" height="2.5" rx="1" fill="white"/>
+        <rect x="7" y="13" width="9"  height="2.5" rx="1" fill="white"/>
+        <rect x="7" y="17" width="11" height="2.5" rx="1" fill="white"/>
+      </svg>
+      FP&amp;A Field Notes
+    </a>
+    <ul class="nav-links">
+      <li><a href="blog.html" class="active">Blog</a></li>
+      <li><a href="knowledge.html">Knowledge Base</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Tagline / subtitle band -->
+<div class="site-subheader">
+  <div class="container">
+    <span class="site-subheader-text">Practitioner writing on FP&amp;A for growth-stage finance teams &mdash; a <a href="https://seacloudconsulting.com" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">Sea Cloud Consulting</a> project</span>
+  </div>
+</div>
+
+<main>
+  <div class="reading-container">
+
+    <!-- Post header -->
+    <header class="post-header">
+      <a href="blog.html" class="post-back">← Back to Blog</a>
+
+      <div class="post-tags">
+        <span class="post-tag">AI Tools</span>
+        <span class="post-tag">FP&amp;A Process</span>
+      </div>
+
+      <h1 class="post-title">ChatGPT for FP&amp;A: Practical Use Cases That Hold Up</h1>
+
+      <div class="post-meta-row">
+        <span>April 30, 2026</span>
+        <span class="post-meta-sep">·</span>
+        <span>3 min read</span>
+      </div>
+    </header>
+
+    <!-- Post body -->
+    <article class="post-body">
+
+      <p>Most lists of <a href="ai-for-fpa.html">AI use cases for finance</a> are either too vague to act on or describe things that don't actually work under production conditions. What follows are the use cases that hold up when you apply real scrutiny, along with an honest note on where the limits are.</p>
+
+      <h2>First-pass narratives for board decks and monthly reporting</h2>
+
+      <p>This is the highest-return use case in practice. If you give ChatGPT structured inputs — actual numbers with context about what changed and why — and force it to explain drivers rather than restate figures, the first draft is genuinely useful. You're not publishing what comes out, but you're editing something substantive rather than starting from a blank page. If you are concerned about security, talk with your IT team first.</p>
+
+      <p>The failure mode is giving it vague inputs and expecting it to figure out the story. It won't. The quality of the output is almost entirely a function of the quality of what you put in.</p>
+
+      <h2>Turning vague business questions into a structured analysis plan</h2>
+
+      <p>This one surprises people. "Why is growth slowing?" is a question a CEO asks that can go in ten different directions. ChatGPT is useful for structuring the analytical approach: cohort analysis, funnel breakdown, pricing trends, retention patterns. It's not doing the analysis. It's helping you organize the problem before you start, which saves time and keeps you from missing obvious angles.</p>
+
+      <h2>Pressure-testing models and outputs</h2>
+
+      <p>Describing a model structure or a set of assumptions to ChatGPT and asking what's missing is a legitimate QA step. It catches missing drivers, flags assumptions that aren't grounded in anything, and surfaces edge cases that didn't come up in the original build. It's not a substitute for a second set of experienced eyes, but it's better than self-review alone.</p>
+
+      <h2>Writing SQL, Python, or Excel logic</h2>
+
+      <p>If you know what you want to build and need help with the syntax, ChatGPT is fast and reliable for this. The key qualifier is knowing what you want. If you're using it to figure out what the analysis should be — not just how to write it — the output quality drops quickly. Use it as an implementation tool, not a thinking tool.</p>
+
+      <h2>Where it still breaks</h2>
+
+      <p>Anything more ambitious than these use cases still runs into real limits. Complex multi-driver financial models, nuanced judgment calls about what a variance actually means for the business, or analysis that requires context only someone inside the company has — these don't work well with current tools.</p>
+
+      <p>The other limit worth naming is the <a href="ai-limitations-fpa.html">review burden</a>. More AI output means more to check, and checking it well requires someone who knows what right looks like. Teams that don't have that capability will produce more output with more errors, which is worse than producing less output carefully.</p>
+
+      <p>The use cases above work because the human is still making the judgment calls. That's not a flaw in the current tools. It's just the honest state of where things are.</p>
+
+    </article>
+
+    <!-- Author + disclosure -->
+    <div class="post-author">
+      <div class="post-author-name">Mike Duncan</div>
+      <div class="post-author-bio">
+        Founder of <a href="https://seacloudconsulting.com">Sea Cloud Consulting</a>.
+        FP&amp;A advisory for growth-stage technology companies.
+      </div>
+      <div class="post-disclosure">Directed by Mike Duncan, drafted by Claude.</div>
+    </div>
+
+    <!-- Related posts -->
+    <div class="related-posts">
+      <div class="related-posts-title">Related posts</div>
+      <a href="ai-for-fpa.html" class="related-post-link">AI for FP&amp;A: What Actually Works Right Now</a>
+      <a href="ai-limitations-fpa.html" class="related-post-link">The Real Limitations of AI in Financial Planning</a>
+    </div>
+
+  </div><!-- /reading-container -->
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">FP&amp;A Field Notes</div>
+      <div class="footer-credit">
+        a <a href="https://seacloudconsulting.com">Sea Cloud Consulting</a> project
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
