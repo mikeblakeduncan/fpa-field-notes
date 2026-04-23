@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FP&amp;A Field Notes — Practitioner writing for growth-stage finance teams</title>
-  <meta name="description" content="Practitioner writing on FP&A for CFOs, VPs of Finance, and FP&A Directors at growth-stage companies. By Mike Duncan, Sea Cloud Consulting.">
+  <meta name="description" content="Practitioner writing on FP&A for CFOs, VPs of Finance, and FP&A Directors at growth-stage companies. A Sea Cloud Consulting project.">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DTR4KSL0LS"></script>
   <script>
@@ -20,7 +20,16 @@
 <!-- Navigation -->
 <nav class="site-nav">
   <div class="container">
-    <a href="index.html" class="nav-brand">FP&amp;A Field Notes</a>
+    <a href="index.html" class="nav-brand">
+      <!-- Logo mark: three notebook-rule lines on accent background -->
+      <svg class="nav-logo" width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+        <rect width="28" height="28" rx="5" fill="#C9844A"/>
+        <rect x="7" y="9"  width="14" height="2.5" rx="1" fill="white"/>
+        <rect x="7" y="13" width="9"  height="2.5" rx="1" fill="white"/>
+        <rect x="7" y="17" width="11" height="2.5" rx="1" fill="white"/>
+      </svg>
+      FP&amp;A Field Notes
+    </a>
     <ul class="nav-links">
       <li><a href="blog.html">Blog</a></li>
       <li><a href="knowledge.html">Knowledge Base</a></li>
@@ -28,33 +37,27 @@
   </div>
 </nav>
 
-<!-- Hero -->
 <main>
   <div class="container">
-    <section class="home-hero">
-      <div class="home-hero-eyebrow">FP&amp;A Field Notes</div>
-      <h1 class="home-hero-title">Practitioner writing on FP&amp;A for <em>growth-stage</em> companies</h1>
-      <p class="home-hero-body">
-        Original articles on financial planning, forecasting, AI in finance, and building
-        high-performing FP&amp;A teams. Written for CFOs, VPs of Finance, and FP&amp;A Directors
-        at Series A–C companies who want substance over vendor noise.
-      </p>
-      <div class="home-hero-nav">
-        <a href="blog.html" class="btn-primary">Read the blog →</a>
-        <a href="knowledge.html" class="btn-secondary">Knowledge Base</a>
-      </div>
+
+    <!-- Featured latest post — first thing people see -->
+    <section class="home-featured" id="featured-post">
+      <!-- Populated by JS; shows a skeleton-free placeholder while loading -->
+      <div class="home-featured-label">Latest post</div>
+      <div class="home-featured-title" id="featured-title" style="color:var(--border);min-height:2.5rem;">&nbsp;</div>
     </section>
 
-    <!-- Recent posts -->
+    <!-- More recent posts -->
     <section>
       <div class="section-header">
-        <h2 class="section-title">Recent posts</h2>
+        <h2 class="section-title">More recent posts</h2>
         <a href="blog.html" class="section-link">All posts →</a>
       </div>
       <div class="post-grid" id="recent-posts">
         <!-- Loaded from posts.json -->
       </div>
     </section>
+
   </div>
 </main>
 
@@ -64,7 +67,7 @@
     <div class="footer-inner">
       <div class="footer-brand">FP&amp;A Field Notes</div>
       <div class="footer-credit">
-        By <a href="https://seacloudconsulting.com">Mike Duncan, Sea Cloud Consulting</a>
+        a <a href="https://seacloudconsulting.com">Sea Cloud Consulting</a> project
       </div>
     </div>
   </div>
@@ -75,15 +78,45 @@
   function formatDate(str) {
     if (!str) return '';
     var d = new Date(str + 'T12:00:00');
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  }
+
+  function formatDateShort(str) {
+    if (!str) return '';
+    var d = new Date(str + 'T12:00:00');
     var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  }
+
+  function renderFeatured(post) {
+    var tag = (post.tags && post.tags[0]) ? post.tags[0] : '';
+    var el = document.getElementById('featured-post');
+    if (!el) return;
+    el.innerHTML =
+      '<div class="home-featured-label">Latest post</div>' +
+      '<h1 class="home-featured-title">' +
+        '<a href="blog/' + post.slug + '.html">' + post.title + '</a>' +
+      '</h1>' +
+      '<p class="home-featured-excerpt">' + (post.excerpt || '') + '</p>' +
+      '<div class="home-featured-meta">' +
+        '<span>' + formatDate(post.date) + '</span>' +
+        (tag ? '<span style="color:var(--border-mid)">·</span><span style="color:var(--accent);font-weight:600;">' + tag + '</span>' : '') +
+      '</div>' +
+      '<div style="margin-top:16px;">' +
+        '<a href="blog/' + post.slug + '.html" class="home-featured-cta">Read the post →</a>' +
+      '</div>' +
+      '<p class="home-tagline">' +
+        'Practitioner writing on FP&amp;A for CFOs and finance leaders at growth-stage companies. ' +
+        'A <a href="https://seacloudconsulting.com">Sea Cloud Consulting</a> project.' +
+      '</p>';
   }
 
   function renderCard(post) {
     var tag = (post.tags && post.tags[0]) ? post.tags[0] : '';
     return '<a href="blog/' + post.slug + '.html" class="post-card">' +
       '<div class="post-card-meta">' +
-        '<span>' + formatDate(post.date) + '</span>' +
+        '<span>' + formatDateShort(post.date) + '</span>' +
         (tag ? '<span class="post-card-tag">' + tag + '</span>' : '') +
       '</div>' +
       '<div class="post-card-title">' + post.title + '</div>' +
@@ -97,9 +130,14 @@
     .then(function (posts) {
       if (!posts || !posts.length) return;
       posts.sort(function (a, b) { return b.date.localeCompare(a.date); });
-      var recent = posts.slice(0, 3);
+
+      // First post = featured
+      renderFeatured(posts[0]);
+
+      // Next two = cards grid
+      var rest = posts.slice(1, 3);
       var el = document.getElementById('recent-posts');
-      if (el) el.innerHTML = recent.map(renderCard).join('');
+      if (el) el.innerHTML = rest.map(renderCard).join('');
     })
     .catch(function () {});
 }());
