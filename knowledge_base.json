@@ -42,6 +42,25 @@
           }
         ]
       },
+      "infrastructure_and_compute": {
+        "label": "Infrastructure & Compute",
+        "entries": [
+          {
+            "title": "NVIDIA Launches Rubin Platform: Six-Chip AI Supercomputer with 10x Inference Cost Reduction",
+            "source_name": "NVIDIA Newsroom",
+            "source_url": "https://nvidianews.nvidia.com/news/rubin-platform-ai-supercomputer",
+            "summary": "FP&A teams should track infrastructure cost efficiency improvements like Rubin's 10x inference cost reduction, as lower compute costs directly impact AI project ROI and capital efficiency metrics.",
+            "date": "2026-04-28"
+          },
+          {
+            "title": "Google Cloud's Ironwood TPU Hits General Availability with 10x Performance Gains",
+            "source_name": "Constellation Research",
+            "source_url": "https://www.constellationr.com/blog-news/insights/google-clouds-ironwood-ready-general-availability",
+            "summary": "Organizations evaluating AI infrastructure should monitor custom chip offerings from hyperscalers as viable alternatives to traditional GPUs, particularly for inference-heavy workloads where cost optimization matters most.",
+            "date": "2026-04-28"
+          }
+        ]
+      },
       "ai_and_automation": {
         "label": "AI & Automation",
         "children": {
@@ -195,6 +214,18 @@
                 "source_url": "https://www.orgvue.com/resources/articles/headcount-planning-a-strategic-approach-to-workforce-management/",
                 "summary": "Frame headcount planning as a productivity lever tied to specific business outcomes, and use scenario-based org charts to give executives visibility into talent gaps and succession risks.",
                 "date": "2026-03-03"
+              }
+            ]
+          },
+          "capital_planning": {
+            "label": "Capital Planning & Infrastructure Strategy",
+            "entries": [
+              {
+                "title": "Hyperscaler AI Infrastructure Capex Surges Past $600B in 2026, Forcing Tech Giants to Debt Markets",
+                "source_name": "IEEE ComSoc Technology Blog",
+                "source_url": "https://techblog.comsoc.org/2025/12/22/hyperscaler-capex-600-bn-in-2026-a-36-increase-over-2025-while-global-spending-on-cloud-infrastructure-services-skyrockets/",
+                "summary": "FP&A leaders planning infrastructure strategies should model for sustained capex intensity at hyperscalers and anticipate that debt financing will increasingly bridge the gap between AI investment needs and traditional cash generation—reshaping capital structures across the sector.",
+                "date": "2026-04-28"
               }
             ]
           }
