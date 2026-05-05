@@ -885,5 +885,71 @@
     "credibility": "journalist",
     "author_role": "Unknown",
     "date_published": "2026-04-28"
+  },
+  {
+    "title": "Google Cloud's Ironwood TPU Hits General Availability with 10x Performance Gains",
+    "source_name": "Constellation Research",
+    "source_url": "https://www.constellationr.com/blog-news/insights/google-clouds-ironwood-ready-general-availability",
+    "summary": "Google Cloud announced general availability of Ironwood, its seventh-generation TPU designed for AI inference workloads, offering 10x peak performance over TPU v5p and 4x performance per chip for training versus TPU v6e. The announcement reflects the hyperscaler strategy to deploy custom chips that reduce Nvidia dependency and improve price-performance ratios for AI operations.",
+    "takeaway": "Organizations evaluating AI infrastructure should monitor custom chip offerings from hyperscalers as viable alternatives to traditional GPUs, particularly for inference-heavy workloads where cost optimization matters most.",
+    "section": "tools",
+    "credibility": "journalist",
+    "author_role": "Unknown",
+    "date_published": "2026-05-05"
+  },
+  {
+    "title": "NVIDIA Launches Rubin Platform: Six-Chip AI Supercomputer with 10x Inference Cost Reduction",
+    "source_name": "NVIDIA Newsroom",
+    "source_url": "https://nvidianews.nvidia.com/news/rubin-platform-ai-supercomputer",
+    "summary": "NVIDIA announced the Rubin platform, comprising six new chips designed to reduce inference token costs by up to 10x and GPU requirements for MoE model training by 4x compared to Blackwell. The platform includes new CPUs, GPUs, networking switches, and storage processors optimized for large-scale AI systems, with early adoption from Microsoft and CoreWeave.",
+    "takeaway": "FP&A teams should track infrastructure cost efficiency improvements like Rubin's 10x inference cost reduction, as lower compute costs directly impact AI project ROI and capital efficiency metrics.",
+    "section": "tools",
+    "credibility": "marketing",
+    "author_role": "Unknown",
+    "date_published": "2026-05-05"
+  },
+  {
+    "title": "Unable to process - X/Twitter content not accessible",
+    "source_name": "X (Twitter)",
+    "source_url": "https://x.com/workflowwhisper/status/2045465063796912602?s=46",
+    "summary": "This article could not be processed because the X/Twitter link returns only error pages and JavaScript code rather than readable content. The page appears to require JavaScript and does not display the original post.",
+    "takeaway": "This source cannot be reliably extracted for FP&A Field Notes due to platform access limitations.",
+    "section": "tools",
+    "credibility": "journalist",
+    "author_role": "Unknown",
+    "date_published": "2026-05-05"
+  },
+  {
+    "title": "Hyperscaler AI Infrastructure Capex Surges Past $600B in 2026, Forcing Tech Giants to Debt Markets",
+    "source_name": "IEEE ComSoc Technology Blog",
+    "source_url": "https://techblog.comsoc.org/2025/12/22/hyperscaler-capex-600-bn-in-2026-a-36-increase-over-2025-while-global-spending-on-cloud-infrastructure-services-skyrockets/",
+    "summary": "The Big Five hyperscalers (Amazon, Google, Microsoft, Meta, Oracle) are projected to spend over $600B on capital expenditures in 2026, a 36% increase driven primarily by AI infrastructure investments. Global cloud infrastructure spending reached $102.6B in Q3 2025 with 25% year-over-year growth, signaling a shift from experimental AI to production-scale deployment.",
+    "takeaway": "FP&A leaders planning infrastructure strategies should model for sustained capex intensity at hyperscalers and anticipate that debt financing will increasingly bridge the gap between AI investment needs and traditional cash generation—reshaping capital structures across the sector.",
+    "section": "fpa_practice",
+    "credibility": "journalist",
+    "author_role": "Unknown",
+    "date_published": "2026-05-05"
+  },
+  {
+    "title": "Unable to Access X/Twitter Content - JavaScript Required",
+    "source_name": "X (Twitter)",
+    "source_url": "https://x.com/scottastevenson/status/2045195115388600354?s=46",
+    "summary": "This appears to be a technical error page rather than substantive content. The URL points to a Twitter post by Scott A. Stevenson, but the page failed to load due to JavaScript being disabled or unavailable.",
+    "takeaway": "This entry cannot be processed as the source content is inaccessible and no article text is available for review.",
+    "section": "fpa_practice",
+    "credibility": "journalist",
+    "author_role": "Unknown",
+    "date_published": "2026-05-05"
+  },
+  {
+    "title": "Unable to Process - Twitter/X Content Unavailable",
+    "source_name": "Twitter/X",
+    "source_url": "https://twitter.com/WorkflowWhisper",
+    "summary": "The provided URL appears to be a Twitter/X profile page that failed to load properly, returning only JavaScript error handling code rather than readable article content. No FP&A-related material could be extracted.",
+    "takeaway": "This source cannot be processed as a digest entry due to technical limitations accessing the content.",
+    "section": "fpa_practice",
+    "credibility": "journalist",
+    "author_role": "Unknown",
+    "date_published": "2026-05-05"
   }
 ]
